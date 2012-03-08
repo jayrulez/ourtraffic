@@ -1,0 +1,57 @@
+create table Division
+(
+	Id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	Street VARCHAR(50) NOT NULL,
+	City VARCHAR(50) NOT NULL,
+	Parish VARCHAR(30) NOT NULL,
+	PhoneNumber VARCHAR(10) NOT NULL
+);
+
+create table Police
+(
+	BadgeId INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	DivisionID INT NOT NULL,
+	FirstName VARCHAR(30) NOT NULL,
+	LastName VARCHAR(30) NOT NULL,
+	MiddleInitial VARCHAR(1) DEFAULT NULL,
+	DOB DATE NOT NULL,
+	Street VARCHAR(50) NOT NULL,
+	City VARCHAR(50) NOT NULL,
+	Parish VARCHAR(30) NOT NULL
+);
+
+create table Offender
+(
+	TRN INT PRIMARY KEY NOT NULL,
+	FirstName VARCHAR(30) NOT NULL,
+	LastName VARCHAR(30) NOT NULL,
+	MiddleInitial VARCHAR(1) DEFAULT NULL,
+	DOB DATE NOT NULL,
+	Street VARCHAR(50) NOT NULL,
+	City VARCHAR(50) NOT NULL,
+	Parish VARCHAR(30) NOT NULL,
+	LicenseType VARCHAR(20) NOT NULL,
+	Points INT NOT NULL,
+	ExpiryDate DATE NOT NULL
+);
+
+
+create table Offence
+(
+	Id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	Name VARCHAR(50) NOT NULL
+);
+
+create table Ticket
+(
+	Id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	PoliceID INT NOT NULL,
+	OffenderTRN INT NOT NULL,
+	OffenceId INT NOT NULL,
+	OffenceDate DATE NOT NULL,
+	OffenceLocation VARCHAR(100) NOT NULL,
+	Description TEXT NOT NULL,
+	Fine FLOAT(11) NOT NULL,
+	Points INT NOT NULL,
+	PaymentStatus INT NOT NULL
+);
