@@ -34,13 +34,13 @@ public class LoginFrame extends JFrame implements Runnable
 		this.contentPanel = contentPanel;
 		this.add(this.contentPanel,BorderLayout.CENTER);
 	}
-	/*
+	
 	public void setMainMenuBar(JMenuBar mainMenuBar) 
 	{
 		this.mainMenuBar = mainMenuBar;
 		this.setJMenuBar(this.mainMenuBar);
 	}
-	*/
+	
 	public void initiate()
 	{
 		this.setTitle("Traffic Ticket");
