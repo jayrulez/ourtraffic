@@ -5,23 +5,24 @@ import javax.swing.JLabel;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.border.LineBorder;
 
 public class LoginForm extends JPanel 
 {
-	private JTextField txtUserName;
-	private JTextField txtPassword;
+	protected JTextField txtUserName;
+	protected JTextField txtPassword;
 
-	private JLabel lblUserName;
-	private JLabel lblPassword;
+	protected JLabel lblUserName;
+	protected JLabel lblPassword;
 	
-	private JPanel userNameFieldSet;
-	private JPanel passwordFieldSet;
-	private JPanel buttonFieldSet;
+	protected JPanel userNameFieldSet;
+	protected JPanel passwordFieldSet;
+	protected JPanel buttonFieldSet;
 	
-	private JButton btnLogin;
+	protected JButton btnLogin;
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -89,9 +90,5 @@ public class LoginForm extends JPanel
 		this.add(this.userNameFieldSet);
 		this.add(this.passwordFieldSet);
 		this.add(this.buttonFieldSet);
-	}
-	public void btnLoginClickedListener(ActionListener btnLoginListener)
-	{
-		this.btnLogin.addActionListener(btnLoginListener);
 	}
 }
