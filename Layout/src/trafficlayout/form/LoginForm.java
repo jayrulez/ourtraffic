@@ -94,10 +94,4 @@ public class LoginForm extends JPanel
 	{
 		this.btnLogin.addActionListener(btnLoginListener);
 	}
-	/*
-	public static void main(String[] args)
-	{
-		
-	}
-	*/
 }
