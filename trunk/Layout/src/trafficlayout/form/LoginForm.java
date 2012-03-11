@@ -4,8 +4,6 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.border.LineBorder;
@@ -21,6 +19,8 @@ public class LoginForm extends JPanel
 	protected JPanel userNameFieldSet;
 	protected JPanel passwordFieldSet;
 	protected JPanel buttonFieldSet;
+	
+	protected JLabel lblStatus;
 	
 	protected JButton btnLogin;
 	
@@ -57,6 +57,8 @@ public class LoginForm extends JPanel
 		this.txtPassword = new JTextField();
 		this.txtUserName = new JTextField();
 		
+		this.lblStatus = new JLabel();
+		
 		this.btnLogin = new JButton();
 		
 		this.userNameFieldSet = new JPanel();
@@ -84,11 +86,15 @@ public class LoginForm extends JPanel
 		
 		this.passwordFieldSet.add(this.lblPassword);
 		this.passwordFieldSet.add(this.txtPassword);
+
 		
 		this.buttonFieldSet.add(this.btnLogin);
-		
+	
 		this.add(this.userNameFieldSet);
 		this.add(this.passwordFieldSet);
+		this.add(this.lblStatus);
 		this.add(this.buttonFieldSet);
 	}
+	
+
 }
