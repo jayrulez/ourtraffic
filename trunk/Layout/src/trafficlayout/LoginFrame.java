@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 import javax.swing.BoxLayout;
 
-public abstract class LoginFrame extends JFrame implements Runnable
+public class LoginFrame extends JFrame
 {
 	private static final long serialVersionUID = 1L;
 	protected JPanel contentPanel;

@@ -5,7 +5,7 @@ import javax.swing.JMenuBar;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
-public class MasterFrame extends JFrame implements Runnable 
+public class MasterFrame extends JFrame
 {
 	private static final long serialVersionUID = 1L;
 	protected JPanel contentPanel;
@@ -17,13 +17,7 @@ public class MasterFrame extends JFrame implements Runnable
 		this.initiate();
 		//TODO Auto-generated constructor stub
 	}
-	
-	public void run()
-	{
-		this.render();
-		
-	}
-	
+	/*
 	public void setContentPanel(JPanel contentPanel)
 	{
 		this.contentPanel = contentPanel;
@@ -33,9 +27,9 @@ public class MasterFrame extends JFrame implements Runnable
 	public void setLeftNavPanel(JPanel leftNavPanel)
 	{
 		this.leftNavPanel = leftNavPanel;
-		this.add(this.leftNavPanel,BorderLayout.WEST);
+		
 	}
-	
+	*/
 	public void setMainMenuBar(JMenuBar mainMenuBar) 
 	{
 		this.mainMenuBar = mainMenuBar;
@@ -44,14 +38,16 @@ public class MasterFrame extends JFrame implements Runnable
 	
 	public void initiate()
 	{
-
+		this.contentPanel = new JPanel();
+		this.leftNavPanel = new JPanel();
 	}
 	public void render()
 	{
-		this.setTitle("JmAtm");
-		this.setMinimumSize(new Dimension(400, 400));
+		this.setMinimumSize(new Dimension(600, 400));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);	
 		this.setLayout(new BorderLayout());
+		this.add(this.leftNavPanel,BorderLayout.WEST);
+		this.add(this.contentPanel,BorderLayout.CENTER);
 	}
 }

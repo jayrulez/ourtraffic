@@ -4,7 +4,7 @@ import javax.swing.JMenuBar;
 
 import trafficlayout.LoginFrame;
 
-public class TrafficTicketLoginFrame extends LoginFrame
+public class TrafficTicketLoginFrame extends LoginFrame implements Runnable
 {
 	private static final long serialVersionUID = 1L;
 	private LoginMenuBar loginMenuBar;
