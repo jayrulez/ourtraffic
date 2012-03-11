@@ -17,6 +17,50 @@ public class Ticket
 	{
 		// TODO Auto-generated constructor stub
 	}
+	public Ticket(Integer ticketNumber, Date offenseDate, Address offensePlace, String description, Double fine, Integer points, Integer payementStatus) 
+	{
+		this.description = description;
+		this.fine = fine;
+		this.offenseDate = offenseDate;
+		this.offensePlace = offensePlace;
+		this.paymentStatus = payementStatus;
+		this.points = points;
+		this.ticketNumber = ticketNumber;
+		this.offense = null;
+	}
+	public Ticket(Integer ticketNumber, Date offenseDate, Address offensePlace, String description, Double fine, Integer points, Integer payementStatus, Offense offense) 
+	{
+		this.description = description;
+		this.fine = fine;
+		this.offenseDate = offenseDate;
+		this.offensePlace = offensePlace;
+		this.paymentStatus = payementStatus;
+		this.points = points;
+		this.ticketNumber = ticketNumber;
+		this.offense = offense;
+	}
+	public Ticket(Integer ticketNumber, Date offenseDate, Address offensePlace, String description, Double fine, Integer points, Integer payementStatus, Integer offenseCode) 
+	{
+		this.description = description;
+		this.fine = fine;
+		this.offenseDate = offenseDate;
+		this.offensePlace = offensePlace;
+		this.paymentStatus = payementStatus;
+		this.points = points;
+		this.ticketNumber = ticketNumber;
+		this.offense = new Offense(offenseCode);
+	}
+	public Ticket(Integer ticketNumber, Date offenseDate, Address offensePlace, String description, Double fine, Integer points, Integer payementStatus, Integer offenseCode, String offenseName) 
+	{
+		this.description = description;
+		this.fine = fine;
+		this.offenseDate = offenseDate;
+		this.offensePlace = offensePlace;
+		this.paymentStatus = payementStatus;
+		this.points = points;
+		this.ticketNumber = ticketNumber;
+		this.offense = new Offense(offenseCode,offenseName);
+	}
 	public void setDescription(String description)
 	{
 		this.description = description;
@@ -72,5 +116,13 @@ public class Ticket
 	public Integer getTicketNumber() 
 	{
 		return ticketNumber;
+	}
+	public Offense getOffense() 
+	{
+		return offense;
+	}
+	public void setOffense(Offense offense) 
+	{
+		this.offense = offense;
 	}
 }
