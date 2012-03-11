@@ -13,6 +13,17 @@ public class Police extends Person
 	}
 	public Police(Integer badgeNumber, String firstName, String lastName, String middleInitial, Date dob, String address1, String address2, String parish) 
 	{
-		super(badgeNumber, firstName, lastName, middleInitial, dob, address1, address2,parish);
+		super(firstName, lastName, middleInitial, dob, address1, address2,parish);
+		this.badgeNumber = badgeNumber;
+	}
+	
+	public void setBadgeNumber(Integer badgeNumber) 
+	{
+		this.badgeNumber = badgeNumber;
+	}
+	
+	public Integer getBadgeNumber() 
+	{
+		return badgeNumber;
 	}
 }
