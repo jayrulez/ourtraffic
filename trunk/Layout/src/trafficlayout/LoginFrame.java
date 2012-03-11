@@ -4,27 +4,18 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 import javax.swing.BoxLayout;
 
-public class LoginFrame extends JFrame implements Runnable
+public abstract class LoginFrame extends JFrame implements Runnable
 {
 	private static final long serialVersionUID = 1L;
 	protected JPanel contentPanel;
-	protected JMenuBar mainMenuBar;
 	
 	public LoginFrame() 
 	{
-		
-		//TODO Auto-generated constructor stub
-	}
-	
-	public void run()
-	{
 		this.initiate();
-		
 	}
 
 	public void setContentPanel(JPanel contentPanel)
@@ -33,13 +24,12 @@ public class LoginFrame extends JFrame implements Runnable
 		this.add(this.contentPanel);
 	}
 	
-	public void setMainMenuBar(JMenuBar mainMenuBar) 
+	public void initiate()
 	{
-		this.mainMenuBar = mainMenuBar;
-		this.setJMenuBar(this.mainMenuBar);
+		
 	}
 	
-	public void initiate()
+	public void render()
 	{
 		this.setTitle("Traffic Ticket");
 		super.setMinimumSize(new Dimension(400, 400));

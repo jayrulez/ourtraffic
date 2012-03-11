@@ -8,19 +8,19 @@ import java.awt.Dimension;
 public class MasterFrame extends JFrame implements Runnable 
 {
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPanel;
-	private JPanel leftNavPanel;
-	private JMenuBar mainMenuBar;
+	protected JPanel contentPanel;
+	protected JPanel leftNavPanel;
+	protected JMenuBar mainMenuBar;
 	
 	public MasterFrame() 
 	{
-		
+		this.initiate();
 		//TODO Auto-generated constructor stub
 	}
 	
 	public void run()
 	{
-		this.initiate();
+		this.render();
 		
 	}
 	
@@ -44,11 +44,14 @@ public class MasterFrame extends JFrame implements Runnable
 	
 	public void initiate()
 	{
+
+	}
+	public void render()
+	{
 		this.setTitle("JmAtm");
-		super.setMinimumSize(new Dimension(400, 400));
+		this.setMinimumSize(new Dimension(400, 400));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);	
 		this.setLayout(new BorderLayout());
 	}
-	
 }
