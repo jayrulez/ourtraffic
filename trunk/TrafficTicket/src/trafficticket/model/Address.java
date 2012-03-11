@@ -1,5 +1,6 @@
 package trafficticket.model;
 
+
 public class Address
 {
 	private String address1;
@@ -9,6 +10,13 @@ public class Address
 	public Address() 
 	{
 		// TODO Auto-generated constructor stub
+	}
+	
+	public Address(String address1, String address2, String parish) 
+	{
+		this.address1 = address1;
+		this.address2 = address2;
+		this.parish = parish;
 	}
 	public String getAddress1() 
 	{

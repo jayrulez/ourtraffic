@@ -17,7 +17,11 @@ public class Person
 	}
 	public Person(String firstName, String lastName, String middleInitial, Date dob, String address1, String address2, String parish) 
 	{
-		// TODO Auto-generated constructor stub
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.middleInitial = middleInitial;
+		this.dob = dob;
+		this.address = new Address(address1, address2, parish);
 	}
 	public void setFirstName(String firstName) 
 	{
