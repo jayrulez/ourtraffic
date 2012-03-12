@@ -60,4 +60,22 @@ public class Offender extends Person
 	{
 		this.tickets.add(ticket);
 	}
+	public ArrayList<Ticket> getTickets() 
+	{
+		return tickets;
+	}
+	public Ticket getPayment(Ticket ticket)
+	{
+		if(!this.tickets.isEmpty())
+		{
+			for(Ticket iTicket : this.tickets)
+			{
+				if(iTicket.getTicketNumber() ==  ticket.getTicketNumber())
+				{
+					return iTicket;
+				}
+			}
+		}
+		return null;
+	}
 }

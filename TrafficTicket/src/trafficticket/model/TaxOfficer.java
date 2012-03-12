@@ -1,12 +1,13 @@
 package trafficticket.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 
 public class TaxOfficer extends User
 {
 	private Integer idNumber;
-	
+	private ArrayList <Payment> payments;
 	public TaxOfficer() 
 	{
 		super();
@@ -30,5 +31,28 @@ public class TaxOfficer extends User
 	public Integer getIdNumber() 
 	{
 		return idNumber;
+	}
+	
+	public void addPayment(Payment payment) {
+		this.payments.add(payment);
+	}
+	
+	public Payment getPayment(Payment payment)
+	{
+		if(!this.payments.isEmpty())
+		{
+			for(Payment iPayment : this.payments)
+			{
+				if(iPayment.getTicket().getTicketNumber() ==  payment.getTicket().getTicketNumber())
+				{
+					return iPayment;
+				}
+			}
+		}
+		return null;
+	}
+	public ArrayList<Payment> getPayments() 
+	{
+		return payments;
 	}
 }
