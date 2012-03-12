@@ -26,4 +26,12 @@ public class User extends Person
 		account = new Account(accountPassword,accountType);
 		
 	}
+	public void setAccount(Account account)
+	{
+		this.account = account;
+	}
+	public Account getAccount() 
+	{
+		return account;
+	}
 }
