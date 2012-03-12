@@ -1,5 +1,6 @@
 package trafficticket.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Offender extends Person
@@ -8,6 +9,8 @@ public class Offender extends Person
 	private String licenseType;
 	private Integer points;
 	private Date expiryDate;
+	
+	private ArrayList<Ticket> tickets;
 	
 	public Offender() 
 	{
@@ -52,5 +55,9 @@ public class Offender extends Person
 	public Date getExpiryDate() 
 	{
 		return expiryDate;
+	}
+	public void addTicket(Ticket ticket)
+	{
+		this.tickets.add(ticket);
 	}
 }
