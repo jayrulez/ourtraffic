@@ -8,6 +8,8 @@ public class JCFFrame extends MasterFrame implements Runnable
 {
 	private static final long serialVersionUID = 1L;
 	private JCFMenuBar mainMenuBar;
+	private JCFMainMenuTreePanel mainNavMenu;
+	private JCFContentPanel contentPanel;
 	public JCFFrame() 
 	{
 		super();
@@ -16,13 +18,16 @@ public class JCFFrame extends MasterFrame implements Runnable
 	public void initiate()
 	{
 		this.mainMenuBar = new JCFMenuBar();
+		this.mainNavMenu = new JCFMainMenuTreePanel();
+		this.contentPanel = new JCFContentPanel();
 	}
 
 	public void render() 
 	{
 		this.setTitle("JCF Traffic");
-		super.render();
+		this.leftNavPanel = this.mainNavMenu;
 		this.setJMenuBar(this.mainMenuBar);
+		super.render();
 	}
 	
 	public void run()
