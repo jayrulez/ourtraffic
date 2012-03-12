@@ -1,24 +1,29 @@
 package trafficticket.model;
 
-public class PoliceDivision
+public class Division
 {
 	private Integer stationNumber;
 	private String stationTele;
 	private Address address;
 	
-	public PoliceDivision() 
+	public Division() 
 	{
 		this.address = null;
 	}
 	
-	public PoliceDivision(Integer stationNumber, String stationTele, Address address) 
+	public Division(Integer stationNumber, String stationTele, Address address) 
 	{
 		this.stationNumber = stationNumber;
 		this.stationTele = stationTele;
 		this.address = address;
 	}
 	
-	public PoliceDivision(Integer stationNumber, String stationTele, String address1, String address2, String parish) 
+	public Division(Integer stationNumber) 
+	{
+		this.stationNumber = stationNumber;
+	}
+	
+	public Division(Integer stationNumber, String stationTele, String address1, String address2, String parish) 
 	{
 		this.stationNumber = stationNumber;
 		this.stationTele = stationTele;
