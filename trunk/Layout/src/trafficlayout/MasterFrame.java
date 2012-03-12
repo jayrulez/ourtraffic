@@ -30,16 +30,15 @@ public class MasterFrame extends JFrame
 		
 	}
 	*/
+	/*
 	public void setMainMenuBar(JMenuBar mainMenuBar) 
 	{
 		this.mainMenuBar = mainMenuBar;
 		this.setJMenuBar(this.mainMenuBar);
 	}
-	
+	*/
 	public void initiate()
 	{
-		this.contentPanel = new JPanel();
-		this.leftNavPanel = new JPanel();
 	}
 	public void render()
 	{
