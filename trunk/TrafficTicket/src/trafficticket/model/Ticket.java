@@ -50,17 +50,6 @@ public class Ticket
 		this.ticketNumber = ticketNumber;
 		this.offense = new Offense(offenseCode);
 	}
-	public Ticket(Integer ticketNumber, Date offenseDate, Address offensePlace, String description, Double fine, Integer points, Integer payementStatus, Integer offenseCode, String offenseName) 
-	{
-		this.description = description;
-		this.fine = fine;
-		this.offenseDate = offenseDate;
-		this.offensePlace = offensePlace;
-		this.paymentStatus = payementStatus;
-		this.points = points;
-		this.ticketNumber = ticketNumber;
-		this.offense = new Offense(offenseCode,offenseName);
-	}
 	public void setDescription(String description)
 	{
 		this.description = description;
