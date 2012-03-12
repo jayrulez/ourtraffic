@@ -3,7 +3,7 @@ package trafficticket.model;
 import java.util.Date;
 
 
-public class Police extends Person
+public class Police extends User
 {
 	private Integer badgeNumber;
 	
