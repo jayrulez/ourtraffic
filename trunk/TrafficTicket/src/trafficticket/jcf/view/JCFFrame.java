@@ -1,6 +1,5 @@
 package trafficticket.jcf.view;
 
-import javax.swing.JMenuBar;
 
 import trafficlayout.MasterFrame;
 
@@ -25,8 +24,10 @@ public class JCFFrame extends MasterFrame implements Runnable
 	public void render() 
 	{
 		this.setTitle("JCF Traffic");
-		this.leftNavPanel = this.mainNavMenu;
+		super.leftNavPanel = this.mainNavMenu;
+		super.contentPanel = this.contentPanel;
 		this.setJMenuBar(this.mainMenuBar);
+		this.mainNavMenu.render();
 		super.render();
 	}
 	

@@ -3,6 +3,7 @@ package trafficticket.jcf.view;
 import javax.swing.JPanel;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 
 
 public class JCFMainMenuTreePanel extends JPanel
@@ -55,10 +56,13 @@ public class JCFMainMenuTreePanel extends JPanel
 		this.jcfMenuRoot.add(this.offenderMenu);
 		
 		this.offenseMenu.add(this.viewOffenseItem);
-		this.jcfMenuRoot.add(this.viewOffenseItem);
+		this.jcfMenuRoot.add(this.offenseMenu);
 		
+		//this.jcfMenuRoot.
+		this.mainMenu.expandPath(this.mainMenu.getPathForRow(0));
+		//this.ticketMenu.
+		//this.mainMenu.expandPath(new TreePath(this.ticketMenu.getLastLeaf()));
 		this.mainMenu.setRootVisible(false);
-		
 		this.add(this.mainMenu);
 	}
 }
