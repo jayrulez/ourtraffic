@@ -1,16 +1,20 @@
 package trafficticket.jcf.view;
 
-import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
+import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.border.EmptyBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
+import trafficlayout.MainMenuTreePanel;
 
-public class JCFMainMenuTreePanel extends JPanel
+
+public class JCFMainMenuTreePanel extends MainMenuTreePanel
 {
 	private static final long serialVersionUID = 1L;
-	
-	private JTree mainMenu;
 	
 	private DefaultMutableTreeNode jcfMenuRoot;
 	
@@ -34,7 +38,16 @@ public class JCFMainMenuTreePanel extends JPanel
 	{
 		this.jcfMenuRoot = new DefaultMutableTreeNode();
 		
-		this.mainMenu = new JTree(jcfMenuRoot);
+		this.mainMenu = new JTree(jcfMenuRoot)
+		{
+			private static final long serialVersionUID = 1L;
+			protected void setExpandedState(TreePath path, boolean state) {
+		        // Ignore all collapse requests; collapse events will not be fired
+		        if (state) {
+		            super.setExpandedState(path, state);
+		        }
+		    }
+		};;	
 		
 		this.ticketMenu = new DefaultMutableTreeNode("Ticket",true);
 		this.issueTicketItem = new DefaultMutableTreeNode("Issue Ticket",true);
@@ -60,10 +73,27 @@ public class JCFMainMenuTreePanel extends JPanel
 		
 		//this.jcfMenuRoot.
 		this.mainMenu.expandPath(this.mainMenu.getPathForRow(0));
+		
+		for (int i = this.mainMenu.getRowCount() - 1; i >= 0; i--) {
+			this.mainMenu.collapseRow(i);
+		}
 		//this.ticketMenu.
 		//this.mainMenu.expandPath(new TreePath(this.ticketMenu.getLastLeaf()));
+		this.expandAll(this.mainMenu);
 		this.mainMenu.setRootVisible(false);
-		this.add(this.mainMenu);
+		
+		this.mainMenu.setMinimumSize(new Dimension(300,100));
+		
+		this.scrollPane = new JScrollPane(this.mainMenu);
+		
+		this.scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		this.scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		
+		this.setLayout(new BorderLayout());
+		this.add(this.scrollPane,BorderLayout.CENTER);
+		
+		this.setBorder(new EmptyBorder(10,10,0,0));
 	}
+	
 }
 
