@@ -83,6 +83,7 @@ public class JCFMainMenuTreePanel extends MainMenuTreePanel
 		this.mainMenu.setRootVisible(false);
 		
 		this.mainMenu.setMinimumSize(new Dimension(300,100));
+		this.mainMenu.setBorder(new EmptyBorder(10,10,0,50));
 		
 		this.scrollPane = new JScrollPane(this.mainMenu);
 		
@@ -91,8 +92,6 @@ public class JCFMainMenuTreePanel extends MainMenuTreePanel
 		
 		this.setLayout(new BorderLayout());
 		this.add(this.scrollPane,BorderLayout.CENTER);
-		
-		this.setBorder(new EmptyBorder(10,10,0,0));
 	}
 	
 }
