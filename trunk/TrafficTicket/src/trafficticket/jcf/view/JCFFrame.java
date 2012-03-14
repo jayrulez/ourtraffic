@@ -1,6 +1,9 @@
 package trafficticket.jcf.view;
 
 
+import java.awt.Dimension;
+
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 import trafficlayout.MasterFrame;
@@ -9,7 +12,7 @@ public class JCFFrame extends MasterFrame implements Runnable
 {
 	private static final long serialVersionUID = 1L;
 	private JCFMenuBar mainMenuBar;
-	private JCFMainMenuTreePanel mainNavMenu;
+	private JCFMainMenu mainNavMenu;
 	private JCFContentPanel contentPanel;
 	public JCFFrame() 
 	{
@@ -19,9 +22,10 @@ public class JCFFrame extends MasterFrame implements Runnable
 	public void initiate()
 	{
 		this.mainMenuBar = new JCFMenuBar();
-		this.mainNavMenu = new JCFMainMenuTreePanel();
+		this.mainNavMenu = new JCFMainMenu();
 		this.contentPanel = new JCFContentPanel();
 		super.splitPane = new JSplitPane();
+		super.scrollPane = new JScrollPane();
 	}
 
 	public void render() 
@@ -29,10 +33,15 @@ public class JCFFrame extends MasterFrame implements Runnable
 		this.setTitle("JCF Traffic");
 		
 		super.leftNavPanel = this.mainNavMenu;
+		
+		super.scrollPane.getViewport().add(this.mainNavMenu);
+		super.scrollPane.setMaximumSize(new Dimension(200,500));
+		
 		super.contentPanel = this.contentPanel;
 		
 		this.setJMenuBar(this.mainMenuBar);
 		
+		this.mainMenuBar.render();
 		this.mainNavMenu.render();
 		super.render();
 	}

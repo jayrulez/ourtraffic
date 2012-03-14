@@ -1,6 +1,5 @@
 package trafficticket.view;
 
-import javax.swing.JMenuBar;
 
 import trafficlayout.LoginFrame;
 
