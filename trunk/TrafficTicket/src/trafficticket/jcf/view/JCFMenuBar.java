@@ -1,13 +1,20 @@
 package trafficticket.jcf.view;
 
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 
+import trafficticket.jcf.view.form.IssueTicketForm;
 import trafficlayout.menubar.MainMenuBar;
+import trafficticket.jcf.controller.JCFMainMenuController;
 
 public class JCFMenuBar extends MainMenuBar
 {
 	private static final long serialVersionUID = 1L;
+	
+	private JPanel targetContentPanel;
+	
 	private JMenu optionMenu;
 	
 	private JMenu ticketMenu;
@@ -34,10 +41,16 @@ public class JCFMenuBar extends MainMenuBar
 		this.offenseMenu = new JMenu("Offense");
 		
 		this.issueTicketItem = new JMenuItem("Issue a Ticket");
+		this.issueTicketItem.addActionListener(new JCFMainMenuController(this.targetContentPanel,new IssueTicketForm()));
 		this.viewTicketItem = new JMenuItem("View Tickets");
 		
 		this.viewOffenderItem = new JMenuItem("View Offenders");
 		this.viewOffenseItem = new JMenuItem("View Offenses");		
+	}
+	
+	public void setTargetContentPanel(JPanel targetContentPanel)
+	{
+		this.targetContentPanel = targetContentPanel;
 	}
 	
 	@Override
