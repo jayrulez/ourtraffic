@@ -5,33 +5,44 @@ import java.util.Date;
 
 public class User extends Person
 {
-	private Account account;
+	public final static Integer ADMINISTRATOR = 1;
+	public final static Integer TAXOFFICER = 2;
+	public final static Integer POLICE = 3;
+	private String password;
+	private Integer type;
 	
+	 
 	public User() 
 	{
 		super();
 	}
+	
 	public User(String firstName, String lastName, String middleInitial, Date dob, String address1, String address2, String parish) 
 	{
 		super(firstName, lastName, middleInitial, dob, address1,address2, parish);
 	}
-	public User(String firstName, String lastName, String middleInitial, Date dob, String address1, String address2, String parish, Account account) 
-	{
-		super(firstName, lastName, middleInitial, dob, address1,address2, parish);
-		this.account = account;
-	}
+	
 	public User(String firstName, String lastName, String middleInitial, Date dob, String address1, String address2, String parish, String accountPassword, Integer accountType) 
 	{
 		super(firstName, lastName, middleInitial, dob, address1,address2, parish);
-		account = new Account(accountPassword,accountType);
-		
+		this.password = accountPassword;
+		this.type = accountType;
 	}
-	public void setAccount(Account account)
+
+	public void setPassword(String password) 
 	{
-		this.account = account;
+		this.password = password;
 	}
-	public Account getAccount() 
+	public void setType(Integer type) 
 	{
-		return account;
+		this.type = type;
+	}
+	public String getPassword() 
+	{
+		return password;
+	}
+	public Integer getType() 
+	{
+		return type;
 	}
 }

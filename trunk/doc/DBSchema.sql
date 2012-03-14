@@ -1,50 +1,50 @@
-create table Division
+create table division
 (
-	Id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	Street VARCHAR(50) NOT NULL,
-	City VARCHAR(50) NOT NULL,
-	Parish VARCHAR(30) NOT NULL,
-	PhoneNumber VARCHAR(10) NOT NULL
+	id INT(11) PRIMARY KEY NOT NULL,
+	street VARCHAR(50) NOT NULL,
+	city VARCHAR(50) NOT NULL,
+	parish VARCHAR(30) NOT NULL,
+	phoneNumber VARCHAR(10) NOT NULL
 );
 
-create table Police
+create table police
 (
-	BadgeId INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
-	DivisionID INT NOT NULL,
-	FirstName VARCHAR(30) NOT NULL,
-	LastName VARCHAR(30) NOT NULL,
-	MiddleInitial VARCHAR(1) DEFAULT NULL,
+	badgeId INT(11) PRIMARY KEY NOT NULL,
+	divisionId INT(11) NOT NULL,
+	firstName VARCHAR(30) NOT NULL,
+	lastName VARCHAR(30) NOT NULL,
+	middleInitial VARCHAR(1) DEFAULT NULL,
 	DOB DATE NOT NULL,
-	Street VARCHAR(50) NOT NULL,
-	City VARCHAR(50) NOT NULL,
-	Parish VARCHAR(30) NOT NULL
+	street VARCHAR(50) NOT NULL,
+	city VARCHAR(50) NOT NULL,
+	parish VARCHAR(30) NOT NULL
 );
 
-create table Offender
+create table offender
 (
-	TRN INT PRIMARY KEY NOT NULL,
-	FirstName VARCHAR(30) NOT NULL,
-	LastName VARCHAR(30) NOT NULL,
-	MiddleInitial VARCHAR(1) DEFAULT NULL,
+	trn INT(11) PRIMARY KEY NOT NULL,
+	firstName VARCHAR(30) NOT NULL,
+	lastName VARCHAR(30) NOT NULL,
+	middleInitial VARCHAR(1) DEFAULT NULL,
 	DOB DATE NOT NULL,
-	Street VARCHAR(50) NOT NULL,
-	City VARCHAR(50) NOT NULL,
-	Parish VARCHAR(30) NOT NULL,
-	LicenseType VARCHAR(20) NOT NULL,
-	Points INT NOT NULL,
-	ExpiryDate DATE NOT NULL
+	street VARCHAR(50) NOT NULL,
+	city VARCHAR(50) NOT NULL,
+	parish VARCHAR(30) NOT NULL,
+	licenseType VARCHAR(20) NOT NULL,
+	points INT NOT NULL,
+	expiryDate DATE NOT NULL
 );
 
 
 create table Offence
 (
-	Id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	Id INT(11) PRIMARY KEY NOT NULL,
 	Name VARCHAR(50) NOT NULL
 );
 
 create table Ticket
 (
-	Id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
+	Id INT(11) PRIMARY KEY NOT NULL,
 	PoliceID INT NOT NULL,
 	OffenderTRN INT NOT NULL,
 	OffenceId INT NOT NULL,
