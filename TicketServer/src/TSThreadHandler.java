@@ -3,12 +3,12 @@ import java.io.*;
 
 class TSThreadHandler extends Thread
 {
-	public Socket newSock;
+	public Socket socket;
 	public int requestId;
 
-	TSThreadHandler(Socket sock, int requestId)
+	TSThreadHandler(Socket socket, int requestId)
 	{
-		this.newSock   = sock;
+		this.socket    = socket;
 		this.requestId = requestId;
 	}
 
@@ -16,11 +16,14 @@ class TSThreadHandler extends Thread
 	{
 		try
 		{
+			DataInputStream is = new DataInputStream(this.socket.getInputStream());
+			PrintStream os     = new PrintStream(this.socket.getOutputStream());
 
+			this.socket.close();
 		}
-		catch(...)
+		catch(Exception e)
 		{
-
+			System.out.println("Error " + e);
 		}
 	}
 }

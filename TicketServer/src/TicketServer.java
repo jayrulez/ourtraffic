@@ -1,32 +1,40 @@
 import java.net.*;
 import java.io.*;
 
-import TSThreadHandler;
-
 public class TicketServer
 {
+	public final static int PORT = 5566;
+
 	public static void main(String[] args) throws Exception
 	{
 		int requestId = 1;
 
 		try
 		{
-			sock = new ServerSocket("172.016.007.012", 5566);
+			ServerSocket serverSocket = new ServerSocket(TicketServer.PORT);
 
-			System.out.println("TicketServer Initialized");
+			System.out.println("TicketServer initialized on port " + PORT);
 
 			for(;;)
 			{
+				Socket socket = serverSocket.accept();
 				
+				System.out.println("Creating thread");
+
+				Thread thread = new TSThreadHandler(socket, requestId);
+
+				thread.start();
+
+				requestId++;
 			}
 		}
 		catch(IOException e)
 		{
+			System.err.println("Cannot initialize TicketServer on port " + PORT);
 
-		}
-		finally
-		{
+			e.printStackTrace();
 
+			System.exit(-1);
 		}
 	}
 }
