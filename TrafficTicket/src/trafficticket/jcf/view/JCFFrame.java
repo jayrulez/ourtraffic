@@ -40,7 +40,7 @@ public class JCFFrame extends MasterFrame implements Runnable
 		super.contentPanel = this.contentPanel;
 		
 		this.setJMenuBar(this.mainMenuBar);
-		
+		this.mainMenuBar.setTargetContentPanel(this.contentPanel);
 		this.mainMenuBar.render();
 		this.mainNavMenu.render();
 		super.render();

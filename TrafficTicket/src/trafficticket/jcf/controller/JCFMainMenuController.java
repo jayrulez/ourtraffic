@@ -1,16 +1,30 @@
 package trafficticket.jcf.controller;
 
-import javax.swing.event.TreeSelectionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-public class JCFMainMenuController
+import javax.swing.JPanel;
+
+
+public class JCFMainMenuController extends MouseAdapter  implements ActionListener
 {
-	private TreeSelectionListener ticketItemListener;
-	private TreeSelectionListener issueTicketItemListener;
-	private TreeSelectionListener viewTicketItemListener;
-	private TreeSelectionListener offenderItemListener;
-	private TreeSelectionListener viewOffenderItemListener;
-	private TreeSelectionListener offenseListener;
-	private TreeSelectionListener viewOffenseItemListener;
-	
-	
+	private JPanel targetPanel;
+	private JPanel contentPanel;
+	public JCFMainMenuController(JPanel targetPanel, JPanel contentPanel) 
+	{
+		this.targetPanel = targetPanel;
+		this.contentPanel = contentPanel;	
+	}
+	@Override
+	public void actionPerformed(ActionEvent arg0) 
+	{
+		this.targetPanel.add(this.contentPanel);
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) 
+	{
+		this.targetPanel.add(this.contentPanel);
+	}
 }
