@@ -21,6 +21,7 @@ public class BtnLoginController extends MouseAdapter implements ActionListener
 	{
 		this.lblControllerStatus = new JLabel();
 	}
+	
 	public BtnLoginController(JLabel lblControllerStatus)
 	{
 		this.lblControllerStatus = lblControllerStatus;
@@ -41,12 +42,14 @@ public class BtnLoginController extends MouseAdapter implements ActionListener
 	{
 		return lblControllerStatus;
 	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
 		
 		
 	}
+	
 	@Override
 	public void mouseClicked(MouseEvent e) 
 	{
