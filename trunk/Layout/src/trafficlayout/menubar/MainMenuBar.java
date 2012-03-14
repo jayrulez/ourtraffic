@@ -12,7 +12,7 @@ public class MainMenuBar extends JMenuBar
 	protected JMenu editMenu;
 	protected JMenu viewMenu;
 	protected JMenu helpMenu;
-	protected JMenuItem closeMenuItem;
+	protected JMenuItem exitMenuItem;
 	protected JMenuItem aboutMenuItem;
 	
 	public MainMenuBar() 
@@ -27,12 +27,12 @@ public class MainMenuBar extends JMenuBar
 		this.helpMenu = new JMenu("Help");
 		
 		this.aboutMenuItem = new JMenuItem("About Traffic Ticket");
-		this.closeMenuItem = new JMenuItem("Exit");
+		this.exitMenuItem = new JMenuItem("Exit");
 	}
 	public void render()
 	{
 		this.helpMenu.add(this.aboutMenuItem);
-		this.fileMenu.add(this.closeMenuItem);
+		this.fileMenu.add(this.exitMenuItem);
 		
 		this.add(this.fileMenu);
 		this.add(this.viewMenu);
