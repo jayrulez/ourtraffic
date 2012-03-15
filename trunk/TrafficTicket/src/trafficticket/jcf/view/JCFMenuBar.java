@@ -1,6 +1,5 @@
 package trafficticket.jcf.view;
 
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -27,6 +26,8 @@ public class JCFMenuBar extends MainMenuBar
 	private JMenuItem viewOffenderItem;
 	private JMenuItem viewOffenseItem;
 	
+	private IssueTicketForm issueTicketForm;
+	
 	public JCFMenuBar()
 	{
 		super.initiate();
@@ -41,7 +42,7 @@ public class JCFMenuBar extends MainMenuBar
 		this.offenseMenu = new JMenu("Offense");
 		
 		this.issueTicketItem = new JMenuItem("Issue a Ticket");
-		this.issueTicketItem.addActionListener(new JCFMainMenuController(this.targetContentPanel,new IssueTicketForm()));
+		
 		this.viewTicketItem = new JMenuItem("View Tickets");
 		
 		this.viewOffenderItem = new JMenuItem("View Offenders");
@@ -75,5 +76,9 @@ public class JCFMenuBar extends MainMenuBar
 		this.add(this.editMenu);
 		this.add(this.optionMenu);
 		this.add(this.helpMenu);
+		
+		this.issueTicketForm = new IssueTicketForm();
+		issueTicketForm.render();
+		this.issueTicketItem.addActionListener(new JCFMainMenuController(this.targetContentPanel,this.issueTicketForm));
 	}
 }
