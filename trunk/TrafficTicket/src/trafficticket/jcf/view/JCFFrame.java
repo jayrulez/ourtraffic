@@ -26,6 +26,7 @@ public class JCFFrame extends MasterFrame implements Runnable
 		this.contentPanel = new JCFContentPanel();
 		super.splitPane = new JSplitPane();
 		super.scrollPane = new JScrollPane();
+		super.contentScrollPane = new JScrollPane();
 	}
 
 	public void render() 
@@ -35,9 +36,11 @@ public class JCFFrame extends MasterFrame implements Runnable
 		super.leftNavPanel = this.mainNavMenu;
 		
 		super.scrollPane.getViewport().add(this.mainNavMenu);
+		
 		super.scrollPane.setMaximumSize(new Dimension(200,500));
 		
 		super.contentPanel = this.contentPanel;
+		super.contentScrollPane.getViewport().add(this.contentPanel);
 		
 		this.setJMenuBar(this.mainMenuBar);
 		this.mainMenuBar.setTargetContentPanel(this.contentPanel);
