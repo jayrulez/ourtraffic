@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<containers>
+    <container name="panel"
+               columnSpecs="right:max(30dlu;pref),3dlu,80dlu,7dlu,right:max(30dlu;pref),3dlu,80dlu,1dlu:grow"
+               rowSpecs="pref,3dlu,pref,3dlu,pref,3dlu,pref,3dlu,pref,3dlu,pref,3dlu,pref,3dlu,pref,3dlu,pref,3dlu,pref,3dlu,pref:grow">
+        <cellconstraints name="panel" gridX="3" gridY="11" gridWidth="1" gridHeight="1" horizontalAlignment="default" verticalAlignment="default" topInset="0" bottomInset="0" rightInset="0" leftInset="0"/>
+        <cellconstraints name="lblOffense" gridX="1" gridY="1" gridWidth="1" gridHeight="1" horizontalAlignment="default" verticalAlignment="default" topInset="0" bottomInset="0" rightInset="0" leftInset="0"/>
+        <cellconstraints name="lblOffenseDate" gridX="1" gridY="3" gridWidth="1" gridHeight="1" horizontalAlignment="default" verticalAlignment="default" topInset="0" bottomInset="0" rightInset="0" leftInset="0"/>
+        <cellconstraints name="lblOffenseCode" gridX="5" gridY="1" gridWidth="1" gridHeight="1" horizontalAlignment="default" verticalAlignment="default" topInset="0" bottomInset="0" rightInset="0" leftInset="0"/>
+        <cellconstraints name="lblOffenseAddress1" gridX="1" gridY="5" gridWidth="1" gridHeight="1" horizontalAlignment="default" verticalAlignment="default" topInset="0" bottomInset="0" rightInset="0" leftInset="0"/>
+        <cellconstraints name="lblOffenseParish" gridX="1" gridY="7" gridWidth="1" gridHeight="1" horizontalAlignment="default" verticalAlignment="default" topInset="0" bottomInset="0" rightInset="0" leftInset="0"/>
+        <cellconstraints name="lblOffenseParish2" gridX="5" gridY="5" gridWidth="1" gridHeight="1" horizontalAlignment="default" verticalAlignment="default" topInset="0" bottomInset="0" rightInset="0" leftInset="0"/>
+        <cellconstraints name="lblFine" gridX="1" gridY="9" gridWidth="1" gridHeight="1" horizontalAlignment="default" verticalAlignment="default" topInset="0" bottomInset="0" rightInset="0" leftInset="0"/>
+        <cellconstraints name="lblPoints" gridX="1" gridY="11" gridWidth="1" gridHeight="1" horizontalAlignment="default" verticalAlignment="default" topInset="0" bottomInset="0" rightInset="0" leftInset="0"/>
+        <cellconstraints name="cbxOffense" gridX="3" gridY="1" gridWidth="1" gridHeight="1" horizontalAlignment="default" verticalAlignment="default" topInset="0" bottomInset="0" rightInset="0" leftInset="0"/>
+        <cellconstraints name="txtOffenseCode" gridX="7" gridY="1" gridWidth="1" gridHeight="1" horizontalAlignment="default" verticalAlignment="default" topInset="0" bottomInset="0" rightInset="0" leftInset="0"/>
+        <cellconstraints name="txtOffenseDate" gridX="3" gridY="3" gridWidth="1" gridHeight="1" horizontalAlignment="default" verticalAlignment="default" topInset="0" bottomInset="0" rightInset="0" leftInset="0"/>
+        <cellconstraints name="txtParish" gridX="3" gridY="7" gridWidth="1" gridHeight="1" horizontalAlignment="default" verticalAlignment="default" topInset="0" bottomInset="0" rightInset="0" leftInset="0"/>
+        <cellconstraints name="txtOffenseAddress1" gridX="3" gridY="5" gridWidth="1" gridHeight="1" horizontalAlignment="default" verticalAlignment="default" topInset="0" bottomInset="0" rightInset="0" leftInset="0"/>
+        <cellconstraints name="txtOffenseAddress2" gridX="7" gridY="5" gridWidth="1" gridHeight="1" horizontalAlignment="default" verticalAlignment="default" topInset="0" bottomInset="0" rightInset="0" leftInset="0"/>
+        <cellconstraints name="txtFine" gridX="3" gridY="9" gridWidth="1" gridHeight="1" horizontalAlignment="default" verticalAlignment="default" topInset="0" bottomInset="0" rightInset="0" leftInset="0"/>
+        <cellconstraints name="txtPoints" gridX="3" gridY="11" gridWidth="1" gridHeight="1" horizontalAlignment="default" verticalAlignment="default" topInset="0" bottomInset="0" rightInset="0" leftInset="0"/>
+    </container>
+</containers>
