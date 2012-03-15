@@ -7,8 +7,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class TicketForm extends JFrame
+public class TicketForm extends JPanel
 {
+	private static final long serialVersionUID = 1L;
+
 	private JComboBox cbxOffenseName;
 	
 	private JTextField txtOffenseCode;
@@ -91,7 +93,7 @@ public class TicketForm extends JFrame
 		this.finePanel.add(this.txtFine);
 		this.pointsPanel.add(this.txtPoints);
 		
-		this.setLayout(new BoxLayout(this.getContentPane(),BoxLayout.Y_AXIS));
+		this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 		
 		this.add(this.offenseNamePanel);
 		this.add(this.offenseCodePanel);

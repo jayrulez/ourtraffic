@@ -25,7 +25,7 @@ public class IssueTicketForm extends JPanel
 	}
 	public void render()
 	{
-		this.add(ticketForm);
 		this.ticketForm.render();
+		this.add(ticketForm);
 	}
 }
