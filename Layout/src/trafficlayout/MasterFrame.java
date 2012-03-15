@@ -18,6 +18,7 @@ public abstract class MasterFrame extends JFrame
 	protected JMenuBar mainMenuBar;
 	protected JSplitPane splitPane;
 	protected JScrollPane scrollPane;
+	protected JScrollPane contentScrollPane;
 	
 	public MasterFrame() 
 	{
@@ -33,11 +34,14 @@ public abstract class MasterFrame extends JFrame
 		
 		this.splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		this.splitPane.setLeftComponent(this.scrollPane);
-		this.splitPane.setRightComponent(this.contentPanel);
+		this.splitPane.setRightComponent(this.contentScrollPane);
 		this.splitPane.setAutoscrolls(true);
 		
 		this.scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		this.scrollPane.setWheelScrollingEnabled(true);
+		
+		this.contentScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		this.contentScrollPane.setWheelScrollingEnabled(true);
 		
 		this.splitPane.setContinuousLayout(true);
 		
