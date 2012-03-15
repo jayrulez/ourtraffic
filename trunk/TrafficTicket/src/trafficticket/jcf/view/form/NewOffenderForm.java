@@ -1,6 +1,5 @@
 package trafficticket.jcf.view.form;
 
-import org.mlc.swing.layout.*;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
