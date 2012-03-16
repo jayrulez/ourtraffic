@@ -1,18 +1,25 @@
 package trafficticket.jcf.view;
 
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import trafficticket.jcf.view.form.IssueTicketForm;
-import trafficlayout.menubar.MainMenuBar;
 import trafficticket.jcf.controller.JCFMainMenuController;
 
-public class JCFMenuBar extends MainMenuBar
+public class JCFMenuBar extends JMenuBar
 {
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel targetContentPanel;
+	
+	protected JMenu fileMenu;
+	protected JMenu editMenu;
+	protected JMenu viewMenu;
+	protected JMenu helpMenu;
+	protected JMenuItem exitMenuItem;
+	protected JMenuItem aboutMenuItem;
 	
 	private JMenu optionMenu;
 	
@@ -30,12 +37,19 @@ public class JCFMenuBar extends MainMenuBar
 	
 	public JCFMenuBar()
 	{
-		super.initiate();
 		this.initiate();	
 	}
 	
 	public void initiate()
 	{
+		this.fileMenu = new JMenu("File");
+		this.editMenu = new JMenu("Edit");
+		this.viewMenu = new JMenu("View");
+		this.helpMenu = new JMenu("Help");
+		
+		this.aboutMenuItem = new JMenuItem("About Traffic Ticket");
+		this.exitMenuItem = new JMenuItem("Exit");
+		
 		this.optionMenu = new JMenu("Option");
 		this.ticketMenu = new JMenu("Ticketing");
 		this.offenderMenu = new JMenu("Offender");
@@ -54,11 +68,10 @@ public class JCFMenuBar extends MainMenuBar
 		this.targetContentPanel = targetContentPanel;
 	}
 	
-	@Override
 	public void render()
 	{	
-		super.helpMenu.add(super.aboutMenuItem);
-		super.fileMenu.add(super.exitMenuItem);
+		this.helpMenu.add(aboutMenuItem);
+		this.fileMenu.add(exitMenuItem);
 		
 		this.optionMenu.add(this.ticketMenu);
 		this.optionMenu.add(this.offenderMenu);

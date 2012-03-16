@@ -1,16 +1,18 @@
 package trafficticket.view;
 
+import java.awt.Dimension;
 
-import trafficlayout.LoginFrame;
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
 
-public class TrafficTicketLoginFrame extends LoginFrame implements Runnable
+
+public class TrafficTicketLoginFrame extends JFrame implements Runnable
 {
 	private static final long serialVersionUID = 1L;
 	private LoginMenuBar loginMenuBar;
 	
 	public TrafficTicketLoginFrame() 
 	{
-		super();
 		this.initiate();
 	}
 	public void initiate()
@@ -21,14 +23,19 @@ public class TrafficTicketLoginFrame extends LoginFrame implements Runnable
 	@Override
 	public void run()
 	{
-		super.render();
 		this.render();
 	}
 	
 	public void render()
 	{
+		this.setTitle("Traffic Ticket");
+		this.setMinimumSize(new Dimension(400, 400));
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setVisible(true);	
+		this.setLayout(new BoxLayout(this.getContentPane(),BoxLayout.Y_AXIS));
 		this.loginMenuBar.render();
 		this.setJMenuBar(this.loginMenuBar);
+		this.add(new TrafficTicketLoginForm());
 	}
 	
 }

@@ -1,6 +1,7 @@
 package trafficticket.jcf.view;
 
-import trafficlayout.ContentPanel;
+import trafficticket.view.ContentPanel;
+
 
 public class JCFContentPanel extends ContentPanel
 {

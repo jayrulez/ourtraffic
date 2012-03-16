@@ -9,7 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 
-import trafficlayout.MainMenuPanel;
+import trafficticket.view.MainMenuPanel;
 
 
 public class JCFMainMenu extends JPanel

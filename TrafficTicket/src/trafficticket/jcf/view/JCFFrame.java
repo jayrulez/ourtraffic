@@ -6,7 +6,7 @@ import java.awt.Dimension;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
-import trafficlayout.MasterFrame;
+import trafficticket.view.MasterFrame;
 
 public class JCFFrame extends MasterFrame implements Runnable
 {

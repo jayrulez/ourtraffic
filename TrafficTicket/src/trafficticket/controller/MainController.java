@@ -22,8 +22,6 @@ public class MainController
 		finally
 		{
 			TrafficTicketLoginFrame loginFrame = new TrafficTicketLoginFrame();
-
-			loginFrame.setContentPanel(new TrafficTicketLoginForm(loginFrame));
 		
 			/*Dispatch this frame as a thread to dynamically alter the frame's 
 			 * components outside of the Event Thread*/
