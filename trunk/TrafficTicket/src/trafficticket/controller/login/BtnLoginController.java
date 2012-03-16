@@ -11,6 +11,7 @@ import javax.swing.SwingUtilities;
 
 import trafficticket.jcf.view.JCFFrame;
 
+
 public class BtnLoginController extends MouseAdapter implements ActionListener
 {
 	
@@ -25,6 +26,13 @@ public class BtnLoginController extends MouseAdapter implements ActionListener
 	public BtnLoginController(JLabel lblControllerStatus)
 	{
 		this.lblControllerStatus = lblControllerStatus;
+		
+	}
+
+	public BtnLoginController(JFrame parentFrame)
+	{
+		this.parentFrame = parentFrame;
+		this.lblControllerStatus = new JLabel();
 		
 	}
 	
@@ -46,22 +54,34 @@ public class BtnLoginController extends MouseAdapter implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
-		
-		
+		this.login();
 	}
 	
 	@Override
 	public void mouseClicked(MouseEvent e) 
 	{
+		this.login();
+	}
+	
+	private void login()
+	{
 		this.lblControllerStatus.setText("Logging in...");
 
 		/*Close the login frame (frame that contains the login form)*/
-		this.parentFrame.dispose();
-		
+			
 		if(true/*logged in user is JCF user*/)
 		{
-			JCFFrame jcfFrame = new JCFFrame();
-			SwingUtilities.invokeLater(jcfFrame);
-		}
+			try
+			{
+				this.parentFrame.dispose();
+				JCFFrame jcfFrame = new JCFFrame();
+				SwingUtilities.invokeLater(jcfFrame);
+			}
+			catch(NullPointerException ex)
+			{
+				this.lblControllerStatus.setText("An unexpected error occured. Please try again.");
+			}
+
+		}	
 	}
 }
