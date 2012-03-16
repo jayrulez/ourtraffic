@@ -65,6 +65,7 @@ public class NewOffenderForm extends JPanel
 	
 	public void render()
 	{
+		/*
 		LayoutConstraintsManager layoutConstraintsManager = LayoutConstraintsManager.getLayoutConstraintsManager (this.getClass().getResourceAsStream("myConstraints.xml"));
 		
 		panel.add(lblExpiryDate, "lblExpiryDate");
@@ -110,5 +111,6 @@ public class NewOffenderForm extends JPanel
 		panel.add(txtOffenderAddress2, "txtOffenderAddress2");
 
 		panel.add(txtMiddleInitial, "txtMiddleInitial");
+		*/
 	}
 }
