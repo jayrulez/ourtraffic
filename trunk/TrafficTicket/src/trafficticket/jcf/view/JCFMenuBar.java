@@ -60,16 +60,8 @@ public class JCFMenuBar extends JMenuBar
 		this.viewTicketItem = new JMenuItem("View Tickets");
 		
 		this.viewOffenderItem = new JMenuItem("View Offenders");
-		this.viewOffenseItem = new JMenuItem("View Offenses");		
-	}
-	
-	public void setTargetContentPanel(JPanel targetContentPanel)
-	{
-		this.targetContentPanel = targetContentPanel;
-	}
-	
-	public void render()
-	{	
+		this.viewOffenseItem = new JMenuItem("View Offenses");	
+		
 		this.helpMenu.add(aboutMenuItem);
 		this.fileMenu.add(exitMenuItem);
 		
@@ -93,5 +85,15 @@ public class JCFMenuBar extends JMenuBar
 		this.issueTicketForm = new IssueTicketForm();
 		//issueTicketForm.render();
 		this.issueTicketItem.addActionListener(new JCFMainMenuController(this.targetContentPanel,this.issueTicketForm));
+	}
+	
+	public void setTargetContentPanel(JPanel targetContentPanel)
+	{
+		this.targetContentPanel = targetContentPanel;
+	}
+	
+	public void render()
+	{	
+
 	}
 }

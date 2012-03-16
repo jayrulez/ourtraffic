@@ -27,11 +27,11 @@ public class JCFMainMenu extends JPanel
 	
 	public JCFMainMenu() 
 	{
-		this.initiate();
+		this.initialize();
 		
 	}
 	
-	public void initiate()
+	public void initialize()
 	{
 		this.menuContainer = new JPanel();
 		
@@ -42,9 +42,8 @@ public class JCFMainMenu extends JPanel
 		this.ticketMenuPanel = new MainMenuPanel("Ticketing",this.ticketItemPanel);
 		this.offenderMenuPanel = new MainMenuPanel("Offender",this.offenderItemPanel);
 		this.offenseMenuPanel = new MainMenuPanel("Offence",this.offenseItemPanel);	
-	}
-	public void render()
-	{
+
+		
 		this.menuContainer.setLayout(new BoxLayout(this.menuContainer,BoxLayout.Y_AXIS));
 		
 		this.ticketItemPanel.setLayout(new GridLayout(2,1));
@@ -81,6 +80,10 @@ public class JCFMainMenu extends JPanel
 		this.menuContainer.setMaximumSize(new Dimension(200,300));
 		
 		this.setMaximumSize(new Dimension(200,500));
+	}
+	public void render()
+	{
+
 	}
 	
 }
