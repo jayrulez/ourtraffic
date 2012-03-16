@@ -8,41 +8,37 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-
-
-public class MainMenuPanel extends JPanel
-{
+public class MainMenuPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JLabel panelLabel;
 	private JPanel itemPanel;
-	
-	public MainMenuPanel() 
-	{
-		this.initiate();
+
+	public MainMenuPanel() {
+		this.initialise();
 	}
 
-	public MainMenuPanel(JLabel panelLabel,JPanel itemPanel) 
-	{
+	public MainMenuPanel(JLabel panelLabel, JPanel itemPanel) {
 		this.panelLabel = panelLabel;
 		this.itemPanel = itemPanel;
 	}
-	public MainMenuPanel(String panelLabel,JPanel itemPanel) 
-	{
+
+	public MainMenuPanel(String panelLabel, JPanel itemPanel) {
 		this.panelLabel = new JLabel(panelLabel);
 		this.itemPanel = itemPanel;
 	}
-	public void initiate()
-	{
+
+	public void initialise() {
 		this.panelLabel = new JLabel();
 		this.itemPanel = new JPanel();
-	}
-	
-	public void render()
-	{
+
 		this.setLayout(new BorderLayout());
-		this.add(this.panelLabel,BorderLayout.NORTH);
-		this.add(this.itemPanel,BorderLayout.CENTER);
-		this.itemPanel.setBorder(new LineBorder(Color.BLACK,1));
-		this.setBorder(new EmptyBorder(10,5,10,10));
-	}	
+		this.add(this.panelLabel, BorderLayout.NORTH);
+		this.add(this.itemPanel, BorderLayout.CENTER);
+		this.itemPanel.setBorder(new LineBorder(Color.BLACK, 1));
+		this.setBorder(new EmptyBorder(10, 5, 10, 10));
+	}
+
+	public void render() {
+
+	}
 }

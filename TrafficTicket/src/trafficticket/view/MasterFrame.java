@@ -1,53 +1,78 @@
 package trafficticket.view;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import java.awt.Dimension;
 
-public abstract class MasterFrame extends JFrame
-{
+public class MasterFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
-	
-	protected JPanel contentPanel;
-	protected JPanel leftNavPanel;
-	protected JMenuBar mainMenuBar;
-	protected JSplitPane splitPane;
-	protected JScrollPane scrollPane;
-	protected JScrollPane contentScrollPane;
-	
-	public MasterFrame() 
-	{
-		
+
+	private JPanel contentPanel;
+	private JPanel leftNavPanel;
+	private JSplitPane splitPane;
+	private JScrollPane menuScrollPane;
+	private JScrollPane contentScrollPane;
+
+	public MasterFrame() {
+		this.initialise();
 	}
 
-	public abstract void initiate();
+	public MasterFrame(JPanel mainMenu, JPanel contentPanel,
+			JSplitPane splitPane, JScrollPane menuScrollPane,
+			JScrollPane contentScrollPane) {
+		this.leftNavPanel = mainMenu;
+		this.contentPanel = contentPanel;
+		this.splitPane = splitPane;
+		this.menuScrollPane = menuScrollPane;
+		this.contentScrollPane = contentScrollPane;
+	}
 
-	public void render()
-	{
+	public void setLeftNavPanelContent(JPanel content) {
+		this.leftNavPanel.add(content);
+	}
+
+	public void setContentPanel(JPanel content) {
+		this.contentPanel = content;
+	}
+
+	public void initialise() {
+
+		this.splitPane = new JSplitPane();
+		this.contentPanel = new JPanel();
+		this.leftNavPanel = new JPanel();
+		this.splitPane = new JSplitPane();
+		this.menuScrollPane = new JScrollPane();
+		this.contentScrollPane = new JScrollPane();
+
+		this.menuScrollPane.setMaximumSize(new Dimension(200, 500));
+
 		this.setMinimumSize(new Dimension(600, 400));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		this.splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-		this.splitPane.setLeftComponent(this.scrollPane);
+		this.splitPane.setLeftComponent(this.menuScrollPane);
 		this.splitPane.setRightComponent(this.contentScrollPane);
 		this.splitPane.setAutoscrolls(true);
-		
-		this.scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		this.scrollPane.setWheelScrollingEnabled(true);
-		
-		this.contentScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+		this.contentScrollPane
+				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		this.contentScrollPane.setWheelScrollingEnabled(true);
-		
+
+		this.contentScrollPane
+				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		this.contentScrollPane.setWheelScrollingEnabled(true);
+
+		this.menuScrollPane.getViewport().add(this.leftNavPanel);
+
+		this.contentScrollPane.getViewport().add(this.contentPanel);
+
 		this.splitPane.setContinuousLayout(true);
-		
-		
+
 		this.add(this.splitPane);
-		this.setVisible(true);	
-		
+		this.setVisible(true);
+
 	}
 }
