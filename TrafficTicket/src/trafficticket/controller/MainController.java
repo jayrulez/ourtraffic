@@ -3,7 +3,6 @@ package trafficticket.controller;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import trafficticket.view.TrafficTicketLoginForm;
 import trafficticket.view.TrafficTicketLoginFrame;
 
 public class MainController

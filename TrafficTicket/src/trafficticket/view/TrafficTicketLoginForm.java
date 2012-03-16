@@ -25,6 +25,7 @@ public class TrafficTicketLoginForm extends JPanel {
 	private JTextField txtUsername;
 	private JPasswordField txtPassword;
 	private JButton btnLogin;
+	private JLabel lblLoginStatus;
 
 	public TrafficTicketLoginForm() {
 		initialize();
@@ -40,9 +41,8 @@ public class TrafficTicketLoginForm extends JPanel {
 				RowSpec.decode("max(20dlu;default)"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(16dlu;default)"),
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC, }));
-
-		this.initiateListners();
 
 		this.lblUsername = new JLabel("Username:");
 		add(this.lblUsername, "2, 4, right, center");
@@ -58,23 +58,20 @@ public class TrafficTicketLoginForm extends JPanel {
 		this.txtPassword.setColumns(20);
 		add(this.txtPassword, "4, 6, left, default");
 
+		this.lblLoginStatus = new JLabel("");
+		add(this.lblLoginStatus, "4, 8, left, center");
+
 		this.btnLogin = new JButton("");
 		this.btnLogin.setIcon(new ImageIcon(TrafficTicketLoginForm.class
 				.getResource("/trafficticket/jcf/resources/LoginIcon.gif")));
-		add(this.btnLogin, "4, 8, left, center");
-	}
-
-	public TrafficTicketLoginForm(JFrame parentFrame) {
-		this.parentFrame = parentFrame;
-		this.initiateListners();
-	}
-
-	public void setParentFrame(JFrame parentFrame) {
-		this.parentFrame = parentFrame;
+		add(this.btnLogin, "4, 10, left, center");
 	}
 
 	public void initiateListners() {
-
+		this.btnLoginController = new BtnLoginController(
+				(JFrame) this.getTopLevelAncestor());
+		this.btnLoginController.setLblControllerStatus(this.lblLoginStatus);
+		this.btnLogin.addActionListener(this.btnLoginController);
+		// this.btnLogin.addMouseListener(this.btnLoginController);
 	}
-
 }
