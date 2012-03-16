@@ -11,6 +11,7 @@ public class JCFFrame extends MasterFrame implements Runnable {
 	private JCFContentPanel contentPanel;
 
 	public JCFFrame() {
+		super.initialise();
 		this.initialise();
 	}
 
@@ -25,9 +26,10 @@ public class JCFFrame extends MasterFrame implements Runnable {
 		super.setLeftNavPanelContent(this.mainNavMenu);
 
 		this.contentPanel = new JCFContentPanel();
-		this.setContentPanel(this.contentPanel);
+		super.setContentPanel(this.contentPanel);
 
 		this.mainMenuBar.setTargetContentPanel(this.contentPanel);
+		super.setVisible(true);
 	}
 
 	public void run() {
