@@ -78,7 +78,7 @@ public class JCFMenuBar extends MainMenuBar
 		this.add(this.helpMenu);
 		
 		this.issueTicketForm = new IssueTicketForm();
-		issueTicketForm.render();
+		//issueTicketForm.render();
 		this.issueTicketItem.addActionListener(new JCFMainMenuController(this.targetContentPanel,this.issueTicketForm));
 	}
 }

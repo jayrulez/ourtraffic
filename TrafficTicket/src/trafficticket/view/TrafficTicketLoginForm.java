@@ -3,42 +3,78 @@ package trafficticket.view;
 //import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-import trafficlayout.form.LoginForm;
 import trafficticket.controller.login.BtnLoginController;
+import javax.swing.JLabel;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.RowSpec;
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
 
-public class TrafficTicketLoginForm extends LoginForm
-{
+public class TrafficTicketLoginForm extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private BtnLoginController btnLoginController;
 	private JFrame parentFrame;
-	
-	public TrafficTicketLoginForm() 
-	{
-		super("Username:","Password:","","","Login");
-		super.render();
-		this.initiateListners();
+	private JLabel lblUsername;
+	private JLabel lblPassword;
+	private JTextField txtUsername;
+	private JPasswordField txtPassword;
+	private JButton btnLogin;
+
+	public TrafficTicketLoginForm() {
+		initialize();
 	}
-	
-	public TrafficTicketLoginForm(JFrame parentFrame) 
-	{
-		super("Username:","Password:","","","Login");
-		super.render();
+
+	private void initialize() {
+		setLayout(new FormLayout(new ColumnSpec[] { ColumnSpec.decode("74px"),
+				ColumnSpec.decode("87px"),
+				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+				ColumnSpec.decode("118px:grow"), }, new RowSpec[] {
+				FormFactory.LINE_GAP_ROWSPEC, RowSpec.decode("28px"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("max(20dlu;default)"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("max(16dlu;default)"),
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC, }));
+
+		this.initiateListners();
+
+		this.lblUsername = new JLabel("Username:");
+		add(this.lblUsername, "2, 4, right, center");
+
+		this.txtUsername = new JTextField();
+		add(this.txtUsername, "4, 4, left, center");
+		this.txtUsername.setColumns(20);
+
+		this.lblPassword = new JLabel("Password:");
+		add(this.lblPassword, "2, 6, right, center");
+
+		this.txtPassword = new JPasswordField();
+		this.txtPassword.setColumns(20);
+		add(this.txtPassword, "4, 6, left, default");
+
+		this.btnLogin = new JButton("");
+		this.btnLogin.setIcon(new ImageIcon(TrafficTicketLoginForm.class
+				.getResource("/trafficticket/jcf/resources/LoginIcon.gif")));
+		add(this.btnLogin, "4, 8, left, center");
+	}
+
+	public TrafficTicketLoginForm(JFrame parentFrame) {
 		this.parentFrame = parentFrame;
 		this.initiateListners();
 	}
-	
-	public void setParentFrame(JFrame parentFrame) 
-	{
+
+	public void setParentFrame(JFrame parentFrame) {
 		this.parentFrame = parentFrame;
 	}
-	
-	public void initiateListners()
-	{
-		this.btnLoginController = new BtnLoginController(this.lblStatus);
-		this.btnLoginController.setParentFrame(parentFrame);
-		this.btnLogin.addMouseListener(btnLoginController);
-		this.btnLogin.addActionListener(btnLoginController);
+
+	public void initiateListners() {
+
 	}
-	
+
 }

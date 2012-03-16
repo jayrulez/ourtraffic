@@ -1,4 +1,4 @@
-package trafficlayout;
+package trafficticket.view;
 import javax.swing.JPanel;
 
 public class ContentPanel extends JPanel

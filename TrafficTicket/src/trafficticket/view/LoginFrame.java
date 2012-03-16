@@ -1,4 +1,4 @@
-package trafficlayout;
+package trafficticket.view;
 
 import java.awt.Dimension;
 

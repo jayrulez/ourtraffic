@@ -1,4 +1,4 @@
-package trafficlayout;
+package trafficticket.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

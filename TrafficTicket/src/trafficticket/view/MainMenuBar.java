@@ -1,4 +1,4 @@
-package trafficlayout.menubar;
+package trafficticket.view;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
