@@ -3,7 +3,7 @@ package trafficticket.jcf.view;
 import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
-import javax.swing.BoxLayout;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
@@ -11,7 +11,6 @@ import com.jgoodies.forms.factories.FormFactory;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
@@ -19,7 +18,7 @@ import javax.swing.JScrollPane;
 import trafficticket.view.ContentPage;
 
 
-public class ViewTicket extends ContentPage
+public class ViewOffense extends ContentPage
 {
 
 	private static final long serialVersionUID = 1L;
@@ -31,12 +30,14 @@ public class ViewTicket extends ContentPage
 	private JLabel lblTicketNumber;
 	private JTextField txtTicketNumber;
 	private JButton btnSearch;
-	private JTable table;
+	private JTable offenseTable;
 	private JScrollPane scrollPane;
-	public ViewTicket() {
+	
+	public ViewOffense() {
 		this.initialize();
 	}
-
+	
+	
 	private void initialize() {
 		setLayout(new BorderLayout());
 		
@@ -83,25 +84,25 @@ public class ViewTicket extends ContentPage
 		this.btnSearch = new JButton("Search");
 		this.pnlTicketSearch.add(this.btnSearch, "2, 6");
 		
-		this.table = new JTable();
+		this.offenseTable = new JTable();
 		
-		this.scrollPane = new JScrollPane(this.table);
+		this.scrollPane = new JScrollPane(this.offenseTable);
 		add(this.scrollPane, BorderLayout.CENTER);
 		
 		
-		this.table.setFillsViewportHeight(true);
-		this.table.setCellSelectionEnabled(true);
-		this.table.setColumnSelectionAllowed(true);
-		this.table.setModel(new DefaultTableModel(
+		this.offenseTable.setFillsViewportHeight(true);
+		this.offenseTable.setCellSelectionEnabled(true);
+		this.offenseTable.setColumnSelectionAllowed(true);
+		this.offenseTable.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
 			},
 			new String[] {
-				"Ticket Number", "Payment Status", "Offender TRN", "Offender Name", "Offense Date", "Fine (JMD)", "Points"
+				"Offense Code", "Offense Name"
 			}
 		) {
 			/**
@@ -109,17 +110,20 @@ public class ViewTicket extends ContentPage
 			 */
 			private static final long serialVersionUID = 1L;
 			Class[] columnTypes = new Class[] {
-				Integer.class, String.class, Integer.class, String.class, String.class, Double.class, Integer.class
+				Integer.class, String.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
+			boolean[] columnEditables = new boolean[] {
+				false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
 		});
-		this.table.getColumnModel().getColumn(0).setPreferredWidth(110);
-		this.table.getColumnModel().getColumn(1).setPreferredWidth(91);
-		this.table.getColumnModel().getColumn(2).setPreferredWidth(94);
-		this.table.getColumnModel().getColumn(3).setPreferredWidth(169);
-		this.table.getColumnModel().getColumn(4).setPreferredWidth(93);
+		this.offenseTable.getColumnModel().getColumn(0).setPreferredWidth(110);
+		this.offenseTable.getColumnModel().getColumn(1).setPreferredWidth(225);
 	}
 	
 	public void startInit()
