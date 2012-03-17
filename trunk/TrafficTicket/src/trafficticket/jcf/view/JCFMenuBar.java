@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import trafficticket.jcf.view.form.IssueTicketForm;
 import trafficticket.jcf.controller.JCFMainMenuController;
+import trafficticket.view.MasterFrame;
 
 public class JCFMenuBar extends JMenuBar
 {
@@ -14,12 +15,12 @@ public class JCFMenuBar extends JMenuBar
 	
 	private JPanel targetContentPanel;
 	
-	protected JMenu fileMenu;
-	protected JMenu editMenu;
-	protected JMenu viewMenu;
-	protected JMenu helpMenu;
-	protected JMenuItem exitMenuItem;
-	protected JMenuItem aboutMenuItem;
+	private JMenu fileMenu;
+	private JMenu editMenu;
+	private JMenu viewMenu;
+	private JMenu helpMenu;
+	private JMenuItem exitMenuItem;
+	private JMenuItem aboutMenuItem;
 	
 	private JMenu optionMenu;
 	
@@ -36,11 +37,11 @@ public class JCFMenuBar extends JMenuBar
 	private IssueTicketForm issueTicketForm;
 	
 	public JCFMenuBar()
-	{
-		this.initiate();	
+	{	
+		
 	}
 	
-	public void initiate()
+	public void initialize()
 	{
 		this.fileMenu = new JMenu("File");
 		this.editMenu = new JMenu("Edit");
@@ -84,6 +85,8 @@ public class JCFMenuBar extends JMenuBar
 		
 		this.issueTicketForm = new IssueTicketForm();
 		//issueTicketForm.render();
+		
+		this.targetContentPanel = ((MasterFrame)this.getTopLevelAncestor()).getContentPanel();
 		this.issueTicketItem.addActionListener(new JCFMainMenuController(this.targetContentPanel,this.issueTicketForm));
 	}
 	
