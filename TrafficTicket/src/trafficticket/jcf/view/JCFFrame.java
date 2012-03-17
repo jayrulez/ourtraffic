@@ -1,7 +1,5 @@
 package trafficticket.jcf.view;
 
-import java.awt.Dimension;
-
 import trafficticket.view.MasterFrame;
 
 public class JCFFrame extends MasterFrame implements Runnable {
@@ -11,8 +9,7 @@ public class JCFFrame extends MasterFrame implements Runnable {
 	private JCFContentPanel contentPanel;
 
 	public JCFFrame() {
-		super.initialise();
-		this.initialise();
+		
 	}
 
 	public void initialise() {
@@ -21,18 +18,19 @@ public class JCFFrame extends MasterFrame implements Runnable {
 
 		this.mainMenuBar = new JCFMenuBar();
 		this.setJMenuBar(this.mainMenuBar);
+		this.mainMenuBar.initialize();
 
 		this.mainNavMenu = new JCFMainMenu();
-		super.setLeftNavPanelContent(this.mainNavMenu);
+		this.setLeftNavPanelContent(this.mainNavMenu);
 
 		this.contentPanel = new JCFContentPanel();
-		super.setContentPanel(this.contentPanel);
+		this.setContentPanel(this.contentPanel);
 
 		this.mainMenuBar.setTargetContentPanel(this.contentPanel);
-		super.setVisible(true);
+		this.setVisible(true);
 	}
 
 	public void run() {
-
+		this.initialise();
 	}
 }

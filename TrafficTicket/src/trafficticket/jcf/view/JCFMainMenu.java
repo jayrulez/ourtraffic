@@ -13,6 +13,9 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 import javax.swing.JButton;
+import java.awt.Component;
+import javax.swing.SwingConstants;
+import net.miginfocom.swing.MigLayout;
 
 public class JCFMainMenu extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -34,6 +37,11 @@ public class JCFMainMenu extends JPanel {
 	private JToggleButton btnToggleTicket;
 	private JToggleButton btnToggleOffender;
 	private JToggleButton btnToggleOffense;
+	private JButton btnIssueTicket_1;
+	private JToggleButton tglbtnViewTicket;
+	private JButton btnNewButton;
+	private JButton btnNewButton_1;
+	private JButton btnNewButton_2;
 
 	public JCFMainMenu() {
 		this.initialize();
@@ -43,30 +51,19 @@ public class JCFMainMenu extends JPanel {
 	public void initialize() {
 
 		this.btnToggleTicket = new JToggleButton("Ticket");
+		this.btnToggleTicket.setHorizontalAlignment(SwingConstants.LEFT);
 		this.btnToggleOffender = new JToggleButton("Offender");
 		this.btnToggleOffense = new JToggleButton("Offense");
 
+		this.ticketItemPanel = new JPanel();
+		this.offenderItemPanel = new JPanel();
+		this.offenseItemPanel = new JPanel();
+
 		this.menuContainer = new JPanel();
 
-		this.ticketMenuPanel = new MainMenuPanel(this.ticketItemPanel);
-		this.offenderMenuPanel = new MainMenuPanel(this.offenderItemPanel);
-		this.offenseMenuPanel = new MainMenuPanel(this.offenseItemPanel);
-
-		this.ticketMenuPanel.setBtnToggle(this.btnToggleTicket);
-		this.offenseMenuPanel.setBtnToggle(this.btnToggleOffense);
-		this.offenderMenuPanel.setBtnToggle(this.btnToggleOffender);
-
-		this.ticketMenuPanel.setPreferredSize(new Dimension(180, 100));
-		this.offenderMenuPanel.setPreferredSize(new Dimension(180, 100));
-		this.offenseMenuPanel.setPreferredSize(new Dimension(180, 100));
-		this.menuContainer.setMaximumSize(new Dimension(200, 300));
-		this.setMaximumSize(new Dimension(200, 500));
-
-		this.menuContainer.setLayout(new BoxLayout(this.menuContainer,
-				BoxLayout.Y_AXIS));
-
-		this.menuContainer.add(this.ticketMenuPanel);
-		this.ticketMenuPanel.setLayout(new FormLayout(
+		this.ticketMenuPanel = new MainMenuPanel(this.ticketItemPanel,
+				this.btnToggleTicket);
+		this.ticketItemPanel.setLayout(new FormLayout(
 				new ColumnSpec[] { FormFactory.RELATED_GAP_COLSPEC,
 						FormFactory.DEFAULT_COLSPEC, }, new RowSpec[] {
 						FormFactory.RELATED_GAP_ROWSPEC,
@@ -74,39 +71,58 @@ public class JCFMainMenu extends JPanel {
 						FormFactory.RELATED_GAP_ROWSPEC,
 						FormFactory.DEFAULT_ROWSPEC, }));
 
-		this.btnIssueTicket = new JButton("");
-		this.btnIssueTicket
-				.setIcon(new ImageIcon(
-						JCFMainMenu.class
-								.getResource("/trafficticket/jcf/resources/new_ticket_icon.gif")));
-		this.ticketMenuPanel.add(this.btnIssueTicket, "2, 2, center, center");
+		this.btnIssueTicket_1 = new JButton("Issue Ticket");
+		this.ticketItemPanel.add(this.btnIssueTicket_1, "2, 2, center, center");
 
-		this.btnViewTicket = new JButton("View Tciket");
-		this.ticketMenuPanel.add(this.btnViewTicket, "2, 4");
+		this.tglbtnViewTicket = new JToggleButton("View Ticket");
+		this.ticketItemPanel.add(this.tglbtnViewTicket, "2, 4, center, center");
+
+		this.offenderMenuPanel = new MainMenuPanel(this.offenderItemPanel,
+				this.btnToggleOffender);
+		this.offenderItemPanel.setLayout(new FormLayout(
+				new ColumnSpec[] { FormFactory.RELATED_GAP_COLSPEC,
+						FormFactory.DEFAULT_COLSPEC, }, new RowSpec[] {
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC,
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC, }));
+
+		this.btnNewButton = new JButton("New button");
+		this.offenderItemPanel.add(this.btnNewButton, "2, 2");
+
+		this.btnNewButton_1 = new JButton("New button");
+		this.offenderItemPanel.add(this.btnNewButton_1, "2, 4");
+		this.offenseMenuPanel = new MainMenuPanel(this.offenseItemPanel,
+				this.btnToggleOffense);
+		this.offenseItemPanel.setLayout(new FormLayout(
+				new ColumnSpec[] { FormFactory.RELATED_GAP_COLSPEC,
+						FormFactory.DEFAULT_COLSPEC, }, new RowSpec[] {
+						FormFactory.RELATED_GAP_ROWSPEC,
+						FormFactory.DEFAULT_ROWSPEC, }));
+
+		this.btnNewButton_2 = new JButton("New button");
+		this.offenseItemPanel.add(this.btnNewButton_2, "2, 2");
+
+		this.ticketMenuPanel.setPreferredSize(new Dimension(180, 100));
+		this.offenderMenuPanel.setPreferredSize(new Dimension(180, 100));
+		this.offenseMenuPanel.setPreferredSize(new Dimension(180, 100));
+		this.menuContainer.setMaximumSize(new Dimension(200, 300));
+		this.setMaximumSize(new Dimension(200, 500));
+		this.menuContainer.setLayout(new BoxLayout(this.menuContainer,
+				BoxLayout.Y_AXIS));
+
+		this.menuContainer.add(this.ticketMenuPanel);
 		this.menuContainer.add(this.offenderMenuPanel);
-		this.offenderMenuPanel.setLayout(new FormLayout(
-				new ColumnSpec[] { FormFactory.RELATED_GAP_COLSPEC,
-						FormFactory.DEFAULT_COLSPEC, }, new RowSpec[] {
-						FormFactory.RELATED_GAP_ROWSPEC,
-						FormFactory.DEFAULT_ROWSPEC, }));
-
-		this.btnViewOffender = new JButton("View Offender");
-		this.offenderMenuPanel
-				.add(this.btnViewOffender, "2, 2, center, center");
 		this.menuContainer.add(this.offenseMenuPanel);
-		this.offenseMenuPanel.setLayout(new FormLayout(
-				new ColumnSpec[] { FormFactory.RELATED_GAP_COLSPEC,
-						FormFactory.DEFAULT_COLSPEC, }, new RowSpec[] {
-						FormFactory.RELATED_GAP_ROWSPEC,
-						FormFactory.DEFAULT_ROWSPEC, }));
-
-		this.btnViewOffense = new JButton("View Offense");
-		this.offenseMenuPanel.add(this.btnViewOffense, "2, 2, center, center");
 		// this.menuContainer.add(Box.createVerticalGlue());
 
 		this.add(this.menuContainer);
 
 		// this.ticketItemPanel.add(new ImageIcon());
+	}
+
+	public void initialiseLisenters() {
+
 	}
 
 	public void render() {

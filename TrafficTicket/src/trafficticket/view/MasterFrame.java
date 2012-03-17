@@ -17,7 +17,7 @@ public class MasterFrame extends JFrame {
 	private JScrollPane contentScrollPane;
 
 	public MasterFrame() {
-		this.initialise();
+		this.initGui();
 	}
 
 	public MasterFrame(JPanel mainMenu, JPanel contentPanel,
@@ -30,15 +30,20 @@ public class MasterFrame extends JFrame {
 		this.contentScrollPane = contentScrollPane;
 	}
 
+	public JPanel getContentPanel() 
+	{
+		return contentPanel;
+	}
+	
 	public void setLeftNavPanelContent(JPanel content) {
 		this.leftNavPanel.add(content);
 	}
 
 	public void setContentPanel(JPanel content) {
-		this.contentPanel = content;
+		this.contentPanel.add(content);
 	}
 
-	public void initialise() {
+	public void initGui() {
 
 		this.splitPane = new JSplitPane();
 		this.contentPanel = new JPanel();
@@ -72,7 +77,5 @@ public class MasterFrame extends JFrame {
 		this.splitPane.setContinuousLayout(true);
 
 		this.add(this.splitPane);
-		this.setVisible(true);
-
 	}
 }
