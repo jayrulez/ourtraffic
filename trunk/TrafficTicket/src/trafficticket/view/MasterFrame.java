@@ -55,6 +55,7 @@ public class MasterFrame extends JFrame {
 		this.menuScrollPane.setMaximumSize(new Dimension(200, 500));
 
 		this.setMinimumSize(new Dimension(600, 400));
+		this.setSize(new Dimension(700, 600));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		this.splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
