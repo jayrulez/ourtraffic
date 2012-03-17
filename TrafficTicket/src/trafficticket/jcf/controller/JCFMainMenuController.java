@@ -22,14 +22,19 @@ public class JCFMainMenuController extends MouseAdapter  implements ActionListen
 	@Override
 	public void actionPerformed(ActionEvent arg0)
 	{
-		this.contentPanel.initialize();
+		this.contentPanel.startInit();
+		this.targetPanel.removeAll();
+		
 		this.targetPanel.add(this.contentPanel);
 		this.targetPanel.revalidate();
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) 
 	{
-		this.contentPanel.initialize();
+		this.contentPanel.startInit();
+		this.targetPanel.removeAll();
+		
 		this.targetPanel.add(this.contentPanel);
+		this.targetPanel.revalidate();
 	}
 }

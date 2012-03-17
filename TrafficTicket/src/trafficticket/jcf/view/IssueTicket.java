@@ -1,4 +1,4 @@
-package trafficticket.jcf.view.form;
+package trafficticket.jcf.view;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -17,7 +17,7 @@ import javax.swing.JButton;
 
 import trafficticket.view.ContentPage;
 
-public class IssueTicketForm extends ContentPage {
+public class IssueTicket extends ContentPage {
 
 	private JLabel lblExpiryDate;
 	private JLabel lblLicenseType;
@@ -88,10 +88,10 @@ public class IssueTicketForm extends ContentPage {
 	private JLabel lblExistingPointsValue;
 	private JLabel lblExistingExpiryDateValue;
 
-	public IssueTicketForm() {
+	public IssueTicket() {
+		this.initialize();
 	}
-
-	public void initialize() {
+	private void initialize() {
 
 		this.offenderPanel = new JPanel();
 		this.ticketPanel = new JPanel();
@@ -468,7 +468,8 @@ public class IssueTicketForm extends ContentPage {
 
 	}
 
-	public void render() {
-
+	public void startInit()
+	{
+		this.initialize();
 	}
 }

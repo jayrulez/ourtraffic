@@ -8,5 +8,5 @@ public abstract class ContentPage extends JPanel
 	{
 		// TODO Auto-generated constructor stub
 	}
-	public abstract void initialize();
+	public abstract void startInit();
 }
