@@ -1,12 +1,12 @@
 package trafficticket.view;
 import javax.swing.JPanel;
 
-public class ContentPanel extends JPanel
+public abstract class ContentPage extends JPanel
 {
 	private static final long serialVersionUID = 1L;
-	public ContentPanel() 
+	public ContentPage() 
 	{
 		// TODO Auto-generated constructor stub
 	}
-	
+	public abstract void initialize();
 }
