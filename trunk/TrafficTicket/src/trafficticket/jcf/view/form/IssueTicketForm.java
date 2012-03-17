@@ -15,7 +15,9 @@ import java.awt.FlowLayout;
 import javax.swing.JToggleButton;
 import javax.swing.JButton;
 
-public class IssueTicketForm extends JPanel {
+import trafficticket.view.ContentPage;
+
+public class IssueTicketForm extends ContentPage {
 
 	private JLabel lblExpiryDate;
 	private JLabel lblLicenseType;
@@ -87,10 +89,9 @@ public class IssueTicketForm extends JPanel {
 	private JLabel lblExistingExpiryDateValue;
 
 	public IssueTicketForm() {
-		this.initialise();
 	}
 
-	public void initialise() {
+	public void initialize() {
 
 		this.offenderPanel = new JPanel();
 		this.ticketPanel = new JPanel();

@@ -1,18 +1,20 @@
 package trafficticket.jcf.view;
 
+import javax.swing.JPanel;
+
 import trafficticket.view.MasterFrame;
 
 public class JCFFrame extends MasterFrame implements Runnable {
 	private static final long serialVersionUID = 1L;
 	private JCFMenuBar mainMenuBar;
 	private JCFMainMenu mainNavMenu;
-	private JCFContentPanel contentPanel;
+	private JPanel contentPanel;
 
 	public JCFFrame() {
 		
 	}
 
-	public void initialise() {
+	public void initialize() {
 
 		this.setTitle("JCF Traffic");
 
@@ -23,7 +25,7 @@ public class JCFFrame extends MasterFrame implements Runnable {
 		this.mainNavMenu = new JCFMainMenu();
 		this.setLeftNavPanelContent(this.mainNavMenu);
 
-		this.contentPanel = new JCFContentPanel();
+		this.contentPanel = new JPanel();
 		this.setContentPanel(this.contentPanel);
 
 		this.mainMenuBar.setTargetContentPanel(this.contentPanel);
@@ -31,6 +33,6 @@ public class JCFFrame extends MasterFrame implements Runnable {
 	}
 
 	public void run() {
-		this.initialise();
+		this.initialize();
 	}
 }

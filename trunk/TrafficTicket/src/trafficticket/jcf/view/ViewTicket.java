@@ -16,8 +16,10 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 
+import trafficticket.view.ContentPage;
 
-public class ViewTicket extends JPanel
+
+public class ViewTicket extends ContentPage
 {
 	private JPanel pnlTicketSearch;
 	private JLabel lblOffenderTrn;
@@ -30,9 +32,8 @@ public class ViewTicket extends JPanel
 	private JTable table;
 	private JScrollPane scrollPane;
 	public ViewTicket() {
-		initialize();
 	}
-	private void initialize() {
+	public void initialize() {
 		setLayout(new BorderLayout());
 		
 		this.pnlTicketSearch = new JPanel();

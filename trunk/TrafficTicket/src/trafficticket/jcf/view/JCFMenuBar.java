@@ -83,11 +83,12 @@ public class JCFMenuBar extends JMenuBar
 		this.add(this.optionMenu);
 		this.add(this.helpMenu);
 		
-		this.issueTicketForm = new IssueTicketForm();
+		//this.issueTicketForm = new IssueTicketForm();
 		//issueTicketForm.render();
 		
 		this.targetContentPanel = ((MasterFrame)this.getTopLevelAncestor()).getContentPanel();
-		this.issueTicketItem.addActionListener(new JCFMainMenuController(this.targetContentPanel,this.issueTicketForm));
+		this.issueTicketItem.addActionListener(new JCFMainMenuController(this.targetContentPanel,new IssueTicketForm()));
+		this.viewTicketItem.addActionListener(new JCFMainMenuController(this.targetContentPanel,new ViewTicket()));
 	}
 	
 	public void setTargetContentPanel(JPanel targetContentPanel)
