@@ -71,16 +71,17 @@ public class JCFMainMenu extends JPanel {
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("max(40dlu;default)"),}));
+				RowSpec.decode("5dlu"),
+				FormFactory.DEFAULT_ROWSPEC,
+				RowSpec.decode("5dlu"),}));
 		
 		this.btnIssueTicket = new JButton("Issue Ticket");
-		this.btnIssueTicket.setIcon(new ImageIcon(JCFMainMenu.class.getResource("/trafficticket/jcf/resources/new_ticket_icon.gif")));
-		this.ticketMenuPanel.add(this.btnIssueTicket, "4, 4, 2, 1");
+		this.btnIssueTicket.setIcon(new ImageIcon(JCFMainMenu.class.getResource("/trafficticket/resources/new_ticket_icon.gif")));
+		this.ticketMenuPanel.add(this.btnIssueTicket, "4, 2");
 		
 		this.btnViewTickets = new JButton("View Tickets");
-		this.btnViewTickets.setIcon(new ImageIcon(JCFMainMenu.class.getResource("/trafficticket/jcf/resources/searchIcon.png")));
-		this.ticketMenuPanel.add(this.btnViewTickets, "8, 4");
+		this.btnViewTickets.setIcon(new ImageIcon(JCFMainMenu.class.getResource("/trafficticket/resources/searchIcon.png")));
+		this.ticketMenuPanel.add(this.btnViewTickets, "4, 4");
 		this.add(this.offenderMenuPanel);
 		this.offenderMenuPanel.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("31px"),
@@ -90,7 +91,7 @@ public class JCFMainMenu extends JPanel {
 				RowSpec.decode("51px"),}));
 		
 		this.btnViewOffender = new JButton("View Offender");
-		this.btnViewOffender.setIcon(new ImageIcon(JCFMainMenu.class.getResource("/trafficticket/jcf/resources/viewOffenderIcon.png")));
+		this.btnViewOffender.setIcon(new ImageIcon(JCFMainMenu.class.getResource("/trafficticket/resources/viewOffenderIcon.png")));
 		this.offenderMenuPanel.add(this.btnViewOffender, "2, 2, left, top");
 		this.add(this.offenseMenuPanel);
 		this.offenseMenuPanel.setLayout(new FormLayout(new ColumnSpec[] {
@@ -106,7 +107,7 @@ public class JCFMainMenu extends JPanel {
 		
 		this.btnOffenseType = new JButton("Offense Types");
 		this.btnOffenseType.setToolTipText("View Types of Offenses");
-		this.btnOffenseType.setIcon(new ImageIcon(JCFMainMenu.class.getResource("/trafficticket/jcf/resources/viewOffensesIcon.jpg")));
+		this.btnOffenseType.setIcon(new ImageIcon(JCFMainMenu.class.getResource("/trafficticket/resources/viewOffensesIcon.jpg")));
 		this.offenseMenuPanel.add(this.btnOffenseType, "4, 4");
 	}
 

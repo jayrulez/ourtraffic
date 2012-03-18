@@ -14,7 +14,7 @@ public class TaxFrame extends MasterFrame implements Runnable {
 		
 	}
 
-	public void initialize() {
+	public void initGui() {
 
 		this.setTitle("Tax Traffic");
 
@@ -42,6 +42,6 @@ public class TaxFrame extends MasterFrame implements Runnable {
 	}
 	public void run() 
 	{
-			this.initialize();
+			this.initGui();
 	}
 }

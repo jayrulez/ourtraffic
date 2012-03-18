@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import trafficticket.jcf.view.JCFFrame;
+import trafficticket.taxoffice.view.TaxFrame;
 
 public class BtnLoginController extends MouseAdapter implements ActionListener {
 
@@ -55,11 +56,9 @@ public class BtnLoginController extends MouseAdapter implements ActionListener {
 
 	private void login() {
 		this.lblControllerStatus.setText("Logging in...");
-
-		/* Close the login frame (frame that contains the login form) */
-
-		if (true/* logged in user is JCF user */) {
-			// try {
+		
+		if (true/* logged in user is Police Officer*/) 
+		{
 			// set the login frame invisible
 			this.parentFrame.setVisible(false);
 
@@ -67,14 +66,18 @@ public class BtnLoginController extends MouseAdapter implements ActionListener {
 			this.parentFrame.dispose();
 
 			// start JCF program module
-			JCFFrame jcfFrame = new JCFFrame();
-			SwingUtilities.invokeLater(jcfFrame);
-
-			/* catch null pointer exceptions */
 			/*
-			 * } catch (NullPointerException ex) { this.lblControllerStatus
-			 * .setText("An unexpected error occured. Please try again."); }
-			 */
+			JCFFrame jcfFrame = new JCFFrame();
+			SwingUtilities.invokeLater(jcfFrame);*/
+			
+			// start Tax Office program module
+			TaxFrame taxFrame = new TaxFrame();
+			SwingUtilities.invokeLater(taxFrame);	
 		}
+		else if(true /*logged in user is TaxOfficer*/)
+		{
+
+		}
+
 	}
 }

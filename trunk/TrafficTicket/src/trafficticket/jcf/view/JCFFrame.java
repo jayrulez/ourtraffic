@@ -14,7 +14,7 @@ public class JCFFrame extends MasterFrame implements Runnable {
 		
 	}
 
-	public void initialize() {
+	public void initGui() {
 
 		this.setTitle("JCF Traffic");
 
@@ -42,6 +42,6 @@ public class JCFFrame extends MasterFrame implements Runnable {
 	}
 	public void run() 
 	{
-			this.initialize();
+			this.initGui();
 	}
 }
