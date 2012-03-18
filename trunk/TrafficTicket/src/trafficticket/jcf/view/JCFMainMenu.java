@@ -76,7 +76,7 @@ public class JCFMainMenu extends JPanel {
 				RowSpec.decode("5dlu"),}));
 		
 		this.btnIssueTicket = new JButton("Issue Ticket");
-		this.btnIssueTicket.setIcon(new ImageIcon(JCFMainMenu.class.getResource("/trafficticket/resources/new_ticket_icon.gif")));
+		this.btnIssueTicket.setIcon(new ImageIcon(JCFMainMenu.class.getResource("/trafficticket/resources/issueTicketIcon.gif")));
 		this.ticketMenuPanel.add(this.btnIssueTicket, "4, 2");
 		
 		this.btnViewTickets = new JButton("View Tickets");
