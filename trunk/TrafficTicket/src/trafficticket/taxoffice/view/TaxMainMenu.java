@@ -5,20 +5,16 @@ import java.awt.Dimension;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import javax.swing.JToggleButton;
 
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 import javax.swing.JButton;
-import java.awt.Component;
-import javax.swing.SwingConstants;
-import net.miginfocom.swing.MigLayout;
-import java.awt.GridLayout;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.Color;
+import javax.swing.SwingConstants;
 
 public class TaxMainMenu extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -27,7 +23,7 @@ public class TaxMainMenu extends JPanel {
 
 	private JPanel ticketMenuPanel;
 	private JPanel offenseMenuPanel;
-	private JButton btnIssueTicket;
+	private JButton btnTicketPayment;
 	private JButton btnViewTickets;
 	private JButton btnOffenseType;
 
@@ -74,9 +70,10 @@ public class TaxMainMenu extends JPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(40dlu;default)"),}));
 		
-		this.btnIssueTicket = new JButton("Issue Ticket");
-		this.btnIssueTicket.setIcon(new ImageIcon(TaxMainMenu.class.getResource("/trafficticket/resources/new_ticket_icon.gif")));
-		this.ticketMenuPanel.add(this.btnIssueTicket, "4, 4, 2, 1");
+		this.btnTicketPayment = new JButton("Ticket Payment");
+		this.btnTicketPayment.setHorizontalAlignment(SwingConstants.LEFT);
+		this.btnTicketPayment.setIcon(new ImageIcon(TaxMainMenu.class.getResource("/trafficticket/resources/ticketPayment.png")));
+		this.ticketMenuPanel.add(this.btnTicketPayment, "4, 4, 2, 1");
 		
 		this.btnViewTickets = new JButton("View Tickets");
 		this.btnViewTickets.setIcon(new ImageIcon(TaxMainMenu.class.getResource("/trafficticket/resources/searchIcon.png")));

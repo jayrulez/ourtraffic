@@ -1,7 +1,6 @@
 package trafficticket.jcf.view;
 
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -11,7 +10,6 @@ import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 import javax.swing.SwingConstants;
 import javax.swing.BoxLayout;
-import java.awt.FlowLayout;
 import javax.swing.JToggleButton;
 import javax.swing.JButton;
 
@@ -19,6 +17,10 @@ import trafficticket.view.ContentPage;
 
 public class IssueTicket extends ContentPage {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JLabel lblExpiryDate;
 	private JLabel lblLicenseType;
 	private JLabel lblOffenderParish;

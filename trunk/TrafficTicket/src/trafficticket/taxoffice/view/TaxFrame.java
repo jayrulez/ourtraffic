@@ -16,7 +16,7 @@ public class TaxFrame extends MasterFrame implements Runnable {
 
 	public void initialize() {
 
-		this.setTitle("JCF Traffic");
+		this.setTitle("Tax Traffic");
 
 		this.mainMenuBar = new TaxMenuBar();
 		this.setJMenuBar(this.mainMenuBar);
