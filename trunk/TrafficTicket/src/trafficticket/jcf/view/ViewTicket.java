@@ -17,6 +17,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 
 import trafficticket.view.ContentPage;
+import javax.swing.JCheckBox;
+import javax.swing.ImageIcon;
 
 
 public class ViewTicket extends ContentPage
@@ -30,9 +32,11 @@ public class ViewTicket extends ContentPage
 	private JTextField txtPaymentStatus;
 	private JLabel lblTicketNumber;
 	private JTextField txtTicketNumber;
-	private JButton btnSearch;
+	private JButton btnRunView;
 	private JTable table;
 	private JScrollPane scrollPane;
+	private JCheckBox chbxViewAll;
+	private JLabel lblViewAll;
 	public ViewTicket() {
 		this.initialize();
 	}
@@ -57,6 +61,7 @@ public class ViewTicket extends ContentPage
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.UNRELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		this.lblOffenderTrn = new JLabel("Offender TRN:");
@@ -80,8 +85,15 @@ public class ViewTicket extends ContentPage
 		this.pnlTicketSearch.add(this.txtPaymentStatus, "4, 4, fill, default");
 		this.txtPaymentStatus.setColumns(10);
 		
-		this.btnSearch = new JButton("Search");
-		this.pnlTicketSearch.add(this.btnSearch, "2, 6");
+		this.chbxViewAll = new JCheckBox("");
+		this.pnlTicketSearch.add(this.chbxViewAll, "2, 6, right, default");
+		
+		this.lblViewAll = new JLabel("View All");
+		this.pnlTicketSearch.add(this.lblViewAll, "4, 6, left, default");
+		
+		this.btnRunView = new JButton("Run View");
+		this.btnRunView.setIcon(new ImageIcon(ViewTicket.class.getResource("/trafficticket/jcf/resources/viewIcon.gif")));
+		this.pnlTicketSearch.add(this.btnRunView, "2, 7");
 		
 		this.table = new JTable();
 		

@@ -16,6 +16,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 
 import trafficticket.view.ContentPage;
+import javax.swing.JCheckBox;
+import javax.swing.ImageIcon;
 
 
 public class ViewOffense extends ContentPage
@@ -23,15 +25,13 @@ public class ViewOffense extends ContentPage
 
 	private static final long serialVersionUID = 1L;
 	private JPanel pnlTicketSearch;
-	private JLabel lblOffenderTrn;
-	private JLabel lblPaymentStatus;
-	private JTextField txtOffenderTrn;
-	private JTextField txtPaymentStatus;
-	private JLabel lblTicketNumber;
-	private JTextField txtTicketNumber;
-	private JButton btnSearch;
+	private JLabel lblOffenseCode;
+	private JTextField txtOffenseCode;
+	private JButton btnRunView;
 	private JTable offenseTable;
 	private JScrollPane scrollPane;
+	private JCheckBox chbxViewAll;
+	private JLabel lblViewAll;
 	
 	public ViewOffense() {
 		this.initialize();
@@ -60,29 +60,22 @@ public class ViewOffense extends ContentPage
 				FormFactory.UNRELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		this.lblOffenderTrn = new JLabel("Offender TRN:");
-		this.pnlTicketSearch.add(this.lblOffenderTrn, "2, 2, right, default");
+		this.lblOffenseCode = new JLabel("Offense Code:");
+		this.pnlTicketSearch.add(this.lblOffenseCode, "2, 2, right, default");
 		
-		this.txtOffenderTrn = new JTextField();
-		this.pnlTicketSearch.add(this.txtOffenderTrn, "4, 2, fill, default");
-		this.txtOffenderTrn.setColumns(10);
+		this.txtOffenseCode = new JTextField();
+		this.pnlTicketSearch.add(this.txtOffenseCode, "4, 2, fill, default");
+		this.txtOffenseCode.setColumns(10);
 		
-		this.lblTicketNumber = new JLabel("Ticket Number:");
-		this.pnlTicketSearch.add(this.lblTicketNumber, "6, 2, right, default");
+		this.chbxViewAll = new JCheckBox("");
+		this.pnlTicketSearch.add(this.chbxViewAll, "2, 4, right, default");
 		
-		this.txtTicketNumber = new JTextField();
-		this.pnlTicketSearch.add(this.txtTicketNumber, "8, 2, fill, default");
-		this.txtTicketNumber.setColumns(10);
+		this.lblViewAll = new JLabel("View All");
+		this.pnlTicketSearch.add(this.lblViewAll, "4, 4, left, default");
 		
-		this.lblPaymentStatus = new JLabel("Payment Status:");
-		this.pnlTicketSearch.add(this.lblPaymentStatus, "2, 4, right, default");
-		
-		this.txtPaymentStatus = new JTextField();
-		this.pnlTicketSearch.add(this.txtPaymentStatus, "4, 4, fill, default");
-		this.txtPaymentStatus.setColumns(10);
-		
-		this.btnSearch = new JButton("Search");
-		this.pnlTicketSearch.add(this.btnSearch, "2, 6");
+		this.btnRunView = new JButton("Run View");
+		this.btnRunView.setIcon(new ImageIcon(ViewOffense.class.getResource("/trafficticket/jcf/resources/viewIcon.gif")));
+		this.pnlTicketSearch.add(this.btnRunView, "2, 6");
 		
 		this.offenseTable = new JTable();
 		

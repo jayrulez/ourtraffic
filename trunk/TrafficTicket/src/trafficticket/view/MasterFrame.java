@@ -35,12 +35,20 @@ public class MasterFrame extends JFrame {
 		return contentPanel;
 	}
 	
-	public void setLeftNavPanelContent(JPanel content) {
+	public void addLeftNavPanelContent(JPanel content) {
 		this.leftNavPanel.add(content);
 	}
 
-	public void setContentPanel(JPanel content) {
+	public void addContentPanel(JPanel content) {
 		this.contentPanel.add(content);
+	}
+	
+	public void setLeftNavPanelContent(JPanel content) {
+		this.leftNavPanel = content;
+	}
+
+	public void setContentPanel(JPanel content) {
+		this.contentPanel = content;
 	}
 
 	public void initGui() {
