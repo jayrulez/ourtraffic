@@ -67,17 +67,19 @@ public class TaxMainMenu extends JPanel {
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
+				RowSpec.decode("5dlu"),
+				RowSpec.decode("max(40dlu;default)"),
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("max(40dlu;default)"),}));
+				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		this.btnTicketPayment = new JButton("Ticket Payment");
 		this.btnTicketPayment.setHorizontalAlignment(SwingConstants.LEFT);
 		this.btnTicketPayment.setIcon(new ImageIcon(TaxMainMenu.class.getResource("/trafficticket/resources/ticketPayment.png")));
-		this.ticketMenuPanel.add(this.btnTicketPayment, "4, 4, 2, 1");
+		this.ticketMenuPanel.add(this.btnTicketPayment, "4, 2");
 		
 		this.btnViewTickets = new JButton("View Tickets");
 		this.btnViewTickets.setIcon(new ImageIcon(TaxMainMenu.class.getResource("/trafficticket/resources/searchIcon.png")));
-		this.ticketMenuPanel.add(this.btnViewTickets, "8, 4");
+		this.ticketMenuPanel.add(this.btnViewTickets, "4, 4");
 		this.add(this.offenseMenuPanel);
 		this.offenseMenuPanel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
