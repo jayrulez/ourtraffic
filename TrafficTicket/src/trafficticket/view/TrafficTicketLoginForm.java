@@ -19,7 +19,6 @@ import javax.swing.ImageIcon;
 public class TrafficTicketLoginForm extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private BtnLoginController btnLoginController;
-	private JFrame parentFrame;
 	private JLabel lblUsername;
 	private JLabel lblPassword;
 	private JTextField txtUsername;

@@ -4,7 +4,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import trafficticket.jcf.controller.JCFMainMenuController;
 import trafficticket.taxoffice.controller.TaxMainMenuController;
 
 public class TaxMenuBar extends JMenuBar

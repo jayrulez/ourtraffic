@@ -6,6 +6,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 import java.awt.Dimension;
+import java.awt.BorderLayout;
+import javax.swing.JLabel;
+
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
 
 public class MasterFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -15,9 +22,12 @@ public class MasterFrame extends JFrame {
 	private JSplitPane splitPane;
 	private JScrollPane menuScrollPane;
 	private JScrollPane contentScrollPane;
+	private JPanel pnlStatusBar;
+	private JLabel lblSystemConectionStatus;
+	private JLabel lblSystemDate;
 
 	public MasterFrame() {
-		this.initGui();
+		this.initialize();
 	}
 
 	public MasterFrame(JPanel mainMenu, JPanel contentPanel,
@@ -51,7 +61,7 @@ public class MasterFrame extends JFrame {
 		this.contentPanel = content;
 	}
 
-	public void initGui() {
+	public void initialize() {
 
 		this.splitPane = new JSplitPane();
 		this.contentPanel = new JPanel();
@@ -78,13 +88,53 @@ public class MasterFrame extends JFrame {
 		this.contentScrollPane
 				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		this.contentScrollPane.setWheelScrollingEnabled(true);
-
-		this.menuScrollPane.getViewport().add(this.leftNavPanel);
-
-		this.contentScrollPane.getViewport().add(this.contentPanel);
+		this.menuScrollPane.setViewportView(this.leftNavPanel);
+		this.contentScrollPane.setViewportView(this.contentPanel);
 
 		this.splitPane.setContinuousLayout(true);
 
-		this.add(this.splitPane);
+		getContentPane().add(this.splitPane);
+		
+		this.pnlStatusBar = new JPanel();
+		getContentPane().add(this.pnlStatusBar, BorderLayout.SOUTH);
+		this.pnlStatusBar.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(63dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("left:max(77dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(59dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("left:max(69dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(157dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,},
+			new RowSpec[] {
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,}));
+		
+		this.lblSystemConectionStatus = new JLabel("Connection Status");
+		this.pnlStatusBar.add(this.lblSystemConectionStatus, "2, 2");
+		
+		this.lblSystemDate = new JLabel("Date");
+		this.pnlStatusBar.add(this.lblSystemDate, "10, 2, right, default");
 	}
 }
