@@ -65,16 +65,14 @@ public class BtnLoginController extends MouseAdapter implements ActionListener {
 			/* distroy the login frame and all its contents */
 			this.parentFrame.dispose();
 
-			// start JCF program module
-			/*
-			JCFFrame jcfFrame = new JCFFrame();
-			SwingUtilities.invokeLater(jcfFrame);*/
+
 			
 			// start Tax Office program module
 			TaxFrame taxFrame = new TaxFrame();
 			SwingUtilities.invokeLater(taxFrame);	
 		}
-		else if(true /*logged in user is TaxOfficer*/)
+	
+		else /*logged in user is TaxOfficer*/
 		{
 
 		}
