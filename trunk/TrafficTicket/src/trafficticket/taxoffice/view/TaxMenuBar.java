@@ -5,6 +5,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import trafficticket.jcf.controller.JCFMainMenuController;
+import trafficticket.taxoffice.controller.TaxMainMenuController;
 
 public class TaxMenuBar extends JMenuBar
 {
@@ -22,17 +23,13 @@ public class TaxMenuBar extends JMenuBar
 	private JMenu optionMenu;
 	
 	private JMenu ticketMenu;
-	private JMenu offenderMenu;
-	private JMenu offenseMenu;
-	
-	private JMenuItem issueTicketItem;
 	private JMenuItem viewTicketItem;
 	
-	private JMenuItem viewOffenderItem;
-	private JMenuItem viewOffenseItem;
 	
 
-	private JCFMainMenuController menuItemsHandler;
+	private TaxMainMenuController menuItemsHandler;
+
+	private JMenuItem ticketPaymentItem;
 	
 	public TaxMenuBar()
 	{	
@@ -50,30 +47,19 @@ public class TaxMenuBar extends JMenuBar
 		this.exitMenuItem = new JMenuItem("Exit");
 		
 		this.optionMenu = new JMenu("Option");
-		this.ticketMenu = new JMenu("Ticketing");
-		this.offenderMenu = new JMenu("Offender");
-		this.offenseMenu = new JMenu("Offense");
+		this.ticketMenu = new JMenu("Tickets");
 		
-		this.issueTicketItem = new JMenuItem("Issue a Ticket");
+		this.viewTicketItem = new JMenuItem("View Tickets");	
+		this.ticketPaymentItem = new JMenuItem("Ticket Payment");
 		
-		this.viewTicketItem = new JMenuItem("View Tickets");
-		
-		this.viewOffenderItem = new JMenuItem("View Offenders");
-		this.viewOffenseItem = new JMenuItem("View Offenses");	
+		this.ticketMenu.add(this.viewTicketItem);
+		this.ticketMenu.add(this.ticketPaymentItem);
 		
 		this.helpMenu.add(aboutMenuItem);
 		this.fileMenu.add(exitMenuItem);
 		
 		this.optionMenu.add(this.ticketMenu);
-		this.optionMenu.add(this.offenderMenu);
-		this.optionMenu.add(this.offenseMenu);
-		
-		this.ticketMenu.add(this.issueTicketItem);
-		this.ticketMenu.add(this.viewTicketItem);
-		
-		this.offenderMenu.add(this.viewOffenderItem);
-		
-		this.offenseMenu.add(this.viewOffenseItem);
+
 		
 		this.add(this.fileMenu);
 		this.add(this.viewMenu);
@@ -87,12 +73,9 @@ public class TaxMenuBar extends JMenuBar
 		this.parentFrame = ((TaxFrame)this.getTopLevelAncestor());
 		//if(this.parentFrame instanceof JCFFrame && this.parentFrame != null)
 		//System.out.println("hello");
-		this.menuItemsHandler = new JCFMainMenuController(this.parentFrame);
+		this.menuItemsHandler = new TaxMainMenuController(this.parentFrame);
 		
-		this.issueTicketItem.addActionListener(this.menuItemsHandler);
 		this.viewTicketItem.addActionListener(this.menuItemsHandler);
-		this.viewOffenderItem.addActionListener(this.menuItemsHandler);
-		this.viewOffenseItem.addActionListener(this.menuItemsHandler);
 	}
 	
 }

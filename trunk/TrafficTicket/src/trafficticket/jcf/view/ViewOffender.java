@@ -72,7 +72,7 @@ public class ViewOffender extends ContentPage
 		this.pnlTicketSearch.add(this.lblViewAll, "4, 4, left, default");
 		
 		this.btnRunView = new JButton("Run View");
-		this.btnRunView.setIcon(new ImageIcon(ViewOffender.class.getResource("/trafficticket/jcf/resources/viewIcon.gif")));
+		this.btnRunView.setIcon(new ImageIcon(ViewOffender.class.getResource("/trafficticket/resources/viewIcon.gif")));
 		this.pnlTicketSearch.add(this.btnRunView, "2, 6");
 		
 		this.offenderTable = new JTable();
