@@ -3,16 +3,14 @@ package trafficticket.jcf.view;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 
 import trafficticket.jcf.controller.JCFMainMenuController;
-import trafficticket.view.MasterFrame;
 
 public class JCFMenuBar extends JMenuBar
 {
 	private static final long serialVersionUID = 1L;
 	
-	private JPanel targetContentPanel;
+	private JCFFrame parentFrame;
 	
 	private JMenu fileMenu;
 	private JMenu editMenu;
@@ -33,7 +31,8 @@ public class JCFMenuBar extends JMenuBar
 	private JMenuItem viewOffenderItem;
 	private JMenuItem viewOffenseItem;
 	
-	private IssueTicket issueTicket;
+
+	private JCFMainMenuController menuItemsHandler;
 	
 	public JCFMenuBar()
 	{	
@@ -85,19 +84,15 @@ public class JCFMenuBar extends JMenuBar
 		//this.issueTicketForm = new IssueTicketForm();
 		//issueTicketForm.render();
 		
-		this.targetContentPanel = ((MasterFrame)this.getTopLevelAncestor()).getContentPanel();
+		this.parentFrame = ((JCFFrame)this.getTopLevelAncestor());
+		//if(this.parentFrame instanceof JCFFrame && this.parentFrame != null)
+		//System.out.println("hello");
+		this.menuItemsHandler = new JCFMainMenuController(this.parentFrame);
 		
-		this.issueTicketItem.addActionListener(new JCFMainMenuController(this.targetContentPanel,new IssueTicket()));
-		this.viewTicketItem.addActionListener(new JCFMainMenuController(this.targetContentPanel,new ViewTicket()));
+		this.issueTicketItem.addActionListener(this.menuItemsHandler);
+		this.viewTicketItem.addActionListener(this.menuItemsHandler);
+		this.viewOffenderItem.addActionListener(this.menuItemsHandler);
+		this.viewOffenseItem.addActionListener(this.menuItemsHandler);
 	}
 	
-	public void setTargetContentPanel(JPanel targetContentPanel)
-	{
-		this.targetContentPanel = targetContentPanel;
-	}
-	
-	public void render()
-	{	
-
-	}
 }

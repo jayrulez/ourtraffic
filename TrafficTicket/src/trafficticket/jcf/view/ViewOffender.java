@@ -17,6 +17,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 
 import trafficticket.view.ContentPage;
+import javax.swing.JCheckBox;
+import javax.swing.ImageIcon;
 
 
 public class ViewOffender extends ContentPage
@@ -25,9 +27,11 @@ public class ViewOffender extends ContentPage
 	private JPanel pnlTicketSearch;
 	private JLabel lblOffenderTrn;
 	private JTextField txtOffenderTrn;
-	private JButton btnSearch;
+	private JButton btnRunView;
 	private JTable offenderTable;
 	private JScrollPane scrollPane;
+	private JCheckBox chbxViewAll;
+	private JLabel lblViewAll;
 	public ViewOffender() {
 		this.initialize();
 	}
@@ -61,8 +65,15 @@ public class ViewOffender extends ContentPage
 		this.pnlTicketSearch.add(this.txtOffenderTrn, "4, 2, fill, default");
 		this.txtOffenderTrn.setColumns(10);
 		
-		this.btnSearch = new JButton("Search");
-		this.pnlTicketSearch.add(this.btnSearch, "2, 6");
+		this.chbxViewAll = new JCheckBox("");
+		this.pnlTicketSearch.add(this.chbxViewAll, "2, 4, right, default");
+		
+		this.lblViewAll = new JLabel("View All");
+		this.pnlTicketSearch.add(this.lblViewAll, "4, 4, left, default");
+		
+		this.btnRunView = new JButton("Run View");
+		this.btnRunView.setIcon(new ImageIcon(ViewOffender.class.getResource("/trafficticket/jcf/resources/viewIcon.gif")));
+		this.pnlTicketSearch.add(this.btnRunView, "2, 6");
 		
 		this.offenderTable = new JTable();
 		

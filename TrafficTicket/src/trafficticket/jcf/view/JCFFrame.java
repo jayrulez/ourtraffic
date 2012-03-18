@@ -8,7 +8,7 @@ public class JCFFrame extends MasterFrame implements Runnable {
 	private static final long serialVersionUID = 1L;
 	private JCFMenuBar mainMenuBar;
 	private JCFMainMenu mainNavMenu;
-	private JPanel contentPanel;
+	private JPanel contentPagePanel;
 
 	public JCFFrame() {
 		
@@ -23,16 +23,25 @@ public class JCFFrame extends MasterFrame implements Runnable {
 		this.mainMenuBar.initialize();
 
 		this.mainNavMenu = new JCFMainMenu();
-		this.setLeftNavPanelContent(this.mainNavMenu);
+		this.addLeftNavPanelContent(this.mainNavMenu);
 
-		this.contentPanel = new JPanel();
-		this.setContentPanel(this.contentPanel);
+		this.contentPagePanel = new JPanel();
+		this.addContentPanel(this.contentPagePanel);
 
-		this.mainMenuBar.setTargetContentPanel(this.contentPanel);
 		this.setVisible(true);
 	}
 
-	public void run() {
-		this.initialize();
+	public void setContentPagePanel(JPanel contentPagePanel)
+	{
+		this.contentPagePanel = contentPagePanel;
+		//this.setContentPanel(this.contentPagePanel);
+	}
+	public JPanel getContentPagePanel()
+	{
+		return contentPagePanel;
+	}
+	public void run() 
+	{
+			this.initialize();
 	}
 }
