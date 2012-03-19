@@ -31,8 +31,8 @@ public class TrafficTicketLoginForm extends JPanel {
 	}
 
 	private void initialize() {
-		setLayout(new FormLayout(new ColumnSpec[] { ColumnSpec.decode("74px"),
-				ColumnSpec.decode("87px"),
+		setLayout(new FormLayout(new ColumnSpec[] { ColumnSpec.decode("39px"),
+				ColumnSpec.decode("65px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("118px:grow"), }, new RowSpec[] {
 				FormFactory.LINE_GAP_ROWSPEC, RowSpec.decode("28px"),
