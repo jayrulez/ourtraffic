@@ -1,9 +1,11 @@
 package trafficticket.view;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 
 import java.awt.Dimension;
 import java.awt.BorderLayout;
@@ -16,12 +18,11 @@ import com.jgoodies.forms.layout.RowSpec;
 
 public class MasterFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
-
-	private JPanel contentPanel;
+	private JTabbedPane tabbedPane;
 	private JPanel leftNavPanel;
 	private JSplitPane splitPane;
 	private JScrollPane menuScrollPane;
-	private JScrollPane contentScrollPane;
+
 	private JPanel pnlStatusBar;
 	private JLabel lblSystemConectionStatus;
 	private JLabel lblSystemDate;
@@ -30,45 +31,48 @@ public class MasterFrame extends JFrame {
 		this.initialize();
 	}
 
-	public MasterFrame(JPanel mainMenu, JPanel contentPanel,
-			JSplitPane splitPane, JScrollPane menuScrollPane,
-			JScrollPane contentScrollPane) {
+	public MasterFrame(JPanel mainMenu,
+			JSplitPane splitPane, JScrollPane menuScrollPane) {
 		this.leftNavPanel = mainMenu;
-		this.contentPanel = contentPanel;
 		this.splitPane = splitPane;
 		this.menuScrollPane = menuScrollPane;
-		this.contentScrollPane = contentScrollPane;
 	}
 
-	public JPanel getContentPanel() 
-	{
-		return contentPanel;
-	}
+
 	
 	public void addLeftNavPanelContent(JPanel content) {
 		this.leftNavPanel.add(content);
 	}
 
-	public void addContentPanel(JPanel content) {
-		this.contentPanel.add(content);
-	}
+
 	
 	public void setLeftNavPanelContent(JPanel content) {
 		this.leftNavPanel = content;
 	}
 
-	public void setContentPanel(JPanel content) {
-		this.contentPanel = content;
+	public void addTab(String title, JPanel contentTab)
+	{
+		if(!title.equals(""))
+		{
+			this.tabbedPane.add(title,contentTab);
+		}
 	}
-
+	
+	public void addTab(String title,ImageIcon icon, JPanel contentTab)
+	{
+		if(!title.equals(""))
+		{
+			this.tabbedPane.addTab(title,icon,contentTab);
+		}
+	}
 	public void initialize() {
 
 		this.splitPane = new JSplitPane();
-		this.contentPanel = new JPanel();
 		this.leftNavPanel = new JPanel();
 		this.splitPane = new JSplitPane();
 		this.menuScrollPane = new JScrollPane();
-		this.contentScrollPane = new JScrollPane();
+		
+		this.tabbedPane = new JTabbedPane();
 
 		this.menuScrollPane.setMaximumSize(new Dimension(200, 500));
 
@@ -78,18 +82,10 @@ public class MasterFrame extends JFrame {
 
 		this.splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		this.splitPane.setLeftComponent(this.menuScrollPane);
-		this.splitPane.setRightComponent(this.contentScrollPane);
+		this.splitPane.setRightComponent(this.tabbedPane);
 		this.splitPane.setAutoscrolls(true);
 
-		this.contentScrollPane
-				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		this.contentScrollPane.setWheelScrollingEnabled(true);
-
-		this.contentScrollPane
-				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		this.contentScrollPane.setWheelScrollingEnabled(true);
 		this.menuScrollPane.setViewportView(this.leftNavPanel);
-		this.contentScrollPane.setViewportView(this.contentPanel);
 
 		this.splitPane.setContinuousLayout(true);
 

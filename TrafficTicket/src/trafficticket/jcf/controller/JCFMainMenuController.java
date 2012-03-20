@@ -29,36 +29,24 @@ public class JCFMainMenuController extends MouseAdapter  implements ActionListen
 		if(actionCommand.compareTo("Issue a Ticket")==0 )
 		{
 			System.out.println(arg0.getActionCommand());
-			this.parentFrame.getContentPanel().removeAll();
-			this.parentFrame.setContentPagePanel(null);
-			this.parentFrame.addContentPanel(new IssueTicket());
-			this.parentFrame.getContentPanel().revalidate();
+			this.parentFrame.addTab("View Tickets",new IssueTicket());
 		}
 		else if(actionCommand.compareTo("View Tickets")==0)
 		{
 			
 			System.out.println(arg0.getActionCommand());
-			this.parentFrame.getContentPanel().removeAll();
-			this.parentFrame.setContentPagePanel(null);
-			this.parentFrame.addContentPanel(new ViewTicket());
-			this.parentFrame.getContentPanel().revalidate();		
+			this.parentFrame.addTab("View Tickets",new ViewTicket());	
 			
 		}
 		else if(actionCommand.compareTo("View Offenders")==0)
 		{
 			System.out.println(arg0.getActionCommand());
-			this.parentFrame.getContentPanel().removeAll();
-			this.parentFrame.setContentPagePanel(null);
-			this.parentFrame.addContentPanel(new ViewOffender());
-			this.parentFrame.getContentPanel().revalidate();			
+			this.parentFrame.addTab("View Tickets",new ViewOffender());		
 		}
 		else if(actionCommand.compareTo("View Offenses")==0)
 		{
 			System.out.println(arg0.getActionCommand());
-			this.parentFrame.getContentPanel().removeAll();
-			this.parentFrame.setContentPagePanel(null);
-			this.parentFrame.addContentPanel(new ViewOffense());
-			this.parentFrame.getContentPanel().revalidate();		
+			this.parentFrame.addTab("View Tickets",new ViewOffense());		
 		}
 	}
 	@Override
