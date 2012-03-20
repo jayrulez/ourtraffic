@@ -90,7 +90,7 @@ public class ViewTicket extends ContentPage
 		this.pnlTicketSearch.add(this.lblViewAll, "4, 6, left, default");
 		
 		this.btnRunView = new JButton("Run View");
-		this.btnRunView.setIcon(new ImageIcon(ViewTicket.class.getResource("/trafficticket/jcf/resources/viewIcon.gif")));
+		this.btnRunView.setIcon(new ImageIcon(ViewTicket.class.getResource("/trafficticket/resources/viewIcon.gif")));
 		this.pnlTicketSearch.add(this.btnRunView, "2, 7");
 		
 		this.table = new JTable();
