@@ -54,7 +54,10 @@ public class MasterFrame extends JFrame {
 	{
 		if(!title.equals(""))
 		{
-			this.tabbedPane.add(title,contentTab);
+			if(!this.tabExist(title))
+			{
+				this.tabbedPane.add(title,contentTab);
+			}
 		}
 	}
 	
@@ -62,11 +65,36 @@ public class MasterFrame extends JFrame {
 	{
 		if(!title.equals(""))
 		{
-			this.tabbedPane.addTab(title,icon,contentTab);
+			if(!this.tabExist(title))
+			{
+				this.tabbedPane.addTab(title.trim(),icon,contentTab);
+			}
 		}
 	}
+	
+	public boolean tabExist(String title)
+	{
+		int tabCount = this.tabbedPane.getTabCount();
+		
+		if(tabCount > 0)
+		{
+			for(int tabIndex = 0; tabIndex < tabCount; tabIndex++)
+			{
+				title = title.trim();
+				if(title.compareToIgnoreCase(this.tabbedPane.getTitleAt(tabIndex))==0)
+				{
+					this.tabbedPane.setSelectedIndex(tabIndex);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	public void initialize() {
 
+		this.setIconImage(new ImageIcon(MasterFrame.class
+					.getResource("/trafficticket/resources/trafficLightRed_24x24.png")).getImage());
 		this.splitPane = new JSplitPane();
 		this.leftNavPanel = new JPanel();
 		this.splitPane = new JSplitPane();

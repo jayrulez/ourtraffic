@@ -28,8 +28,8 @@ public class TaxMainMenuController extends MouseAdapter  implements ActionListen
 		{
 			
 			System.out.println(arg0.getActionCommand());
-			this.parentFrame.addTab("View Tickets",new ImageIcon(ViewTicket.class
-					.getResource("/trafficticket/resources/searchIcon.png")),new ViewTicket());	
+			this.parentFrame.addTab("View Tickets",new ImageIcon(TaxMainMenuController.class
+					.getResource("/trafficticket/resources/viewTicketIcon_16x16.png")),new ViewTicket());	
 		
 		}
 	}
