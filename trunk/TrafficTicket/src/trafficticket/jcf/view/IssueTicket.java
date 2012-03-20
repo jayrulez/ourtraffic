@@ -42,7 +42,6 @@ public class IssueTicket extends ContentPage {
 	private JTextField textAddress2;
 	private JLabel lblAddress2;
 	private JLabel lblDob;
-	private JTextField textField_1;
 	private JComboBox comboBox;
 	private JTextField txtPoints;
 	private JLabel lblPoints;
@@ -94,6 +93,8 @@ public class IssueTicket extends ContentPage {
 	private JLabel lblExistingLicenseTypeValue;
 	private JLabel lblExistingPointsValue;
 	private JLabel lblExistingExpiryDateValue;
+	private JDateChooser existingOffenderDobChooser;
+	private JDateChooser offenseDateChooser;
 
 	public IssueTicket() {
 		this.initialize();
@@ -111,7 +112,7 @@ public class IssueTicket extends ContentPage {
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("107px:grow"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				ColumnSpec.decode("70px"),
+				ColumnSpec.decode("70px:grow"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("left:129px"), ColumnSpec.decode("32px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
@@ -177,10 +178,9 @@ public class IssueTicket extends ContentPage {
 
 		this.lblDob = new JLabel("Date of Birth:");
 		this.offenderPanel.add(this.lblDob, "2, 8, right, default");
-
-		this.textField_1 = new JTextField();
-		this.offenderPanel.add(this.textField_1, "4, 8, fill, default");
-		this.textField_1.setColumns(17);
+		this.existingOffenderDobChooser = new JDateChooser();
+		this.offenderPanel.add(this.existingOffenderDobChooser,
+				"4, 8, left, center");
 		lblOffenderAddress1 = new JLabel("Address 1:");
 		this.offenderPanel.add(lblOffenderAddress1, "2, 10, right, center");
 		txtAddress1 = new JTextField();
@@ -436,6 +436,8 @@ public class IssueTicket extends ContentPage {
 
 		this.lblDateOfOffense = new JLabel("Date of Offense");
 		this.ticketPanel.add(this.lblDateOfOffense, "2, 4, right, center");
+		this.offenseDateChooser = new JDateChooser();
+		this.ticketPanel.add(this.offenseDateChooser, "4, 4, left, center");
 
 		this.lblOffenseAddress = new JLabel("Address 1:");
 		this.ticketPanel.add(this.lblOffenseAddress, "2, 6, right, default");
