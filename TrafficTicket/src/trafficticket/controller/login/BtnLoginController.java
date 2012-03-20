@@ -56,23 +56,24 @@ public class BtnLoginController extends MouseAdapter implements ActionListener {
 
 	private void login() {
 		this.lblControllerStatus.setText("Logging in...");
-		
-		if (true/* logged in user is Police Officer*/) 
-		{
+
+		if (true/* logged in user is Police Officer */) {
 			// set the login frame invisible
 			this.parentFrame.setVisible(false);
 
 			/* distroy the login frame and all its contents */
 			this.parentFrame.dispose();
 
-
-			
 			// start Tax Office program module
-			TaxFrame taxFrame = new TaxFrame();
-			SwingUtilities.invokeLater(taxFrame);	
+			// TaxFrame taxFrame = new TaxFrame();
+			// SwingUtilities.invokeLater(taxFrame);
+
+			// start Tax Office program module
+			JCFFrame jcfFrame = new JCFFrame();
+			SwingUtilities.invokeLater(jcfFrame);
 		}
-	
-		else /*logged in user is TaxOfficer*/
+
+		else /* logged in user is TaxOfficer */
 		{
 
 		}

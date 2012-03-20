@@ -1,5 +1,6 @@
 package trafficticket.jcf.view;
 
+import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -8,6 +9,9 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
+
 import javax.swing.SwingConstants;
 import javax.swing.BoxLayout;
 import javax.swing.JToggleButton;
@@ -22,6 +26,7 @@ public class IssueTicket extends ContentPage {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JLabel lblExpiryDate;
+	private JDateChooser expiryDateChooser;
 	private JLabel lblLicenseType;
 	private JLabel lblOffenderParish;
 	private JLabel lblLastName;
@@ -93,6 +98,7 @@ public class IssueTicket extends ContentPage {
 	public IssueTicket() {
 		this.initialize();
 	}
+
 	private void initialize() {
 
 		this.offenderPanel = new JPanel();
@@ -100,17 +106,14 @@ public class IssueTicket extends ContentPage {
 		this.searchOffenderPanel = new JPanel();
 		this.existingOffenderPanel = new JPanel();
 
-		this.offenderPanel
-				.setLayout(new FormLayout(new ColumnSpec[] {
-				ColumnSpec.decode("18px"),
-				ColumnSpec.decode("89px"),
+		this.offenderPanel.setLayout(new FormLayout(new ColumnSpec[] {
+				ColumnSpec.decode("18px"), ColumnSpec.decode("89px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("107px:grow"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("70px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				ColumnSpec.decode("left:129px"),
-				ColumnSpec.decode("32px"),
+				ColumnSpec.decode("left:129px"), ColumnSpec.decode("32px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("9px"),
@@ -123,10 +126,8 @@ public class IssueTicket extends ContentPage {
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("28px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				ColumnSpec.decode("52px"),},
-			new RowSpec[] {
-				FormFactory.LINE_GAP_ROWSPEC,
-				RowSpec.decode("30px"),
+				ColumnSpec.decode("52px"), }, new RowSpec[] {
+				FormFactory.LINE_GAP_ROWSPEC, RowSpec.decode("30px"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(15dlu;default)"),
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -141,16 +142,14 @@ public class IssueTicket extends ContentPage {
 				RowSpec.decode("max(15dlu;default)"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(15dlu;default)"),
-				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("20px"),
-				FormFactory.LINE_GAP_ROWSPEC,}));
-
+				FormFactory.RELATED_GAP_ROWSPEC, RowSpec.decode("20px"),
+				FormFactory.LINE_GAP_ROWSPEC, }));
 
 		cbxLicenseType = new JComboBox();
 		lblOffenderTrn = new JLabel("Offender TRN:");
 		this.lblTrn = new JLabel("TRN:");
 		this.offenderPanel.add(this.lblTrn, "2, 2, right, default");
-		
+
 		this.txtOffenderTrn = new JTextField();
 		this.offenderPanel.add(this.txtOffenderTrn, "4, 2, left, default");
 		this.txtOffenderTrn.setColumns(15);
@@ -163,7 +162,7 @@ public class IssueTicket extends ContentPage {
 		this.txtFirstName.setColumns(18);
 		lblMiddleInitial = new JLabel("Middle Initial:");
 		this.offenderPanel.add(lblMiddleInitial, "6, 4, right, center");
-		
+
 		this.txtMiddleInitial = new JTextField();
 		this.txtMiddleInitial.setToolTipText("Enter Offender's Middle Initial");
 		this.txtMiddleInitial.setHorizontalAlignment(SwingConstants.LEFT);
@@ -175,8 +174,7 @@ public class IssueTicket extends ContentPage {
 		this.txtLastName = new JTextField();
 		this.offenderPanel.add(this.txtLastName, "4, 6, fill, default");
 		this.txtLastName.setColumns(18);
-		
-		
+
 		this.lblDob = new JLabel("Date of Birth:");
 		this.offenderPanel.add(this.lblDob, "2, 8, right, default");
 
@@ -211,26 +209,27 @@ public class IssueTicket extends ContentPage {
 
 		this.lblPoints = new JLabel("Points:");
 		this.offenderPanel.add(this.lblPoints, "2, 16, right, default");
-		
+
 		this.txtPoints = new JTextField();
 		this.txtPoints.setToolTipText("Enter Offender's License Points");
 		this.offenderPanel.add(this.txtPoints, "4, 16, fill, default");
 		this.txtPoints.setColumns(10);
 		lblExpiryDate = new JLabel("Expiry Date:");
 
+		this.expiryDateChooser = new JDateChooser(new Date());
+
 		this.offenderPanel.add(lblExpiryDate, "2, 18, right, center");
 
 		this.txtExpiryDate = new JTextField();
 		this.offenderPanel.add(this.txtExpiryDate, "4, 18, fill, default");
+		this.offenderPanel.add(this.expiryDateChooser, "4, 18, fill, default");
 		this.txtExpiryDate.setColumns(18);
-		
-		
+
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
 		this.add(this.searchOffenderPanel);
 		this.searchOffenderPanel.setLayout(new FormLayout(new ColumnSpec[] {
-				ColumnSpec.decode("18px"),
-				ColumnSpec.decode("89px"),
+				ColumnSpec.decode("18px"), ColumnSpec.decode("89px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("107px:grow"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
@@ -250,33 +249,30 @@ public class IssueTicket extends ContentPage {
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("28px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				ColumnSpec.decode("52px"),},
-			new RowSpec[] {
-				FormFactory.LINE_GAP_ROWSPEC,
-				RowSpec.decode("20px"),
-				FormFactory.LINE_GAP_ROWSPEC,
-				RowSpec.decode("30px"),
-				FormFactory.RELATED_GAP_ROWSPEC,}));
-		
+				ColumnSpec.decode("52px"), }, new RowSpec[] {
+				FormFactory.LINE_GAP_ROWSPEC, RowSpec.decode("20px"),
+				FormFactory.LINE_GAP_ROWSPEC, RowSpec.decode("30px"),
+				FormFactory.RELATED_GAP_ROWSPEC, }));
+
 		this.lblSearchOffenderTrn = new JLabel("Offender TRN:");
-		this.searchOffenderPanel.add(this.lblSearchOffenderTrn, "2, 2, right, default");
-		
+		this.searchOffenderPanel.add(this.lblSearchOffenderTrn,
+				"2, 2, right, default");
+
 		this.txtSearchOffenderTrn = new JTextField();
-		this.searchOffenderPanel.add(this.txtSearchOffenderTrn, "4, 2, left, default");
+		this.searchOffenderPanel.add(this.txtSearchOffenderTrn,
+				"4, 2, left, default");
 		this.txtSearchOffenderTrn.setColumns(15);
-		
+
 		this.tglbtnFirstTimeOffender = new JToggleButton("First Time Offender");
 		this.searchOffenderPanel.add(this.tglbtnFirstTimeOffender, "6, 2");
-		
+
 		this.btnSearchOffender = new JButton("Search");
 		this.searchOffenderPanel.add(this.btnSearchOffender, "2, 4");
-		
+
 		this.add(this.existingOffenderPanel);
 		this.existingOffenderPanel.setLayout(new FormLayout(new ColumnSpec[] {
-				ColumnSpec.decode("18px"),
-				ColumnSpec.decode("89px"),
-				ColumnSpec.decode("5dlu"),
-				ColumnSpec.decode("107px"),
+				ColumnSpec.decode("18px"), ColumnSpec.decode("89px"),
+				ColumnSpec.decode("5dlu"), ColumnSpec.decode("107px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("84px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
@@ -294,12 +290,9 @@ public class IssueTicket extends ContentPage {
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("28px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				ColumnSpec.decode("52px"),},
-			new RowSpec[] {
-				FormFactory.LINE_GAP_ROWSPEC,
-				RowSpec.decode("20px"),
-				FormFactory.LINE_GAP_ROWSPEC,
-				RowSpec.decode("30px"),
+				ColumnSpec.decode("52px"), }, new RowSpec[] {
+				FormFactory.LINE_GAP_ROWSPEC, RowSpec.decode("20px"),
+				FormFactory.LINE_GAP_ROWSPEC, RowSpec.decode("30px"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(15dlu;default)"),
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -314,75 +307,90 @@ public class IssueTicket extends ContentPage {
 				RowSpec.decode("max(15dlu;default)"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(15dlu;default)"),
-				FormFactory.RELATED_GAP_ROWSPEC,}));
-		
+				FormFactory.RELATED_GAP_ROWSPEC, }));
+
 		this.lblExistingOffenderTrn = new JLabel("Offender TRN:");
-		this.existingOffenderPanel.add(this.lblExistingOffenderTrn, "2, 2, right, default");
-		
+		this.existingOffenderPanel.add(this.lblExistingOffenderTrn,
+				"2, 2, right, default");
+
 		this.lblExistingOffenderTrnValue = new JLabel("");
-		this.existingOffenderPanel.add(this.lblExistingOffenderTrnValue, "4, 2, left, default");
-		
+		this.existingOffenderPanel.add(this.lblExistingOffenderTrnValue,
+				"4, 2, left, default");
+
 		this.lblExistingFirstName = new JLabel("First Name:");
-		this.existingOffenderPanel.add(this.lblExistingFirstName, "2, 4, right, default");
-		
+		this.existingOffenderPanel.add(this.lblExistingFirstName,
+				"2, 4, right, default");
+
 		this.lblExistingFirstNameValue = new JLabel("");
-		this.existingOffenderPanel.add(this.lblExistingFirstNameValue, "4, 4, left, default");
-		
+		this.existingOffenderPanel.add(this.lblExistingFirstNameValue,
+				"4, 4, left, default");
+
 		this.lblExistingLastName = new JLabel("Last Name:");
-		this.existingOffenderPanel.add(this.lblExistingLastName, "2, 6, right, default");
-		
+		this.existingOffenderPanel.add(this.lblExistingLastName,
+				"2, 6, right, default");
+
 		this.lblExistingLastNameValue = new JLabel("");
-		this.existingOffenderPanel.add(this.lblExistingLastNameValue, "4, 6, left, default");
-		
+		this.existingOffenderPanel.add(this.lblExistingLastNameValue,
+				"4, 6, left, default");
+
 		this.lblExistingDateOfBirth = new JLabel("Date of Birth:");
-		this.existingOffenderPanel.add(this.lblExistingDateOfBirth, "2, 8, right, default");
-		
+		this.existingOffenderPanel.add(this.lblExistingDateOfBirth,
+				"2, 8, right, default");
+
 		this.lblExistingDobValue = new JLabel("");
-		this.existingOffenderPanel.add(this.lblExistingDobValue, "4, 8, left, default");
-		
+		this.existingOffenderPanel.add(this.lblExistingDobValue,
+				"4, 8, left, default");
+
 		this.lblExistingAddress1 = new JLabel("Address 1:");
-		this.existingOffenderPanel.add(this.lblExistingAddress1, "2, 10, right, default");
-		
+		this.existingOffenderPanel.add(this.lblExistingAddress1,
+				"2, 10, right, default");
+
 		this.lblExistingAddress1Value = new JLabel("");
-		this.existingOffenderPanel.add(this.lblExistingAddress1Value, "4, 10, left, default");
-		
+		this.existingOffenderPanel.add(this.lblExistingAddress1Value,
+				"4, 10, left, default");
+
 		this.lblExistingAddress2 = new JLabel("Address 2:");
-		this.existingOffenderPanel.add(this.lblExistingAddress2, "6, 10, right, default");
-		
+		this.existingOffenderPanel.add(this.lblExistingAddress2,
+				"6, 10, right, default");
+
 		this.lblExistingAddress2Value = new JLabel("");
-		this.existingOffenderPanel.add(this.lblExistingAddress2Value, "8, 10, left, default");
-		
+		this.existingOffenderPanel.add(this.lblExistingAddress2Value,
+				"8, 10, left, default");
+
 		this.lblExistingParish = new JLabel("Parish:");
-		this.existingOffenderPanel.add(this.lblExistingParish, "2, 12, right, default");
-		
+		this.existingOffenderPanel.add(this.lblExistingParish,
+				"2, 12, right, default");
+
 		this.lblExistingParishValue = new JLabel("");
 		this.existingOffenderPanel.add(this.lblExistingParishValue, "4, 12");
-		
+
 		this.lblExistingTypeOfLicense = new JLabel("Type of License:");
-		this.existingOffenderPanel.add(this.lblExistingTypeOfLicense, "2, 14, right, default");
-		
+		this.existingOffenderPanel.add(this.lblExistingTypeOfLicense,
+				"2, 14, right, default");
+
 		this.lblExistingLicenseTypeValue = new JLabel("");
-		this.existingOffenderPanel.add(this.lblExistingLicenseTypeValue, "4, 14");
-		
+		this.existingOffenderPanel.add(this.lblExistingLicenseTypeValue,
+				"4, 14");
+
 		this.lblExistingPoints = new JLabel("Points:");
-		this.existingOffenderPanel.add(this.lblExistingPoints, "2, 16, right, default");
-		
+		this.existingOffenderPanel.add(this.lblExistingPoints,
+				"2, 16, right, default");
+
 		this.lblExistingPointsValue = new JLabel("");
 		this.existingOffenderPanel.add(this.lblExistingPointsValue, "4, 16");
-		
+
 		this.lblExistingExpiryDate = new JLabel("Expiry Date:");
-		this.existingOffenderPanel.add(this.lblExistingExpiryDate, "2, 18, right, default");
-		
+		this.existingOffenderPanel.add(this.lblExistingExpiryDate,
+				"2, 18, right, default");
+
 		this.lblExistingExpiryDateValue = new JLabel("");
-		this.existingOffenderPanel.add(this.lblExistingExpiryDateValue, "4, 18");
-		
-		
+		this.existingOffenderPanel
+				.add(this.lblExistingExpiryDateValue, "4, 18");
+
 		this.add(this.offenderPanel);
 		this.add(this.ticketPanel);
-		this.ticketPanel
-				.setLayout(new FormLayout(new ColumnSpec[] {
-				ColumnSpec.decode("18px"),
-				ColumnSpec.decode("89px"),
+		this.ticketPanel.setLayout(new FormLayout(new ColumnSpec[] {
+				ColumnSpec.decode("18px"), ColumnSpec.decode("89px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("107px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
@@ -402,21 +410,16 @@ public class IssueTicket extends ContentPage {
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("28px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				ColumnSpec.decode("52px"),},
-			new RowSpec[] {
-				FormFactory.LINE_GAP_ROWSPEC,
-				RowSpec.decode("20px"),
-				FormFactory.LINE_GAP_ROWSPEC,
-				RowSpec.decode("30px"),
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
+				ColumnSpec.decode("52px"), }, new RowSpec[] {
+				FormFactory.LINE_GAP_ROWSPEC, RowSpec.decode("20px"),
+				FormFactory.LINE_GAP_ROWSPEC, RowSpec.decode("30px"),
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(14dlu;default)"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(15dlu;default)"),
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,}));
+				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC, }));
 
 		this.lblOffense = new JLabel("Offense:");
 		this.ticketPanel.add(this.lblOffense, "2, 2, right, center");
@@ -450,7 +453,7 @@ public class IssueTicket extends ContentPage {
 
 		this.lblTicketParish = new JLabel("Parish:");
 		this.ticketPanel.add(this.lblTicketParish, "2, 8, right, default");
-		
+
 		this.cmbxTicketParish = new JComboBox();
 		this.ticketPanel.add(this.cmbxTicketParish, "4, 8, fill, default");
 
@@ -463,15 +466,14 @@ public class IssueTicket extends ContentPage {
 
 		this.lblTicketPoints = new JLabel("Points:");
 		this.ticketPanel.add(this.lblTicketPoints, "2, 12, right, default");
-		
+
 		this.txtTicketPoints = new JTextField();
 		this.ticketPanel.add(this.txtTicketPoints, "4, 12, fill, default");
 		this.txtTicketPoints.setColumns(10);
 
 	}
 
-	public void startInit()
-	{
+	public void startInit() {
 		this.initialize();
 	}
 }
