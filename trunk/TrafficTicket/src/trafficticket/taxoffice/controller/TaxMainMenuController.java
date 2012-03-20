@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import trafficticket.taxoffice.view.TaxFrame;
@@ -27,10 +28,9 @@ public class TaxMainMenuController extends MouseAdapter  implements ActionListen
 		{
 			
 			System.out.println(arg0.getActionCommand());
-			this.parentFrame.getContentPanel().removeAll();
-			this.parentFrame.setContentPagePanel(null);
-			this.parentFrame.addContentPanel(new ViewTicket());
-			this.parentFrame.getContentPanel().revalidate();		
+			this.parentFrame.addTab("View Tickets",new ImageIcon(ViewTicket.class
+					.getResource("/trafficticket/resources/searchIcon.png")),new ViewTicket());	
+		
 		}
 	}
 	@Override
