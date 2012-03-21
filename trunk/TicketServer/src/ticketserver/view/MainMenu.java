@@ -21,65 +21,67 @@ public class MainMenu extends JPanel {
 
 	private JPanel menuContainer;
 
-	private JPanel ticketMenuPanel;
+	private JPanel userMenuPanel;
 	private JPanel offenseMenuPanel;
-	private JButton btnTicketPayment;
-	private JButton btnViewTickets;
-	private JButton btnOffenseType;
-
+	private JButton btnAddUser;
+	private JButton btnViewUsers;
+	private JButton btnAddOffense;
+	private JButton btnViewOffenses;
+	private JPanel connectionMenuPanel;
+	private JButton btnViewConnections;
 
 	public MainMenu() {
 		this.initialize();
-
 	}
 
 	public void initialize() {
 
-
-		this.ticketMenuPanel = new JPanel();
-		this.ticketMenuPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, new Color(227, 227, 227)), "Ticketing", TitledBorder.LEFT, TitledBorder.TOP, null, new Color(25, 25, 112)));
+		this.userMenuPanel = new JPanel();
+		this.userMenuPanel.setToolTipText("Users menu");
+		this.userMenuPanel.setBorder(new TitledBorder(new EtchedBorder(
+				EtchedBorder.LOWERED, null, new Color(169, 169, 169)), "Users",
+				TitledBorder.LEFT, TitledBorder.TOP, null, new Color(25, 25,
+						112)));
 		this.offenseMenuPanel = new JPanel();
-		this.offenseMenuPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Offense", TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 139)));
+		this.offenseMenuPanel.setToolTipText("Offense menu");
+		this.offenseMenuPanel
+				.setBorder(new TitledBorder(new EtchedBorder(
+						EtchedBorder.LOWERED, null, null), "Offenses",
+						TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0,
+								0, 139)));
 
 		this.menuContainer = new JPanel();
 
-
-	
-		this.ticketMenuPanel.setPreferredSize(new Dimension(180, 150));
+		this.userMenuPanel.setPreferredSize(new Dimension(180, 130));
 		this.offenseMenuPanel.setPreferredSize(new Dimension(180, 130));
-		
-		
+
 		this.setMaximumSize(new Dimension(200, 500));
 		this.menuContainer.setLayout(new BoxLayout(this.menuContainer,
 				BoxLayout.Y_AXIS));
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-		this.add(this.ticketMenuPanel);
-		this.ticketMenuPanel.setLayout(new FormLayout(new ColumnSpec[] {
+		this.add(this.userMenuPanel);
+		this.userMenuPanel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(95dlu;default)"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,},
+				FormFactory.RELATED_GAP_COLSPEC,},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				RowSpec.decode("5dlu"),
-				RowSpec.decode("max(40dlu;default)"),
+				RowSpec.decode("max(22dlu;default)"),
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+				RowSpec.decode("24dlu"),
+				FormFactory.RELATED_GAP_ROWSPEC,}));
+
+		this.btnAddUser = new JButton("Add User");
+		this.btnAddUser.setHorizontalAlignment(SwingConstants.LEFT);
+		this.btnAddUser.setIcon(new ImageIcon(MainMenu.class.getResource("/ticketserver/resources/addUserIcon_32x32.png")));
+		this.userMenuPanel.add(this.btnAddUser, "4, 2, left, center");
 		
-		this.btnTicketPayment = new JButton("Ticket Payment");
-		this.btnTicketPayment.setHorizontalAlignment(SwingConstants.LEFT);
-		this.btnTicketPayment.setIcon(new ImageIcon(MainMenu.class.getResource("/trafficticket/resources/ticketPayment.png")));
-		this.ticketMenuPanel.add(this.btnTicketPayment, "4, 2");
-		
-		this.btnViewTickets = new JButton("View Tickets");
-		this.btnViewTickets.setIcon(new ImageIcon(MainMenu.class.getResource("/trafficticket/resources/searchIcon.png")));
-		this.ticketMenuPanel.add(this.btnViewTickets, "4, 4");
+				this.btnViewUsers = new JButton("View Users");
+				this.btnViewUsers.setIcon(new ImageIcon(MainMenu.class.getResource("/ticketserver/resources/viewUserIcon_32x32.png")));
+				this.userMenuPanel.add(this.btnViewUsers, "4, 4, left, center");
 		this.add(this.offenseMenuPanel);
 		this.offenseMenuPanel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -90,12 +92,45 @@ public class MainMenu extends JPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,}));
+
+		this.btnAddOffense = new JButton("Add Offense");
+		this.btnAddOffense.setToolTipText("Add traffic offense");
 		
-		this.btnOffenseType = new JButton("Offense Types");
-		this.btnOffenseType.setToolTipText("View Types of Offenses");
-		this.btnOffenseType.setIcon(new ImageIcon(MainMenu.class.getResource("/trafficticket/resources/viewOffensesIcon.jpg")));
-		this.offenseMenuPanel.add(this.btnOffenseType, "4, 4");
+		this.btnAddOffense.setIcon(new ImageIcon(MainMenu.class.getResource("/ticketserver/resources/addOffenseIcon.png")));
+		
+		this.offenseMenuPanel.add(this.btnAddOffense, "4, 2, left, center");
+		
+		this.btnViewOffenses = new JButton("View Offenses");
+		this.btnViewOffenses.setToolTipText("View Traffic Offenses");
+		this.btnViewOffenses.setIcon(new ImageIcon(MainMenu.class.getResource("/ticketserver/resources/viewOffensesIcon.jpg")));
+		
+		this.offenseMenuPanel.add(this.btnViewOffenses, "4, 4, left, center");
+		
+		this.connectionMenuPanel = new JPanel();
+		this.connectionMenuPanel.setPreferredSize(new Dimension(180, 130));
+		this.connectionMenuPanel.setToolTipText("Connections menu");
+		this.connectionMenuPanel.setBorder(new TitledBorder(new EtchedBorder(
+				EtchedBorder.LOWERED, null, new Color(169, 169, 169)),
+				"Connections", TitledBorder.LEFT, TitledBorder.TOP, null,
+				new Color(0, 0, 128)));
+		add(this.connectionMenuPanel);
+		this.connectionMenuPanel.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,},
+			new RowSpec[] {
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("max(24dlu;default)"),}));
+		
+		this.btnViewConnections = new JButton("View Connections");
+
+		this.btnViewConnections.setToolTipText("View Current Client Connections");
+		this.btnViewConnections.setIcon(new ImageIcon(MainMenu.class.getResource("/ticketserver/resources/connectionIcon.png")));
+
+		this.connectionMenuPanel.add(this.btnViewConnections,"4, 2, left, center");
 	}
 
 	public void initialiseLisenters() {

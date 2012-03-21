@@ -63,13 +63,8 @@ public class BtnLoginController extends MouseAdapter implements ActionListener {
 			this.parentFrame.dispose();
 
 			// start Tax Office program module
-			TicketServerFrame taxFrame = new TicketServerFrame();
-			SwingUtilities.invokeLater(taxFrame);
-		}
-
-		else /* logged in user is TaxOfficer */
-		{
-
+			TicketServerFrame ticketFrame = new TicketServerFrame();
+			SwingUtilities.invokeLater(ticketFrame);
 		}
 
 	}

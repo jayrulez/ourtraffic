@@ -62,7 +62,7 @@ public class TicketServerLoginForm extends JPanel {
 
 		this.btnLogin = new JButton("");
 		this.btnLogin.setIcon(new ImageIcon(TicketServerLoginForm.class
-				.getResource("/trafficticket/resources/LoginIcon.gif")));
+				.getResource("/ticketserver/resources/LoginIcon.gif")));
 		add(this.btnLogin, "4, 10, left, center");
 	}
 
