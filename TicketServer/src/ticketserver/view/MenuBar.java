@@ -20,12 +20,18 @@ public class MenuBar extends JMenuBar {
 
 	private JMenu optionMenu;
 
-	private JMenu ticketMenu;
-	private JMenuItem viewTicketItem;
+	private JMenu offenseMenu;
+	private JMenuItem viewOffense;
+	private JMenuItem addOffense;
+
+	private JMenu userMenu;
+	private JMenuItem addUserItem;
+	private JMenuItem viewUserItem;
+
+	private JMenu connectionMenu;
+	private JMenuItem viewConnectionItem;
 
 	private MainMenuController menuItemsHandler;
-
-	private JMenuItem ticketPaymentItem;
 
 	public MenuBar() {
 
@@ -41,18 +47,32 @@ public class MenuBar extends JMenuBar {
 		this.exitMenuItem = new JMenuItem("Exit");
 
 		this.optionMenu = new JMenu("Option");
-		this.ticketMenu = new JMenu("Tickets");
 
-		this.viewTicketItem = new JMenuItem("View Tickets");
-		this.ticketPaymentItem = new JMenuItem("Ticket Payment");
+		this.offenseMenu = new JMenu("Offense");
+		this.addOffense = new JMenuItem("Add Offense");
+		this.viewOffense = new JMenuItem("View Offense");
 
-		this.ticketMenu.add(this.viewTicketItem);
-		this.ticketMenu.add(this.ticketPaymentItem);
+		this.userMenu = new JMenu("Users");
+		this.addUserItem = new JMenuItem("Add User");
+		this.viewUserItem = new JMenuItem("View Users");
+
+		this.connectionMenu = new JMenu("Connections");
+		this.viewConnectionItem = new JMenuItem("View Connections");
+
+		this.offenseMenu.add(this.addOffense);
+		this.offenseMenu.add(this.viewOffense);
+
+		this.userMenu.add(this.addUserItem);
+		this.userMenu.add(this.viewUserItem);
+
+		this.connectionMenu.add(this.viewConnectionItem);
 
 		this.helpMenu.add(aboutMenuItem);
 		this.fileMenu.add(exitMenuItem);
 
-		this.optionMenu.add(this.ticketMenu);
+		this.optionMenu.add(this.offenseMenu);
+		this.optionMenu.add(this.userMenu);
+		this.optionMenu.add(this.connectionMenu);
 
 		this.add(this.fileMenu);
 		this.add(this.viewMenu);
@@ -68,7 +88,6 @@ public class MenuBar extends JMenuBar {
 		// System.out.println("hello");
 		this.menuItemsHandler = new MainMenuController(this.parentFrame);
 
-		this.viewTicketItem.addActionListener(this.menuItemsHandler);
+		this.viewOffense.addActionListener(this.menuItemsHandler);
 	}
-
 }

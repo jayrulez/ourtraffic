@@ -13,7 +13,7 @@ public class TicketServerFrame extends MasterFrame implements Runnable {
 
 	public void initGui() {
 
-		this.setTitle("Tax Traffic");
+		this.setTitle("Ticket Server");
 
 		this.mainMenuBar = new MenuBar();
 		this.setJMenuBar(this.mainMenuBar);

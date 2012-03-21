@@ -28,10 +28,10 @@ public class TicketServerLoginFrame extends JFrame implements Runnable {
 	}
 
 	public void render() {
-		this.setTitle("Traffic Ticket");
+		this.setTitle("Ticket Server");
 		this.setIconImage(new ImageIcon(
 				MasterFrame.class
-						.getResource("/trafficticket/resources/trafficLightRed_24x24.png"))
+						.getResource("/ticketserver/resources/trafficLightRed_24x24.png"))
 				.getImage());
 		this.setMinimumSize(new Dimension(400, 400));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
