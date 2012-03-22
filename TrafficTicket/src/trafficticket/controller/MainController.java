@@ -5,6 +5,8 @@ import javax.swing.UIManager;
 
 import trafficticket.view.TrafficTicketLoginFrame;
 
+import trafficticket.config.Configuration;
+
 public class MainController {
 	public static void startLoginModule() {
 		try {
