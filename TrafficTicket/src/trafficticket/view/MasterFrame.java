@@ -26,6 +26,7 @@ public class MasterFrame extends JFrame {
 	private JPanel pnlStatusBar;
 	private JLabel lblSystemConectionStatus;
 	private JLabel lblSystemDate;
+	private JLabel lblconnectionStatusValue;
 
 	public MasterFrame() {
 		this.initialize();
@@ -78,6 +79,31 @@ public class MasterFrame extends JFrame {
 		return false;
 	}
 
+	public JPanel getPnlStatusBar() 
+	{
+		return pnlStatusBar;
+	}
+	
+	public void setLblSystemConectionStatus(JLabel lblSystemConectionStatus) 
+	{
+		this.lblSystemConectionStatus = lblSystemConectionStatus;
+	}
+	
+	public void setLblconnectionStatusValue(JLabel lblconnectionStatusValue) 
+	{
+		this.lblconnectionStatusValue = lblconnectionStatusValue;
+	}
+	
+	public JLabel getLblSystemDate() 
+	{
+		return lblSystemDate;
+	}
+	
+	public JLabel getLblconnectionStatusValue() 
+	{
+		return lblconnectionStatusValue;
+	}
+	
 	public void initialize() {
 
 		this.setIconImage(new ImageIcon(
@@ -110,41 +136,45 @@ public class MasterFrame extends JFrame {
 
 		this.pnlStatusBar = new JPanel();
 		getContentPane().add(this.pnlStatusBar, BorderLayout.SOUTH);
-		this.pnlStatusBar.setLayout(new FormLayout(
-				new ColumnSpec[] { FormFactory.RELATED_GAP_COLSPEC,
-						ColumnSpec.decode("max(63dlu;default)"),
-						FormFactory.RELATED_GAP_COLSPEC,
-						ColumnSpec.decode("left:max(77dlu;default)"),
-						FormFactory.RELATED_GAP_COLSPEC,
-						ColumnSpec.decode("max(59dlu;default)"),
-						FormFactory.RELATED_GAP_COLSPEC,
-						ColumnSpec.decode("left:max(69dlu;default)"),
-						FormFactory.RELATED_GAP_COLSPEC,
-						ColumnSpec.decode("max(157dlu;default)"),
-						FormFactory.RELATED_GAP_COLSPEC,
-						FormFactory.DEFAULT_COLSPEC,
-						FormFactory.RELATED_GAP_COLSPEC,
-						FormFactory.DEFAULT_COLSPEC,
-						FormFactory.RELATED_GAP_COLSPEC,
-						FormFactory.DEFAULT_COLSPEC,
-						FormFactory.RELATED_GAP_COLSPEC,
-						FormFactory.DEFAULT_COLSPEC,
-						FormFactory.RELATED_GAP_COLSPEC,
-						FormFactory.DEFAULT_COLSPEC,
-						FormFactory.RELATED_GAP_COLSPEC,
-						FormFactory.DEFAULT_COLSPEC,
-						FormFactory.RELATED_GAP_COLSPEC,
-						FormFactory.DEFAULT_COLSPEC,
-						FormFactory.RELATED_GAP_COLSPEC,
-						FormFactory.DEFAULT_COLSPEC,
-						FormFactory.RELATED_GAP_COLSPEC,
-						FormFactory.DEFAULT_COLSPEC, }, new RowSpec[] {
-						FormFactory.RELATED_GAP_ROWSPEC,
-						FormFactory.DEFAULT_ROWSPEC,
-						FormFactory.RELATED_GAP_ROWSPEC, }));
+		this.pnlStatusBar.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(25dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("left:max(77dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(59dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("left:max(69dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(157dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,},
+			new RowSpec[] {
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,}));
 
-		this.lblSystemConectionStatus = new JLabel("Connection Status");
+		this.lblSystemConectionStatus = new JLabel("Status:");
 		this.pnlStatusBar.add(this.lblSystemConectionStatus, "2, 2");
+		//new component
+		this.lblconnectionStatusValue = new JLabel("");
+		this.pnlStatusBar.add(this.lblconnectionStatusValue, "4, 2, left, center");
 
 		this.lblSystemDate = new JLabel("Date");
 		this.pnlStatusBar.add(this.lblSystemDate, "10, 2, right, default");

@@ -5,16 +5,22 @@ import javax.swing.UIManager;
 
 import trafficticket.view.TrafficTicketLoginFrame;
 
-import trafficticket.config.Configuration;
 
-public class MainController {
-	public static void startLoginModule() {
-		try {
+public class MainController 
+{
+	public static void startLoginModule() 
+	{
+		try 
+		{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e) {
+		} 
+		catch (Exception e)
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
+		} 
+		finally 
+		{
 			TrafficTicketLoginFrame loginFrame = new TrafficTicketLoginFrame();
 			/*
 			 * Dispatch this frame as a thread to dynamically alter the frame's
@@ -24,7 +30,8 @@ public class MainController {
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) 
+	{
 		startLoginModule();
 	}
 }
