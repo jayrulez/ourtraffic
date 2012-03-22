@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+	<Configuration>
+		<Connection>
+			<Name>Ticket Server</Name>
+			<Address>127.168.1.1</Address>
+			<Port>26001</Port>
+		</Connection>
+	</Configuration>
