@@ -1,5 +1,8 @@
 package trafficticket.jcf.view;
 
+import trafficticket.controller.FrameConnectionController;
+import trafficticket.controller.MiscController;
+
 import trafficticket.view.MasterFrame;
 
 public class JCFFrame extends MasterFrame implements Runnable {
@@ -7,13 +10,14 @@ public class JCFFrame extends MasterFrame implements Runnable {
 	private JCFMenuBar mainMenuBar;
 	private JCFMainMenu mainNavMenu;
 
-
-
-	public JCFFrame() {
-		
+	public JCFFrame() 
+	{
+		super();
+		this.initGui();
 	}
 
-	public void initGui() {
+	public void initGui() 
+	{
 
 		this.setTitle("JCF Traffic");
 
@@ -26,9 +30,22 @@ public class JCFFrame extends MasterFrame implements Runnable {
 
 		this.setVisible(true);
 	}
+	
+	public void testConnection()
+	{
+		Thread connectionThread = new Thread(new FrameConnectionController(this,"JCFFrame"));
+		connectionThread.start();
+	}
 
+	public void initClock()
+	{
+		Thread miscThread = new Thread(new MiscController(this, "clock"));
+		miscThread.start();
+	}
+	
 	public void run() 
 	{
-			this.initGui();
+		this.testConnection();	
+		this.initClock();
 	}
 }

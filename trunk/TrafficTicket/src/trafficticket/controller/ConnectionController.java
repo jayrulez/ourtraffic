@@ -15,14 +15,13 @@ public class ConnectionController
 	private Connection connection;
 	private Configuration configuration;
 	
-	public ConnectionController() 
+	public ConnectionController() throws SAXException, IOException, ParserConfigurationException 
 	{
+		this.configuration = new Configuration();
 	}
 	
-	public void connectTicketServer() throws UnknownHostException, IllegalArgumentException, SAXException, IOException, ParserConfigurationException
+	public void connectTicketServer() throws UnknownHostException, IllegalArgumentException, IOException
 	{
-
-		this.configuration = new Configuration();
 		this.connection = this.configuration.getConnection("Ticket Server");
 	}
 	
@@ -35,4 +34,5 @@ public class ConnectionController
 	{
 		return connection;
 	}
+	
 }
