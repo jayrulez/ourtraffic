@@ -29,24 +29,34 @@ public class SqlProvider
 		this.connection = DriverManager.getConnection("jbdc:mysql://localhost/feedback?"+"user=root&password=");
 	}
 	
-	public void dbDisconnect()
+	public void dbDisconnect() throws SQLException
 	{
-		this.connection = null;
-		this.statement = null;
-		this.preparedStatement = null;
-		this.resultSet = null;
+		if(this.connection!=null)
+		{
+			this.connection.close();
+		}
+		if(this.statement != null)
+		{
+			this.statement.close();
+		}
+		if(this.preparedStatement != null)
+		{
+			this.preparedStatement.close();
+		}
+		if(this.resultSet != null)
+		{
+			
+		}
 	}
 	
-	public Vector getUser(String userName)
+	public Vector getUser(String userName) throws SQLException
 	{
-		try 
+
+		this.preparedStatement = connection.prepareStatement("exec getUser");
+		this.resultSet = this.preparedStatement.executeQuery();
+		while(this.resultSet.next())
 		{
-			this.preparedStatement = connection.prepareStatement("exec getUser");
-		} 
-		catch (SQLException e) 
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		}
 	}
 }
