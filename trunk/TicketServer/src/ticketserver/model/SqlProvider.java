@@ -39,6 +39,14 @@ public class SqlProvider
 	
 	public Vector getUser(String userName)
 	{
-		
+		try 
+		{
+			this.preparedStatement = connection.prepareStatement("exec getUser");
+		} 
+		catch (SQLException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
