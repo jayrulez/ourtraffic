@@ -26,7 +26,7 @@ public class Configuration
 	{
 		try
 		{
-			file = new File("c:\\config.xml");
+			file = new File("C:\\Users\\Sync\\Dropbox\\year4sem2\\advanced programming using java\\traffic project\\application\\config.xml");
 			this.dbf = DocumentBuilderFactory.newInstance();
 			this.db = dbf.newDocumentBuilder();
 			this.doc = db.parse(file);
@@ -51,12 +51,12 @@ public class Configuration
 		}
 	}
 	
-	public Connection getConnection(String connectionName) throws IOException, UnknownHostException,IllegalArgumentException
+	public Connection getConnection(String connectionName) throws IOException, UnknownHostException,NumberFormatException
 	{
 		String address="";
 		Integer port = 0;
 		
-		NodeList nodeLst = this.doc.getElementsByTagName("Connection");
+		NodeList nodeLst = this.doc.getElementsByTagName("Connection");		
 
 		for (int s = 0; s < nodeLst.getLength(); s++) 
 		{
@@ -66,10 +66,11 @@ public class Configuration
 		    	Element connectionElement = (Element)node;
 		    	
 		    	String name = this.getTagValue("Name", connectionElement);
+		
 		    	if(name.compareToIgnoreCase(connectionName)==0)
 		    	{
 		    		address = this.getTagValue("Address", connectionElement);
-		    		port = Integer.getInteger(this.getTagValue("Port", connectionElement));
+		    		port = Integer.parseInt(this.getTagValue("Port", connectionElement));
 		    		break;
 		    	}
 		    }

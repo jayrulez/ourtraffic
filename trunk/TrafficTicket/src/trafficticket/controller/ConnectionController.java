@@ -20,7 +20,7 @@ public class ConnectionController
 		this.configuration = new Configuration();
 	}
 	
-	public void connectTicketServer() throws UnknownHostException, IllegalArgumentException, IOException
+	public void connectTicketServer() throws UnknownHostException, NumberFormatException, IOException
 	{
 		this.connection = this.configuration.getConnection("Ticket Server");
 	}

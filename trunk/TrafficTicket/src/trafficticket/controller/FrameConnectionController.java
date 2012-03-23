@@ -73,7 +73,7 @@ public class FrameConnectionController implements Runnable
 		catch (SAXException e) 
 		{
 			// TODO Auto-generated catch block
-			JOptionPane.showMessageDialog(jcfFrame, "Could not connect to sever. Please Check your configuration settings.","Configuration Error",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(jcfFrame, "Could not connect to sever. Please Check your configuration setting.","Configuration Error",JOptionPane.ERROR_MESSAGE);
 		} 
 		catch (IOException e) 
 		{
@@ -83,7 +83,11 @@ public class FrameConnectionController implements Runnable
 		catch (ParserConfigurationException e) 
 		{
 			// TODO Auto-generated catch block
-			JOptionPane.showMessageDialog(jcfFrame, "Could not connect to sever. Please Check your configuration settings.","Configuration Error",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(jcfFrame, "Could not connect to sever. Please Check your configuration setting.","Configuration Error",JOptionPane.ERROR_MESSAGE);
+		}
+		catch(NumberFormatException ex)
+		{
+			JOptionPane.showMessageDialog(jcfFrame, "Could not connect to sever. Incorrect configuation connection setting.","Configuration Error",JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	

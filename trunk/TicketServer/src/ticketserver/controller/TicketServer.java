@@ -5,7 +5,7 @@ import java.io.*;
 
 public class TicketServer
 {
-	public final static int PORT = 5566;
+	public final static int PORT = 26001;
 
 	public static void main(String[] args) throws Exception
 	{
