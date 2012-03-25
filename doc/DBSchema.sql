@@ -51,6 +51,18 @@ CREATE TABLE IF NOT EXISTS `police` (
   KEY `fk_police_division` (`divisionId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE IF NOT EXISTS `taxofficer` (
+  `id` int(11) NOT NULL auto_increment,
+  `firstName` varchar(30) NOT NULL,
+  `lastName` varchar(30) NOT NULL,
+  `middleInitial` varchar(1) DEFAULT NULL,
+  `DOB` date NOT NULL,
+  `street` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `parish` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE IF NOT EXISTS `ticket` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `policeId` int(11) NOT NULL,
