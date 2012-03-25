@@ -1,17 +1,18 @@
 CREATE TABLE IF NOT EXISTS `division` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `street` varchar(50) NOT NULL,
   `city` varchar(50) NOT NULL,
   `parish` varchar(30) NOT NULL,
   `phoneNumber` varchar(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `offence` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
+  `description` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `offender` (
   `trn` int(11) NOT NULL,
@@ -28,6 +29,14 @@ CREATE TABLE IF NOT EXISTS `offender` (
   PRIMARY KEY (`trn`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE IF NOT EXISTS `payment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ticket_id` int(11) NOT NULL,
+  `amount` float NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_payment_ticket` (`ticket_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
 CREATE TABLE IF NOT EXISTS `police` (
   `badgeId` int(11) NOT NULL,
   `divisionId` int(11) NOT NULL,
@@ -43,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `police` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `ticket` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `policeId` int(11) NOT NULL,
   `offenderTrn` int(11) NOT NULL,
   `offenceId` int(11) NOT NULL,
@@ -57,17 +66,20 @@ CREATE TABLE IF NOT EXISTS `ticket` (
   KEY `fk_ticekt_police` (`policeId`),
   KEY `fk_ticekt_offender` (`offenderTrn`),
   KEY `fk_ticekt_offence` (`offenceId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `user` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `handle` varchar(32) NOT NULL,
   `pin` varchar(32) NOT NULL,
   `accountType` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `handle` (`handle`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+
+ALTER TABLE `payment`
+  ADD CONSTRAINT `fk_payment_ticket` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `police`
   ADD CONSTRAINT `fk_police_division` FOREIGN KEY (`divisionId`) REFERENCES `division` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
