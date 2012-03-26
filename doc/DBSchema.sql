@@ -1,3 +1,5 @@
+-- create database if not exists ticketingdb;
+
 CREATE TABLE IF NOT EXISTS `division` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `street` varchar(50) NOT NULL,
@@ -80,6 +82,8 @@ CREATE TABLE IF NOT EXISTS `ticket` (
   KEY `fk_ticekt_offence` (`offenceId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+-- 2 Police, 3 Taxofficer --
+
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `handle` varchar(32) NOT NULL,
@@ -100,3 +104,22 @@ ALTER TABLE `ticket`
   ADD CONSTRAINT `fk_ticekt_offence` FOREIGN KEY (`offenceId`) REFERENCES `offence` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_ticekt_offender` FOREIGN KEY (`offenderTrn`) REFERENCES `offender` (`trn`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_ticekt_police` FOREIGN KEY (`policeId`) REFERENCES `police` (`badgeId`) ON DELETE CASCADE ON UPDATE CASCADE;
+  
+  
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_getUser`$$
+CREATE PROCEDURE `sp_getUser` (userHandleString varchar(32))
+BEGIN
+    DECLARE userType tinyint(1) DEFAULT 0;
+    IF EXISTS(SELECT `user`.accountType from `user` WHERE `user`.handle = userHandleString) THEN
+        SELECT `user`.accountType INTO userType from `user` WHERE `user`.handle = userHandleString;
+        IF userType = 2 THEN
+            SELECT `police`.*, `user`.* FROM `user` INNER JOIN `police` ON `police`.badgeId = CAST(`user`.handle AS SIGNED) WHERE `user`.handle = userHandleString;
+        ELSE 
+            IF userType = 3 THEN
+                SELECT `taxofficer`.*, `user`.* FROM `user` INNER JOIN `taxofficer` ON `police`.badgeId = CAST(`user`.handle AS SIGNED) WHERE `user`.handle = userHandleString;
+            END IF;
+        END IF;
+    END IF;
+END$$
+DELIMITER ;
