@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
+import ticketserver.view.AddUser;
 import ticketserver.view.TicketServerFrame;
 
 public class MainMenuController extends MouseAdapter implements
@@ -22,7 +23,7 @@ public class MainMenuController extends MouseAdapter implements
 	public void actionPerformed(ActionEvent arg0) {
 		String actionCommand = new String(arg0.getActionCommand());
 
-		if (actionCommand.compareTo("View Tickets") == 0) {
+		if (actionCommand.compareTo("View Users") == 0) {
 
 			System.out.println(arg0.getActionCommand());
 			/*
@@ -32,6 +33,12 @@ public class MainMenuController extends MouseAdapter implements
 			 * )), new ViewTicket());
 			 */
 
+		}
+		else if (actionCommand.compareTo("Add User") == 0) {
+
+			System.out.println(arg0.getActionCommand());
+			System.out.println(this.parentFrame);
+			 this.parentFrame .addTab("Add User", new ImageIcon(MainMenuController.class.getResource("/ticketserver/resources/addUserIcon_16x16.png")), new AddUser());
 		}
 	}
 

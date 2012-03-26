@@ -80,14 +80,15 @@ public class MenuBar extends JMenuBar {
 		this.add(this.optionMenu);
 		this.add(this.helpMenu);
 
-		// this.issueTicketForm = new IssueTicketForm();
-		// issueTicketForm.render();
 
 		this.parentFrame = ((TicketServerFrame) this.getTopLevelAncestor());
-		// if(this.parentFrame instanceof JCFFrame && this.parentFrame != null)
-		// System.out.println("hello");
+
 		this.menuItemsHandler = new MainMenuController(this.parentFrame);
 
+		this.addUserItem.addActionListener(this.menuItemsHandler);
+		this.viewUserItem.addActionListener(this.menuItemsHandler);
+		this.addOffense.addActionListener(this.menuItemsHandler);
 		this.viewOffense.addActionListener(this.menuItemsHandler);
+		this.viewConnectionItem.addActionListener(this.menuItemsHandler);
 	}
 }

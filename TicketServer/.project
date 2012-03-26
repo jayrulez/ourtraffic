@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>model</name>
+			<type>2</type>
+			<location>C:/Users/Sync/Dropbox/year4sem2/advanced programming using java/traffic project/application/TrafficTicket/src/trafficticket/model</location>
+		</link>
+	</linkedResources>
 </projectDescription>
