@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="C:/Users/Sync/Dropbox/year4sem2/advanced programming using java/traffic project/application/miglayout15-swing.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Sync/Dropbox/year4sem2/advanced programming using java/traffic project/application/jcalendar-1.4.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Sync/Dropbox/year4sem2/advanced programming using java/traffic project/application/mysql-connector-java-5.1.18-bin.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/TrafficTicket"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

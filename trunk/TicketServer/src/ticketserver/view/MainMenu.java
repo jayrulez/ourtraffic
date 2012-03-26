@@ -16,6 +16,8 @@ import javax.swing.border.EtchedBorder;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 
+import ticketserver.controller.MainMenuController;
+
 public class MainMenu extends JPanel {
 	private static final long serialVersionUID = 1L;
 
@@ -30,8 +32,11 @@ public class MainMenu extends JPanel {
 	private JPanel connectionMenuPanel;
 	private JButton btnViewConnections;
 
+	private TicketServerFrame parentFrame;
+
+	private MainMenuController menuItemsHandler;
+
 	public MainMenu() {
-		this.initialize();
 	}
 
 	public void initialize() {
@@ -131,11 +136,20 @@ public class MainMenu extends JPanel {
 		this.btnViewConnections.setIcon(new ImageIcon(MainMenu.class.getResource("/ticketserver/resources/connectionIcon.png")));
 
 		this.connectionMenuPanel.add(this.btnViewConnections,"4, 2, left, center");
+		
+		
+		this.parentFrame = ((TicketServerFrame) this.getTopLevelAncestor());
+		System.out.println(this.parentFrame);
+		this.menuItemsHandler = new MainMenuController(this.parentFrame);
+
+		this.btnAddUser.addActionListener(this.menuItemsHandler);
+		this.btnViewUsers.addActionListener(this.menuItemsHandler);
+		this.btnAddOffense.addActionListener(this.menuItemsHandler);
+		this.btnViewOffenses.addActionListener(this.menuItemsHandler);
+		this.btnViewConnections.addActionListener(this.menuItemsHandler);
+		
 	}
 
-	public void initialiseLisenters() {
-
-	}
 
 	public void render() {
 
