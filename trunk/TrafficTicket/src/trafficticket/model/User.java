@@ -28,7 +28,7 @@ public class User extends Person
 		this.password = accountPassword;
 		this.type = accountType;
 	}
-
+	
 	public void setPassword(String password) 
 	{
 		this.password = password;

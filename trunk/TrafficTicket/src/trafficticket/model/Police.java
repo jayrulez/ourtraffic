@@ -29,6 +29,13 @@ public class Police extends User
 		this.badgeNumber = badgeNumber;
 		this.division = divison;
 	}
+
+	public Police(Integer badgeNumber, String firstName, String lastName, String middleInitial, Date dob, String address1, String address2, String parish, String accountPassword, Integer accountType) 
+	{
+		super(firstName, lastName, middleInitial, dob, address1, address2,parish,accountPassword, accountType);
+		this.badgeNumber = badgeNumber;
+	}
+	
 	public void setBadgeNumber(Integer badgeNumber) 
 	{
 		this.badgeNumber = badgeNumber;
