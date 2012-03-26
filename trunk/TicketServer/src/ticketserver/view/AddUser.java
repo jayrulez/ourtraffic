@@ -63,6 +63,12 @@ public class AddUser extends JPanel
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(43dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("left:default"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("left:default"),},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -74,6 +80,13 @@ public class AddUser extends JPanel
 		this.txtBadgeNo = new JTextField();
 		this.pnlPoliceBadgeId.add(this.txtBadgeNo, "6, 2, fill, center");
 		this.txtBadgeNo.setColumns(10);
+		//new component
+		this.lblDivisionId = new JLabel("Division Id:");
+		this.pnlPoliceBadgeId.add(this.lblDivisionId, "10, 2, right, center");
+		//new component
+		this.txtDivisionId = new JTextField();
+		this.pnlPoliceBadgeId.add(this.txtDivisionId, "12, 2, fill, default");
+		this.txtDivisionId.setColumns(10);
 		//new component
 		this.pnlTaxOfficerId = new JPanel();
 		this.pnlTaxOfficerId.setVisible(false);
@@ -273,6 +286,7 @@ public class AddUser extends JPanel
 		return cmbxParish;
 	}
 	
+	
 	private static final long serialVersionUID = 1L;
 	private JPanel pnlUserType;
 	private JPanel pnlUserInfo;
@@ -303,5 +317,7 @@ public class AddUser extends JPanel
 	private JTextField txtTaxOfficerId;
 	private JTextField txtBadgeNo;
 	private JPanel pnlTaxOfficerId;
+	private JLabel lblDivisionId;
+	private JTextField txtDivisionId;
 	
 }

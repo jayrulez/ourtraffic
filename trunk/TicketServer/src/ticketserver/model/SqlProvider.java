@@ -83,4 +83,13 @@ public class SqlProvider
 		}
 		return results;
 	}
+	
+	public boolean addUser() throws SQLException
+	{
+		this.callableStatement = connection.prepareCall("{call AddUser(?)}");
+		this.callableStatement.setString(1,"");
+		
+		this.resultSet = this.callableStatement.executeQuery();		
+		return true;
+	}
 }
