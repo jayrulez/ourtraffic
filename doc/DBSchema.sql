@@ -55,6 +55,7 @@ CREATE TABLE IF NOT EXISTS `police` (
 
 CREATE TABLE IF NOT EXISTS `taxofficer` (
   `id` int(11) NOT NULL auto_increment,
+  `officerId` varchar(16) NOT NULL,
   `firstName` varchar(30) NOT NULL,
   `lastName` varchar(30) NOT NULL,
   `middleInitial` varchar(1) DEFAULT NULL,
@@ -62,7 +63,8 @@ CREATE TABLE IF NOT EXISTS `taxofficer` (
   `street` varchar(50) NOT NULL,
   `city` varchar(50) NOT NULL,
   `parish` varchar(30) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE(officerId)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `ticket` (
@@ -123,3 +125,30 @@ BEGIN
     END IF;
 END$$
 DELIMITER ;
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_AddPolice`$$
+CREATE PROCEDURE `sp_addUser` (userHandle varchar(32),divId int(11), fName varchar(30), lName varchar(30), mInitial varchar(1), dob Date, address1 varchar(50), address2 varchar(50), parish varchar(30), password varchar(128), result int)
+BEGIN
+    IF NOT EXISTS (SELECT * FROM `user` where `user`.handle = userHandle) THEN
+        INSERT INTO `police`(badgeId,divisionId,firstName,middleInitial,lastName,DOB,street,city,parish) VALUES(CAST(userHandle AS UNSIGNED),divId,fName,mInitial,lName,dob,address1, address2, parish);
+    END IF;
+END$$
+DELIMITER ;
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_AddTaxOfficer`$$
+CREATE PROCEDURE `sp_addUser` (officerId varchar(16), fName varchar(30), lName varchar(30), mInitial varchar(1), dob Date, address1 varchar(50), address2 varchar(50), parish varchar(30), password varchar(128), result int)
+BEGIN
+    IF NOT EXISTS (SELECT * FROM `user` where `user`.handle = userHandle) THEN
+        INSERT INTO `taxofficer`(id,officerId,firstName,middleInitial,lastName,DOB,street,city,parish) VALUES(DEFAULT,officerId,fName,mInitial,lName,dob,address1, address2, parish);
+        SET result = 1;
+    ELSE
+        SET result = -1;
+    END IF;
+END$$
+DELIMITER ;
+
+
+
