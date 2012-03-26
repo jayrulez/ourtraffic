@@ -128,9 +128,9 @@ DELIMITER ;
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_AddPolice`$$
-CREATE PROCEDURE `sp_addUser` (userHandle varchar(32),divId int(11), fName varchar(30), lName varchar(30), mInitial varchar(1), dob Date, address1 varchar(50), address2 varchar(50), parish varchar(30), password varchar(128), result int)
+CREATE PROCEDURE `sp_addUser` (badgeId int(11),divId int(11), fName varchar(30), lName varchar(30), mInitial varchar(1), dob Date, address1 varchar(50), address2 varchar(50), parish varchar(30), password varchar(128), result int)
 BEGIN
-    IF NOT EXISTS (SELECT * FROM `user` where `user`.handle = userHandle) THEN
+    IF NOT EXISTS (SELECT * FROM `user` where `user`.handle = CAST(badgeId AS CHAR)) THEN
         INSERT INTO `police`(badgeId,divisionId,firstName,middleInitial,lastName,DOB,street,city,parish) VALUES(CAST(userHandle AS UNSIGNED),divId,fName,mInitial,lName,dob,address1, address2, parish);
     END IF;
 END$$
@@ -141,7 +141,7 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_AddTaxOfficer`$$
 CREATE PROCEDURE `sp_addUser` (officerId varchar(16), fName varchar(30), lName varchar(30), mInitial varchar(1), dob Date, address1 varchar(50), address2 varchar(50), parish varchar(30), password varchar(128), result int)
 BEGIN
-    IF NOT EXISTS (SELECT * FROM `user` where `user`.handle = userHandle) THEN
+    IF NOT EXISTS (SELECT * FROM `user` where `user`.handle = badgeId) THEN
         INSERT INTO `taxofficer`(id,officerId,firstName,middleInitial,lastName,DOB,street,city,parish) VALUES(DEFAULT,officerId,fName,mInitial,lName,dob,address1, address2, parish);
         SET result = 1;
     ELSE
@@ -151,4 +151,16 @@ END$$
 DELIMITER ;
 
 
+DELIMITER $$
+DROP TRIGGER IF EXISTS `trg_addPoliceUser`$$
+CREATE TRIGGER `trg_addPoliceUser` AFTER INSERT ON police FOR EACH ROW
+	INSERT INTO `user`(id,handle,pin,accountType) VALUES(DEFAULT,NEW.badgeId,MD5(NEW.pin),2);
+END$$
+DELIMITER ;
 
+DELIMITER $$
+DROP TRIGGER IF EXISTS `trg_addTaxOfficerUser`$$
+CREATE TRIGGER `trg_addTaxOfficerUser` AFTER INSERT ON taxofficer FOR EACH ROW
+	INSERT INTO `user`(id,handle,pin,accountType) VALUES(DEFAULT,NEW.officerId,MD5(NEW.pin),2);
+END$$
+DELIMITER ;
