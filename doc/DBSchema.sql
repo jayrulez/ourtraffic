@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `payment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `police` (
-  `badgeId` int(11) NOT NULL,
+  `badgeId` varchar(16) NOT NULL,
   `divisionId` int(11) NOT NULL,
   `firstName` varchar(30) NOT NULL,
   `lastName` varchar(30) NOT NULL,
@@ -54,7 +54,6 @@ CREATE TABLE IF NOT EXISTS `police` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `taxofficer` (
-  `id` int(11) NOT NULL auto_increment,
   `officerId` varchar(16) NOT NULL,
   `firstName` varchar(30) NOT NULL,
   `lastName` varchar(30) NOT NULL,
@@ -63,13 +62,12 @@ CREATE TABLE IF NOT EXISTS `taxofficer` (
   `street` varchar(50) NOT NULL,
   `city` varchar(50) NOT NULL,
   `parish` varchar(30) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE(officerId)
+  PRIMARY KEY (`officerId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `ticket` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `policeId` int(11) NOT NULL,
+  `policeId` varchar(16) NOT NULL,
   `offenderTrn` int(11) NOT NULL,
   `offenceId` int(11) NOT NULL,
   `offenceDate` date NOT NULL,
@@ -127,23 +125,50 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-DROP PROCEDURE IF EXISTS `sp_AddPolice`$$
-CREATE PROCEDURE `sp_addUser` (badgeId int(11),divId int(11), fName varchar(30), lName varchar(30), mInitial varchar(1), dob Date, address1 varchar(50), address2 varchar(50), parish varchar(30), password varchar(128), result int)
+DROP PROCEDURE IF EXISTS `sp_addPolice`$$
+CREATE PROCEDURE `sp_addPolice` (badgeId varchar(16),divId int(11), fName varchar(30), lName varchar(30), mInitial varchar(1), dob Date, address1 varchar(50), address2 varchar(50), parish varchar(30), password varchar(128), OUT result int)
 BEGIN
-    IF NOT EXISTS (SELECT * FROM `user` where `user`.handle = CAST(badgeId AS CHAR)) THEN
-        INSERT INTO `police`(badgeId,divisionId,firstName,middleInitial,lastName,DOB,street,city,parish) VALUES(CAST(userHandle AS UNSIGNED),divId,fName,mInitial,lName,dob,address1, address2, parish);
+    SET result = 0;
+    IF NOT EXISTS (SELECT * FROM `user` where `user`.handle = badgeId) AND NOT EXISTS(SELECT * FROM police WHERE police.badgeId = badgeId) THEN
+        START TRANSACTION;
+        INSERT INTO `police`(badgeId,divisionId,firstName,middleInitial,lastName,DOB,street,city,parish) VALUES(badgeId,divId,fName,mInitial,lName,dob,address1, address2, parish);
+			IF ROW_COUNT() = 1 THEN
+				INSERT INTO `user`(id,handle,pin,accountType) VALUES(DEFAULT,badgeId,MD5(password),2);
+				IF ROW_COUNT() = 1 THEN
+					SET result = 1;
+					commit;
+				ELSE
+					rollback;
+				END IF;
+			ELSE
+				rollback;
+			END IF;
+    ELSE
+        SET result = -1;
     END IF;
 END$$
 DELIMITER ;
 
 
 DELIMITER $$
-DROP PROCEDURE IF EXISTS `sp_AddTaxOfficer`$$
-CREATE PROCEDURE `sp_addUser` (officerId varchar(16), fName varchar(30), lName varchar(30), mInitial varchar(1), dob Date, address1 varchar(50), address2 varchar(50), parish varchar(30), password varchar(128), result int)
+DROP PROCEDURE IF EXISTS `sp_addTaxOfficer`$$
+CREATE PROCEDURE `sp_addTaxOfficer` (officerId varchar(16), fName varchar(30), lName varchar(30), mInitial varchar(1), dob Date, address1 varchar(50), address2 varchar(50), parish varchar(30), password varchar(128), OUT result int)
 BEGIN
-    IF NOT EXISTS (SELECT * FROM `user` where `user`.handle = badgeId) THEN
-        INSERT INTO `taxofficer`(id,officerId,firstName,middleInitial,lastName,DOB,street,city,parish) VALUES(DEFAULT,officerId,fName,mInitial,lName,dob,address1, address2, parish);
-        SET result = 1;
+	SET result = 0;
+    IF NOT EXISTS (SELECT * FROM `user` where `user`.handle = officerId) AND NOT EXISTS(SELECT * FROM taxofficer WHERE taxofficer.officerId = officerId)  THEN
+        START TRANSACTION;
+			INSERT INTO `taxofficer`(officerId,firstName,middleInitial,lastName,DOB,street,city,parish) VALUES(officerId,fName,mInitial,lName,dob,address1, address2, parish);
+			IF ROW_COUNT() = 1 THEN
+				INSERT INTO `user`(id,handle,pin,accountType) VALUES(DEFAULT,officerId,MD5(password),2);
+				IF ROW_COUNT() = 1 THEN
+					SET result = 1;
+					commit;
+				ELSE
+					rollback;
+				END IF;
+			ELSE
+				rollback;
+			END IF;
     ELSE
         SET result = -1;
     END IF;
@@ -154,13 +179,41 @@ DELIMITER ;
 DELIMITER $$
 DROP TRIGGER IF EXISTS `trg_addPoliceUser`$$
 CREATE TRIGGER `trg_addPoliceUser` AFTER INSERT ON police FOR EACH ROW
-	INSERT INTO `user`(id,handle,pin,accountType) VALUES(DEFAULT,NEW.badgeId,MD5(NEW.pin),2);
+BEGIN
+    INSERT INTO `user`(id,handle,pin,accountType) VALUES(DEFAULT,CAST(NEW.badgeId AS CHAR),MD5(NEW.pin),2);
 END$$
 DELIMITER ;
 
 DELIMITER $$
 DROP TRIGGER IF EXISTS `trg_addTaxOfficerUser`$$
 CREATE TRIGGER `trg_addTaxOfficerUser` AFTER INSERT ON taxofficer FOR EACH ROW
-	INSERT INTO `user`(id,handle,pin,accountType) VALUES(DEFAULT,NEW.officerId,MD5(NEW.pin),2);
+BEGIN
+    INSERT INTO `user`(id,handle,pin,accountType) VALUES(DEFAULT,NEW.officerId,MD5(NEW.pin),2);
+END$$
+DELIMITER ;
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_issueTicket`$$
+CREATE PROCEDURE `sp_issueTicket` (OUT result int)
+BEGIN
+	SET result = 0;
+    IF NOT EXISTS (SELECT * FROM `user` where `user`.handle = officerId) AND NOT EXISTS(SELECT * FROM taxofficer WHERE taxofficer.officerId = officerId)  THEN
+        START TRANSACTION;
+			INSERT INTO `taxofficer`(officerId,firstName,middleInitial,lastName,DOB,street,city,parish) VALUES(officerId,fName,mInitial,lName,dob,address1, address2, parish);
+			IF ROW_COUNT() = 1 THEN
+				INSERT INTO `user`(id,handle,pin,accountType) VALUES(DEFAULT,officerId,MD5(password),2);
+				IF ROW_COUNT() = 1 THEN
+					SET result = 1;
+					commit;
+				ELSE
+					rollback;
+				END IF;
+			ELSE
+				rollback;
+			END IF;
+    ELSE
+        SET result = -1;
+    END IF;
 END$$
 DELIMITER ;

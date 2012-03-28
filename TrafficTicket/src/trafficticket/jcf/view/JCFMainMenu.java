@@ -13,6 +13,9 @@ import com.jgoodies.forms.factories.FormFactory;
 import javax.swing.JButton;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
+
+import trafficticket.jcf.controller.JCFMainMenuController;
+
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -29,6 +32,10 @@ public class JCFMainMenu extends JPanel {
 	private JButton btnViewTickets;
 	private JButton btnViewOffender;
 	private JButton btnOffenseType;
+
+	private JCFMainMenuController menuItemsHandler;
+
+	private JCFFrame parentFrame;
 
 	public JCFMainMenu() {
 		this.initialize();
@@ -80,7 +87,7 @@ public class JCFMainMenu extends JPanel {
 						RowSpec.decode("max(22dlu;default)"),
 						RowSpec.decode("5dlu"), }));
 
-		this.btnIssueTicket = new JButton("Issue Ticket");
+		this.btnIssueTicket = new JButton("Issue a Ticket");
 		this.btnIssueTicket.setIcon(new ImageIcon(JCFMainMenu.class
 				.getResource("/trafficticket/resources/issueTicketIcon.gif")));
 		this.ticketMenuPanel.add(this.btnIssueTicket, "4, 2, left, center");
@@ -116,15 +123,22 @@ public class JCFMainMenu extends JPanel {
 						FormFactory.RELATED_GAP_ROWSPEC,
 						RowSpec.decode("max(19dlu;default)"), }));
 
-		this.btnOffenseType = new JButton("Offense Types");
+		this.btnOffenseType = new JButton("View Offenses");
 		this.btnOffenseType.setToolTipText("View Types of Offenses");
 		this.btnOffenseType.setIcon(new ImageIcon(JCFMainMenu.class
 				.getResource("/trafficticket/resources/viewOffensesIcon.jpg")));
 		this.offenseMenuPanel.add(this.btnOffenseType, "4, 4, left, center");
 	}
 
-	public void initialiseLisenters() {
-
+	public void initialiseLisenters() 
+	{
+		this.parentFrame = ((JCFFrame)this.getTopLevelAncestor());
+		this.menuItemsHandler = new JCFMainMenuController(this.parentFrame);
+		
+		this.btnIssueTicket.addActionListener(this.menuItemsHandler);
+		this.btnOffenseType.addActionListener(this.menuItemsHandler);
+		this.btnViewOffender.addActionListener(this.menuItemsHandler);
+		this.btnViewTickets.addActionListener(this.menuItemsHandler);
 	}
 
 	public void render() {

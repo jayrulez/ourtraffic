@@ -1,0 +1,24 @@
+public void process()
+{
+	String action = "";
+	try
+	{
+		while(true)
+		{
+			con = servSock.accept();
+			this.getStream();
+			try
+			{
+				acton = (String) is.readObject();
+				if(action.equals("insert Customer")
+				{
+					Customer cust = (Customer) is.readObjt();
+					//do operation
+					this.sendDate(true);
+					
+				}
+			}
+			
+		}
+	}
+}

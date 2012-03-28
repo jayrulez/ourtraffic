@@ -30,7 +30,7 @@ public class AddUser extends JPanel
 	}
 	private void initialize() 
 	{
-		this.parishes = new String[]{"Kingston","Saint Andrew","Saint Thomas","Portland", "Saint Mary", "Saint Ann","Saint Elizabeth", "Saint James", "Trelawny", "Hanover", "Westmoreland", "Manchester", "Clarendon"};
+		this.parishes = new String[]{"Select a Parish","Saint Catherine","Kingston","Saint Andrew","Saint Thomas","Portland", "Saint Mary", "Saint Ann","Saint Elizabeth", "Saint James", "Trelawny", "Hanover", "Westmoreland", "Manchester", "Clarendon"};
 		this.userType = new String[]{"Select a Type","Tax Officer", "Police Officer"};
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -286,7 +286,9 @@ public class AddUser extends JPanel
 		return cmbxParish;
 	}
 	
-	
+	public JTextField getTxtDivisionId() {
+		return txtDivisionId;
+	}
 	private static final long serialVersionUID = 1L;
 	private JPanel pnlUserType;
 	private JPanel pnlUserInfo;

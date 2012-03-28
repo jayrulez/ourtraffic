@@ -27,6 +27,7 @@ public class JCFFrame extends MasterFrame implements Runnable {
 
 		this.mainNavMenu = new JCFMainMenu();
 		this.addLeftNavPanelContent(this.mainNavMenu);
+		this.mainNavMenu.initialiseLisenters();
 
 		this.setVisible(true);
 	}
