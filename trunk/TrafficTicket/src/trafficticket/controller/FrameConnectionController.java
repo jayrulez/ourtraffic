@@ -41,10 +41,10 @@ public class FrameConnectionController implements Runnable
 			connectionStatus.setText("Disconneted");
 			connectionStatus.setForeground(Color.RED);
 			
-			ConnectionController connectionController = new ConnectionController();
-			connectionController.connectTicketServer();
+			ConnectionProvider connectionProvider = new ConnectionProvider();
+			connectionProvider.connectTicketServer();
 			
-			Connection connection = connectionController.getConnection();
+			Connection connection = connectionProvider.getConnection();
 			
 			while(jcfFrame.isEnabled())
 			{

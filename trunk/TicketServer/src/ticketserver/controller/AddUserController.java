@@ -17,7 +17,6 @@ public class AddUserController implements ActionListener
 	private SqlProvider sqlProvider;
 	private AddUser addUserPage;
 	private String eventSource;
-	
 	public AddUserController(AddUser addUserPage,String eventSource)
 	{
 		this.addUserPage = addUserPage;
