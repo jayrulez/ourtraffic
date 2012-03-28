@@ -83,16 +83,6 @@ public class JCFMenuBar extends JMenuBar
 		
 		//this.issueTicketForm = new IssueTicketForm();
 		//issueTicketForm.render();
-		
-		this.parentFrame = ((JCFFrame)this.getTopLevelAncestor());
-		//if(this.parentFrame instanceof JCFFrame && this.parentFrame != null)
-		//System.out.println("hello");
-		this.menuItemsHandler = new JCFMainMenuController(this.parentFrame);
-		
-		this.issueTicketItem.addActionListener(this.menuItemsHandler);
-		this.viewTicketItem.addActionListener(this.menuItemsHandler);
-		this.viewOffenderItem.addActionListener(this.menuItemsHandler);
-		this.viewOffenseItem.addActionListener(this.menuItemsHandler);
 	}
 	
 }

@@ -1,9 +1,14 @@
 package trafficticket.jcf.view;
 
+import java.awt.Color;
 import java.util.Date;
+
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -16,7 +21,10 @@ import javax.swing.SwingConstants;
 import javax.swing.BoxLayout;
 import javax.swing.JToggleButton;
 import javax.swing.JButton;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
+import trafficticket.controller.IssueTicketController;
 import trafficticket.view.ContentPage;
 
 public class IssueTicket extends ContentPage {
@@ -31,7 +39,8 @@ public class IssueTicket extends ContentPage {
 	private JLabel lblOffenderParish;
 	private JLabel lblLastName;
 	private JLabel lblFirstName;
-	private JTextField txtAddress1;
+	private JTextArea txtAddress1;
+	private JScrollPane address1Pane;
 	private JComboBox cmbxOffenderParish;
 	private JLabel lblOffenderAddress1;
 	private JLabel lblMiddleInitial;
@@ -39,10 +48,10 @@ public class IssueTicket extends ContentPage {
 	private JComboBox cbxLicenseType;
 	private JLabel lblTrn;
 	private JTextField txtMiddleInitial;
-	private JTextField textAddress2;
+	private JTextArea textAddress2;
+	private JScrollPane address2Pane;
 	private JLabel lblAddress2;
 	private JLabel lblDob;
-	private JComboBox comboBox;
 	private JTextField txtPoints;
 	private JLabel lblPoints;
 	private JTextField txtLastName;
@@ -53,24 +62,28 @@ public class IssueTicket extends ContentPage {
 	private JPanel ticketPanel;
 	private JPanel searchOffenderPanel;
 	private JPanel existingOffenderPanel;
+	private JPanel buttonPanel;
+	
 	private JLabel lblOffense;
 	private JComboBox cmbxTicketOffense;
 	private JLabel lblOffenseCode;
 	private JTextField txtTciketOffenseCode;
 	private JLabel lblDateOfOffense;
-	private JTextField txtTicketAddress1;
+	private JTextArea txtTicketAddress1;
+	private JScrollPane ticketAddress1Pane;
 	private JLabel lblOffenseAddress;
 	private JLabel lblTicketAddress2;
 	private JLabel lblTicketParish;
 	private JLabel lblTicketFine;
 	private JLabel lblTicketPoints;
 	private JTextField txtTicketFine;
-	private JTextField txtTicketAddress2;
+	private JTextArea txtTicketAddress2;
+	private JScrollPane ticketAddress2Pane;
 	private JTextField txtTicketPoints;
 	private JComboBox cmbxTicketParish;
 	private JTextField txtOffenderTrn;
 	private JLabel lblSearchOffenderTrn;
-	private JToggleButton tglbtnFirstTimeOffender;
+	private JCheckBox chbxNewOffender;
 	private JButton btnSearchOffender;
 	private JTextField txtSearchOffenderTrn;
 	private JLabel lblExistingOffenderTrn;
@@ -95,6 +108,12 @@ public class IssueTicket extends ContentPage {
 	private JLabel lblExistingExpiryDateValue;
 	private JDateChooser existingOffenderDobChooser;
 	private JDateChooser offenseDateChooser;
+	
+	private JButton btnIssueTicket;
+	private JButton btnResetIssueTicket;
+	
+	private String[] licenseTypes;
+	private String[] parishes;
 
 	public IssueTicket() {
 		this.initialize();
@@ -102,11 +121,20 @@ public class IssueTicket extends ContentPage {
 
 	private void initialize() {
 
+		this.parishes = new String[]{"Select a Parish","Saint Catherine","Kingston","Saint Andrew","Saint Thomas","Portland", "Saint Mary", "Saint Ann","Saint Elizabeth", "Saint James", "Trelawny", "Hanover", "Westmoreland", "Manchester", "Clarendon"};
 		this.offenderPanel = new JPanel();
 		this.ticketPanel = new JPanel();
 		this.searchOffenderPanel = new JPanel();
 		this.existingOffenderPanel = new JPanel();
-
+		
+		this.existingOffenderPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, new Color(173, 216, 230)), "Offender Information", TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 255)));
+		this.searchOffenderPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, new Color(173, 216, 230)), "Search Offender", TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 255)));
+		this.ticketPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, new Color(173, 216, 230)), "Ticket", TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 255)));
+		this.offenderPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, new Color(173, 216, 230)), "New Offender Information", TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 255)));
+		
+		this.existingOffenderPanel.setVisible(false);
+		this.offenderPanel.setVisible(false);
+		
 		this.offenderPanel.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("18px"), ColumnSpec.decode("89px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
@@ -146,7 +174,9 @@ public class IssueTicket extends ContentPage {
 				FormFactory.RELATED_GAP_ROWSPEC, RowSpec.decode("20px"),
 				FormFactory.LINE_GAP_ROWSPEC, }));
 
-		cbxLicenseType = new JComboBox();
+		this.licenseTypes = new String[]{"Select a type","General","Private"};
+		cbxLicenseType = new JComboBox(this.licenseTypes);
+		
 		lblOffenderTrn = new JLabel("Offender TRN:");
 		this.lblTrn = new JLabel("TRN:");
 		this.offenderPanel.add(this.lblTrn, "2, 2, right, default");
@@ -158,7 +188,7 @@ public class IssueTicket extends ContentPage {
 		this.offenderPanel.add(lblFirstName, "2, 4, right, center");
 
 		this.txtFirstName = new JTextField();
-		this.txtFirstName.setToolTipText("Enter Offender's First Hammer");
+		this.txtFirstName.setToolTipText("Enter Offender's First Name");
 		this.offenderPanel.add(this.txtFirstName, "4, 4, fill, default");
 		this.txtFirstName.setColumns(18);
 		lblMiddleInitial = new JLabel("Middle Initial:");
@@ -183,29 +213,35 @@ public class IssueTicket extends ContentPage {
 				"4, 8, left, center");
 		lblOffenderAddress1 = new JLabel("Address 1:");
 		this.offenderPanel.add(lblOffenderAddress1, "2, 10, right, center");
-		txtAddress1 = new JTextField();
+		txtAddress1 = new JTextArea(4,3);
+		this.txtAddress1.setLineWrap(true);
 		this.txtAddress1.setToolTipText("Enter Offender's Street Address");
-		this.txtAddress1.setColumns(20);
-		this.offenderPanel.add(txtAddress1, "4, 10, left, top");
+		this.address1Pane = new JScrollPane(this.txtAddress1);
+		this.address1Pane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		this.offenderPanel.add(this.address1Pane,"4, 10, left, top");
 
 		this.lblAddress2 = new JLabel("Address 2:");
 		this.offenderPanel.add(this.lblAddress2, "6, 10, right, default");
 
-		this.textAddress2 = new JTextField();
+		this.textAddress2 = new JTextArea(4,3);
+		this.textAddress2.setLineWrap(true);
 		this.textAddress2.setToolTipText("Enter Offender's Town/District");
-		this.offenderPanel.add(this.textAddress2, "8, 10, fill, default");
-		this.textAddress2.setColumns(20);
+		
+		this.address2Pane = new JScrollPane(this.textAddress2);
+		this.address2Pane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		
+		this.offenderPanel.add(this.address2Pane, "8, 10, fill, default");
+
 		lblOffenderParish = new JLabel("Parish:");
 		this.offenderPanel.add(lblOffenderParish, "2, 12, right, center");
-		cmbxOffenderParish = new JComboBox();
+		cmbxOffenderParish = new JComboBox(this.parishes);
 		this.offenderPanel.add(cmbxOffenderParish, "4, 12, left, top");
 
 		lblLicenseType = new JLabel("Type of License:");
 		this.offenderPanel.add(lblLicenseType, "2, 14, right, center");
 
-		this.comboBox = new JComboBox();
-		this.comboBox.setToolTipText("Select Offender's License Type");
-		this.offenderPanel.add(this.comboBox, "4, 14, fill, default");
+		this.cbxLicenseType.setToolTipText("Select Offender's License Type");
+		this.offenderPanel.add(this.cbxLicenseType, "4, 14, fill, default");
 
 		this.lblPoints = new JLabel("Points:");
 		this.offenderPanel.add(this.lblPoints, "2, 16, right, default");
@@ -263,8 +299,8 @@ public class IssueTicket extends ContentPage {
 				"4, 2, left, default");
 		this.txtSearchOffenderTrn.setColumns(15);
 
-		this.tglbtnFirstTimeOffender = new JToggleButton("First Time Offender");
-		this.searchOffenderPanel.add(this.tglbtnFirstTimeOffender, "6, 2");
+		this.chbxNewOffender= new JCheckBox("New Offender");
+		this.searchOffenderPanel.add(this.chbxNewOffender, "6, 2");
 
 		this.btnSearchOffender = new JButton("Search");
 		this.searchOffenderPanel.add(this.btnSearchOffender, "2, 4");
@@ -387,6 +423,7 @@ public class IssueTicket extends ContentPage {
 		this.existingOffenderPanel
 				.add(this.lblExistingExpiryDateValue, "4, 18");
 
+		this.offenderPanel.setVisible(false);
 		this.add(this.offenderPanel);
 		this.add(this.ticketPanel);
 		this.ticketPanel.setLayout(new FormLayout(new ColumnSpec[] {
@@ -442,21 +479,29 @@ public class IssueTicket extends ContentPage {
 		this.lblOffenseAddress = new JLabel("Address 1:");
 		this.ticketPanel.add(this.lblOffenseAddress, "2, 6, right, default");
 
-		this.txtTicketAddress1 = new JTextField();
-		this.ticketPanel.add(this.txtTicketAddress1, "4, 6, left, center");
-		this.txtTicketAddress1.setColumns(20);
+		this.txtTicketAddress1 = new JTextArea(4,3);
+		this.txtTicketAddress1.setLineWrap(true);
+		
+		this.ticketAddress1Pane = new JScrollPane(this.txtTicketAddress1);
+		this.ticketAddress1Pane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		
+		this.ticketPanel.add(this.ticketAddress1Pane, "4, 6, left, center");
+		
 
 		this.lblTicketAddress2 = new JLabel("Address 2:");
 		this.ticketPanel.add(this.lblTicketAddress2, "6, 6, right, default");
 
-		this.txtTicketAddress2 = new JTextField();
-		this.ticketPanel.add(this.txtTicketAddress2, "8, 6, fill, default");
-		this.txtTicketAddress2.setColumns(10);
+		this.txtTicketAddress2 = new JTextArea(4,3);
+		this.txtTicketAddress2.setLineWrap(true);
+		this.ticketAddress2Pane = new JScrollPane(this.txtTicketAddress2);
+		this.ticketAddress2Pane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		
+		this.ticketPanel.add(this.ticketAddress2Pane, "8, 6, fill, default");
 
 		this.lblTicketParish = new JLabel("Parish:");
 		this.ticketPanel.add(this.lblTicketParish, "2, 8, right, default");
 
-		this.cmbxTicketParish = new JComboBox();
+		this.cmbxTicketParish = new JComboBox(this.parishes);
 		this.ticketPanel.add(this.cmbxTicketParish, "4, 8, fill, default");
 
 		this.lblTicketFine = new JLabel("Fine:");
@@ -472,10 +517,71 @@ public class IssueTicket extends ContentPage {
 		this.txtTicketPoints = new JTextField();
 		this.ticketPanel.add(this.txtTicketPoints, "4, 12, fill, default");
 		this.txtTicketPoints.setColumns(10);
-
+		
+		this.buttonPanel = new JPanel();
+		
+		this.buttonPanel.setLayout(new FormLayout(new ColumnSpec[] {
+				ColumnSpec.decode("18px"), ColumnSpec.decode("89px"),
+				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+				ColumnSpec.decode("107px:grow"),
+				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+				ColumnSpec.decode("142px"),
+				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+				ColumnSpec.decode("left:129px:grow"),
+				ColumnSpec.decode("32px"),
+				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+				ColumnSpec.decode("9px"),
+				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+				ColumnSpec.decode("36px"),
+				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+				ColumnSpec.decode("6px"),
+				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+				ColumnSpec.decode("16px"),
+				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+				ColumnSpec.decode("28px"),
+				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+				ColumnSpec.decode("52px"), }, new RowSpec[] {
+				FormFactory.LINE_GAP_ROWSPEC, RowSpec.decode("20px"),
+				FormFactory.LINE_GAP_ROWSPEC, RowSpec.decode("30px"),
+				FormFactory.RELATED_GAP_ROWSPEC, }));
+		
+		this.btnIssueTicket = new JButton("Issue Ticket");
+		this.btnResetIssueTicket = new JButton("Reset Form");
+	
+		this.buttonPanel.add(this.btnIssueTicket, "2, 2, fill, default");
+		this.buttonPanel.add(this.btnResetIssueTicket, "4, 2, fill, default");
+		
+		this.add(this.buttonPanel);
+		
+		this.initializeListeners();
 	}
 
+	public void initializeListeners()
+	{
+		this.chbxNewOffender.addItemListener(new IssueTicketController(this, "chbxNewOffender"));
+		this.btnSearchOffender.addActionListener(new IssueTicketController(this, "btnSearchOffender"));
+		this.btnIssueTicket.addActionListener(new IssueTicketController(this, "btnIssueTicket"));
+		this.btnResetIssueTicket.addActionListener(new IssueTicketController(this, "btnResetIssueTicket"));
+	}
+	
 	public void startInit() {
 		this.initialize();
+	}
+	
+	public JPanel getOffenderPanel() {
+		return offenderPanel;
+	}
+	
+	public JTextField getTxtSearchOffenderTrn() {
+		return txtSearchOffenderTrn;
+	}
+	
+	public JButton getBtnSearchOffender() {
+		return btnSearchOffender;
+	}
+	
+	public JPanel getExistingOffenderPanel() {
+		return existingOffenderPanel;
 	}
 }
