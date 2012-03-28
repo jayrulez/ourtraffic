@@ -10,7 +10,8 @@ import java.sql.Statement;
 import java.util.Date;
 import java.util.Vector;
 
-import trafficticket.model.Police;
+import extension.model.Police;
+
 //import com.mysql.jdbc.Driver;
 public class SqlProvider
 {
