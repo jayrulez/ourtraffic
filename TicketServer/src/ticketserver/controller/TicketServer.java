@@ -3,11 +3,11 @@ import java.net.*;
 import java.io.*;
 
 
-public class TicketServer
+public class TicketServer implements Runnable
 {
 	public final static int PORT = 26001;
 
-	public static void main(String[] args) throws Exception
+	public void initialize()
 	{
 		int requestId = 1;
 
@@ -21,7 +21,7 @@ public class TicketServer
 			{
 				Socket socket = serverSocket.accept();
 				
-				System.out.println("Creating thread");
+				System.out.println("Client Connected");
 
 				Thread thread = new TSThreadHandler(socket, requestId);
 
@@ -38,5 +38,11 @@ public class TicketServer
 
 			System.exit(-1);
 		}
+	}
+
+	@Override
+	public void run() 
+	{
+		this.initialize();
 	}
 }

@@ -36,7 +36,7 @@ public class SqlProvider
 		Class.forName("com.mysql.jdbc.Driver");
 		
 		this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/ticketingdb?user=root&password=");
-		System.out.println("connected");
+		//System.out.println("connected");
 	}
 	
 	public void dbDisconnect() throws SQLException

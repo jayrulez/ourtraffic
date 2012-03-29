@@ -1,5 +1,7 @@
 package ticketserver.view;
 
+import ticketserver.controller.TicketServerFrameConnectionController;
+
 
 public class TicketServerFrame extends MasterFrame implements Runnable {
 	private static final long serialVersionUID = 1L;
@@ -25,8 +27,16 @@ public class TicketServerFrame extends MasterFrame implements Runnable {
 		
 		this.setVisible(true);
 	}
+	
+	public void testConnection()
+	{
+		Thread connectionStatusThread = new Thread(new TicketServerFrameConnectionController(this));
+		connectionStatusThread.start();
+	}
+	
 	public void run() 
 	{
 			this.initGui();
+			this.testConnection();
 	}
 }

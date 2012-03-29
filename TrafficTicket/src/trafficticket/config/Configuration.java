@@ -42,7 +42,8 @@ public class Configuration
 		}
 		catch(IOException ex)
 		{
-			throw ex;
+			throw new IOException("config file");
+			//JOptionPane.showMessageDialog(null, "Error: Configuration file could not be read.","Configuration Error",JOptionPane.ERROR_MESSAGE);
 		} 
 		catch (ParserConfigurationException ex) 
 		{
@@ -51,7 +52,7 @@ public class Configuration
 		}
 	}
 	
-	public Connection getConnection(String connectionName) throws IOException, UnknownHostException,NumberFormatException
+	public Connection getConnection(String connectionName)throws UnknownHostException,NumberFormatException
 	{
 		String address="";
 		Integer port = 0;

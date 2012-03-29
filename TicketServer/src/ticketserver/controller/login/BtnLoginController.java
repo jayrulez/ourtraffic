@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
+import ticketserver.controller.TicketServer;
 import ticketserver.view.TicketServerFrame;
 
 public class BtnLoginController extends MouseAdapter implements ActionListener {
@@ -53,10 +54,12 @@ public class BtnLoginController extends MouseAdapter implements ActionListener {
 		this.login();
 	}
 
-	private void login() {
+	private void login() 
+	{
 		this.lblControllerStatus.setText("Logging in...");
 
-		if (true) {
+		if (true) 
+		{
 			this.parentFrame.setVisible(false);
 
 			/* distroy the login frame and all its contents */
@@ -65,6 +68,10 @@ public class BtnLoginController extends MouseAdapter implements ActionListener {
 			// start Tax Office program module
 			TicketServerFrame ticketFrame = new TicketServerFrame();
 			SwingUtilities.invokeLater(ticketFrame);
+			
+			//listening for client connections
+			Thread ticketServerThread = new Thread(new TicketServer());
+			ticketServerThread.start();
 		}
 
 	}
