@@ -75,12 +75,12 @@ public class SqlProvider
 			{
 				if(this.resultSet.getInt("accountType")==2)
 				{
-					results.add(new Police(this.resultSet.getInt("badgeId"),this.resultSet.getString("firstName"),this.resultSet.getString("lastName"),this.resultSet.getString("middleInitial"),this.resultSet.getDate("DOB"),
+					results.add(new Police(this.resultSet.getString("badgeId"),this.resultSet.getString("firstName"),this.resultSet.getString("lastName"),this.resultSet.getString("middleInitial"),this.resultSet.getDate("DOB"),
 							this.resultSet.getString("street"),this.resultSet.getString("city"),this.resultSet.getString("parish"),this.resultSet.getString("pin"),this.resultSet.getInt("accountType")));
 				}
 				else if(this.resultSet.getInt("accountType")==3)
 				{
-					results.add(new Police(this.resultSet.getInt("id"),this.resultSet.getString("firstName"),this.resultSet.getString("lastName"),this.resultSet.getString("middleInitial"),this.resultSet.getDate("DOB"),
+					results.add(new Police(this.resultSet.getString("id"),this.resultSet.getString("firstName"),this.resultSet.getString("lastName"),this.resultSet.getString("middleInitial"),this.resultSet.getDate("DOB"),
 							this.resultSet.getString("street"),this.resultSet.getString("city"),this.resultSet.getString("parish"),this.resultSet.getString("pin"),this.resultSet.getInt("accountType")));
 				}
 				
@@ -131,4 +131,68 @@ public class SqlProvider
 
 		return this.callableStatement.getInt("result");
 	}
+	
+	public int issueTicketNewOffender(Integer offenderTrn, String firstName, String lastName, String middleInitial,Date dob, String address1, String address2, String parish, String licenseType, Integer licensePoints, Date expiryDate, String policeId, Integer offenseId, Date offenseDate, String ticketAddress1, String ticketAddress2, String ticketParish, String description, Float fine, Integer ticketPoints) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException
+	{
+		this.dbConnect();
+		this.callableStatement = connection.prepareCall("call sp_issueTicketNewOffender(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+		this.callableStatement.setInt(1,offenderTrn);
+		this.callableStatement.setString(2,firstName);
+		this.callableStatement.setString(3,lastName);
+		this.callableStatement.setString(4,middleInitial);
+		this.callableStatement.setString(5,address1);
+		this.callableStatement.setString(6,address2);
+		this.callableStatement.setString(7,parish);
+		this.callableStatement.setDate(8,new java.sql.Date(dob.getTime()));
+		this.callableStatement.setString(9,licenseType);
+		this.callableStatement.setInt(10,licensePoints);
+		this.callableStatement.setDate(11,new java.sql.Date(expiryDate.getTime()));
+		
+		this.callableStatement.setString(12,policeId);
+		this.callableStatement.setInt(13,offenseId);
+		this.callableStatement.setDate(14,new java.sql.Date(offenseDate.getTime()));
+		this.callableStatement.setString(15,ticketAddress1);
+		this.callableStatement.setString(16,ticketAddress2);
+		this.callableStatement.setString(17,ticketParish);
+		this.callableStatement.setString(18,description);
+		this.callableStatement.setFloat(19,fine);
+		this.callableStatement.setInt(20,ticketPoints);
+		
+		this.callableStatement.registerOutParameter(21, java.sql.Types.INTEGER);
+		this.callableStatement.execute();	
+		System.out.println(this.callableStatement.getInt("result"));
+
+		return this.callableStatement.getInt("result");
+	}
+	//offenderTrn int(11), firstName varchar(30), lastName varchar(30), middleInitial varchar(1),street varchar(50), city varchar(30), parish varchar(30), dob date,licenseType varchar(20),licensePoints int(11), expiryDate Date ,policeId varchar(16), offenseId int(11), offenseDate date, street varchar(50), city varchar(50), parish varchar(30), description text, fine float, points int(11),OUT result int
+	public int issueTicket(Integer offenderTrn ,String policeId, Integer offenseId, Date offenseDate, String ticketAddress1, String ticketAddress2, String ticketParish, String description, Float fine, Integer ticketPoints)throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException
+	{
+		this.dbConnect();
+		
+		this.callableStatement = connection.prepareCall("call sp_issueTicketNewOffender(?,?,?,?,?,?,?,?,?,?,?)");
+		this.callableStatement.setInt(1,offenderTrn);
+		this.callableStatement.setString(2,policeId);
+		this.callableStatement.setInt(3,offenseId);
+		this.callableStatement.setDate(4,new java.sql.Date(offenseDate.getTime()));
+		this.callableStatement.setString(5,ticketAddress1);
+		this.callableStatement.setString(6,ticketAddress2);
+		this.callableStatement.setString(7,ticketParish);
+		this.callableStatement.setString(8,description);
+		this.callableStatement.setFloat(9,fine);
+		this.callableStatement.setInt(10,ticketPoints);
+		
+		this.callableStatement.registerOutParameter(11, java.sql.Types.INTEGER);	
+		
+		this.callableStatement.execute();	
+		System.out.println(this.callableStatement.getInt("result"));
+
+		return this.callableStatement.getInt("result");
+	}
+	
+	public void addOffense()
+	{
+		
+	}
+	
+	
 }

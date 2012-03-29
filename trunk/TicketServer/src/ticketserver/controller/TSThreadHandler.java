@@ -8,13 +8,11 @@ import extension.model.ServiceResponse;
 class TSThreadHandler extends Thread
 {
 	private Socket socket;
-	private int requestId;
 	private ServiceRequestController requestController;
 
-	TSThreadHandler(Socket socket, int requestId)
+	TSThreadHandler(Socket socket)
 	{
-		this.socket    = socket;
-		this.requestId = requestId;
+		this.socket = socket;
 		this.requestController = new ServiceRequestController();
 	}
 
@@ -25,28 +23,39 @@ class TSThreadHandler extends Thread
 			ObjectOutputStream objectOutputStream = new ObjectOutputStream(this.socket.getOutputStream());
 			ObjectInputStream objectInputStream = new ObjectInputStream(this.socket.getInputStream());
 			
-			ServiceRequest serviceRequest;
-			ServiceResponse serviceResponse;
+			ServiceRequest serviceRequest = null;
+			ServiceResponse serviceResponse = null;
 			
-			while(objectInputStream != null)
+			while(true)
 			{
 				try
 				{
+					//get a request
 					serviceRequest = (ServiceRequest) objectInputStream.readObject();
-					//System.out.println("available:"+objectInputStream.available());
-					//System.out.println(serviceRequest.getAction());
-					this.requestController.setServiceRequest(serviceRequest);
 					
-					this.requestController.processServiceRequest();
-					serviceResponse = this.requestController.getServiceResponse();
-					
-					objectOutputStream.writeObject(serviceResponse);
-					System.out.println("Server says:"+serviceResponse.getResponse());
-					
+					//if a request is received
+					if(serviceRequest != null)
+					{
+						this.requestController.setServiceRequest(serviceRequest);
+						
+						//process service request and produce a service response
+						this.requestController.processServiceRequest();
+						serviceResponse = this.requestController.getServiceResponse();
+						
+						//remove service request since a response is created
+						serviceRequest = null;
+						
+						//send the response to the client
+						objectOutputStream.writeObject(serviceResponse);
+						objectOutputStream.flush();
+						
+						//remove the response since it is sent to the client
+						serviceResponse = null;
+					}
 				}
 				catch(IOException ex)
 				{
-					
+					break;
 				}
 			}
 		}
