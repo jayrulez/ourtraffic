@@ -23,7 +23,7 @@ public class TicketServer implements Runnable
 				
 				System.out.println("Client Connected");
 
-				Thread thread = new TSThreadHandler(socket, requestId);
+				Thread thread = new TSThreadHandler(socket);
 
 				thread.start();
 

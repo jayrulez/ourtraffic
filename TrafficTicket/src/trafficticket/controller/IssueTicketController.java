@@ -26,7 +26,14 @@ public class IssueTicketController implements ActionListener, ItemListener
 		}
 		else  if(this.eventSource.equalsIgnoreCase("btnIssueTicket"))
 		{
-			
+			if(this.issueTicketPage.getChbxNewOffender().isSelected())
+			{
+				
+			}
+			else
+			{
+				
+			}
 		}
 		else if(this.eventSource.equalsIgnoreCase("btnResetIssueTicket"))
 		{

@@ -10,7 +10,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import extension.model.ServiceRequest;
-import extension.model.ServiceResponse;
 
 import trafficticket.controller.ConnectionController;
 import trafficticket.jcf.view.JCFFrame;
@@ -47,7 +46,7 @@ public class JCFFrameConnectionController implements Runnable
 			{
 				connectionController.submitRequest();
 				
-				if(connectionController.getServiceResponse().getResponse() == ServiceResponse.TERMINATE_CONNECTION)
+				if(connectionController.isDialogSuccess())
 				{
 					//delete reference
 					connectionController = null;
@@ -91,7 +90,7 @@ public class JCFFrameConnectionController implements Runnable
 			{
 				try 
 				{
-					Thread.sleep(5000);
+					Thread.sleep(2000);
 				} 
 				catch (InterruptedException e) 
 				{

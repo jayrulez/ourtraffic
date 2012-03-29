@@ -23,18 +23,17 @@ public class ConnectionController
 	private ConnectionProvider connectionProvider;
 	private ObjectOutputStream objectOutputStream;
 	private ObjectInputStream objectInputStream;
-	
+	private Socket socket;
+	private boolean dialogueSuccess;
 	public ConnectionController() 
 	{
-		this.serviceResponse = new ServiceResponse();
-		this.serviceRequest = new ServiceRequest();
+		this.dialogueSuccess = false;
 	}
 	
 	public ConnectionController(ServiceRequest serviceRequest) 
 	{
-		// TODO Auto-generated constructor stub
+		this.dialogueSuccess = false;
 		this.serviceRequest = serviceRequest;
-		this.serviceResponse = new ServiceResponse();
 	}
 	
 	public void submitRequest() throws SAXException, IOException, ParserConfigurationException, UnknownHostException, NumberFormatException, ClassNotFoundException
@@ -44,49 +43,78 @@ public class ConnectionController
 		//attempt to connect to ticket server
 		this.connectionProvider.connectTicketServer();
 		Connection connection = this.connectionProvider.getConnection(); 
-		Socket socket = connection.getSocket();
+		socket = connection.getSocket();
 		
 		//connect to the server and get the output stream of that connection
 		this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 		this.objectInputStream = new ObjectInputStream(socket.getInputStream());
-		
-		//send service request
+			
+		//send request to the server
 		this.objectOutputStream.writeObject(this.serviceRequest);
+		this.objectOutputStream.flush();
 		
-		//wait for service response
-		while(this.objectInputStream != null)
+		//remove the request since the request is already sent
+		this.serviceRequest = null;
+		
+		while(true)
 		{		
+			//get response from server
 			try
 			{
-				//read server response
-				//this.serviceResponse = (ServiceResponse) this.objectInputStream.readObject();
-				//System.out.println("server response:"+serviceResponse.getResponse());
-				//send response to terminate connection
+				this.readData();
 				
-				if(this.serviceResponse.getResponse() == ServiceResponse.TERMINATE_CONNECTION)
+				//if a response is received
+				if(this.serviceResponse != null)
 				{
-					System.out.println("Client received TERMINATE from server");
-					//close connection
-					socket.close();
-					System.out.println("client socket closed");
-				}
-				if(this.serviceResponse.getResponse() == ServiceResponse.SUCCESS)
-				{	
-					System.out.println("Success received from server");
-					this.objectOutputStream.writeObject(new ServiceRequest(ServiceRequest.TERMINATE_CONNECTION));
-					System.out.println("Clients sends TERMINATE");
-					
-					//read server response
-					this.serviceResponse = (ServiceResponse) this.objectInputStream.readObject();
-					System.out.println("server response:"+serviceResponse.getResponse());
-					//send response to terminate connection
+					this.writeData();
+					this.serviceResponse = null;
 				}
 			}
 			catch(IOException ex)
 			{
-				
+				this.objectInputStream.close();
+				this.objectOutputStream.close();
+				break;
 			}
 		}
+	}
+
+	public void writeData() throws IOException
+	{
+		switch(this.serviceResponse.getResponse())
+		{
+			//server agreed to terminate the  connection so let's terminate
+			case ServiceResponse.TERMINATE_CONNECTION:
+				System.out.println("Client received TERMINATE from server");
+				
+				//close connection
+				this.socket.close();
+				System.out.println("client socket closed");
+				this.dialogueSuccess = true;
+			break;
+			
+			//server has successfully received the request
+			case ServiceResponse.SUCCESS:
+				System.out.println("Success received from server");
+				
+				//prepare a request to terminate the connection
+				this.serviceRequest = new ServiceRequest(ServiceRequest.TERMINATE_CONNECTION);
+				
+				//send the request to terminate the connection 
+				this.objectOutputStream.writeObject(this.serviceRequest);
+				this.objectOutputStream.flush();
+				
+				//delete the request to terminate the connection since we have sent it
+				this.serviceRequest = null;
+				System.out.println("Clients sends TERMINATE");
+			break;	
+		}		
+	}
+
+	public void readData() throws ClassNotFoundException, IOException
+	{
+		//get response from server
+		this.serviceResponse = (ServiceResponse)this.objectInputStream.readObject();
 	}
 	
 	public ServiceRequest getServiceRequest() {
@@ -102,5 +130,10 @@ public class ConnectionController
 
 	public void setServiceResponse(ServiceResponse serviceResponse) {
 		this.serviceResponse = serviceResponse;
+	}
+
+	public boolean isDialogSuccess() 
+	{
+		return this.dialogueSuccess;
 	}
 }

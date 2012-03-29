@@ -9,16 +9,18 @@ public class Ticket
 	private Date offenseDate;
 	private Address offensePlace;
 	private String description;
-	private Double fine;
+	private Float fine;
 	private Integer points;
 	private Integer paymentStatus;
 	private Offense offense;
+	private Offender offender;
+	private Police police;
 	
 	public Ticket() 
 	{
 		// TODO Auto-generated constructor stub
 	}
-	public Ticket(Integer ticketNumber, Date offenseDate, Address offensePlace, String description, Double fine, Integer points, Integer payementStatus) 
+	public Ticket(Integer ticketNumber, Date offenseDate, Address offensePlace, String description, Float fine, Integer points, Integer payementStatus) 
 	{
 		this.description = description;
 		this.fine = fine;
@@ -29,7 +31,7 @@ public class Ticket
 		this.ticketNumber = ticketNumber;
 		this.offense = null;
 	}
-	public Ticket(Integer ticketNumber, Date offenseDate, Address offensePlace, String description, Double fine, Integer points, Integer payementStatus, Offense offense) 
+	public Ticket(Integer ticketNumber, Date offenseDate, Address offensePlace, String description, Float fine, Integer points, Integer payementStatus, Offense offense) 
 	{
 		this.description = description;
 		this.fine = fine;
@@ -40,7 +42,7 @@ public class Ticket
 		this.ticketNumber = ticketNumber;
 		this.offense = offense;
 	}
-	public Ticket(Integer ticketNumber, Date offenseDate, Address offensePlace, String description, Double fine, Integer points, Integer payementStatus, Integer offenseCode) 
+	public Ticket(Integer ticketNumber, Date offenseDate, Address offensePlace, String description, Float fine, Integer points, Integer payementStatus, Integer offenseCode) 
 	{
 		this.description = description;
 		this.fine = fine;
@@ -63,7 +65,7 @@ public class Ticket
 	{
 		this.offensePlace = offensePlace;
 	}
-	public void setFine(Double fine) 
+	public void setFine(Float fine) 
 	{
 		this.fine = fine;
 	}
@@ -95,7 +97,7 @@ public class Ticket
 	{
 		return paymentStatus;
 	}
-	public Double getFine() 
+	public Float getFine() 
 	{
 		return fine;
 	}
@@ -114,5 +116,17 @@ public class Ticket
 	public void setOffense(Offense offense) 
 	{
 		this.offense = offense;
+	}
+	public Offender getOffender() {
+		return offender;
+	}
+	public void setOffender(Offender offender) {
+		this.offender = offender;
+	}
+	public Police getPolice() {
+		return police;
+	}
+	public void setPolice(Police police) {
+		this.police = police;
 	}
 }

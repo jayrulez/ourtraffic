@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `division` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
-CREATE TABLE IF NOT EXISTS `offence` (
+CREATE TABLE IF NOT EXISTS `offense` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `description` text,
@@ -33,8 +33,10 @@ CREATE TABLE IF NOT EXISTS `offender` (
 
 CREATE TABLE IF NOT EXISTS `payment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `officerId` varchar(16) NOT NULL, 
   `ticket_id` int(11) NOT NULL,
   `amount` float NOT NULL,
+  `paymentDate` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_payment_ticket` (`ticket_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
@@ -65,21 +67,24 @@ CREATE TABLE IF NOT EXISTS `taxofficer` (
   PRIMARY KEY (`officerId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- payment status (unpaid = 0), (paid = 1)
 CREATE TABLE IF NOT EXISTS `ticket` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `policeId` varchar(16) NOT NULL,
   `offenderTrn` int(11) NOT NULL,
-  `offenceId` int(11) NOT NULL,
-  `offenceDate` date NOT NULL,
-  `offenceLocation` varchar(100) NOT NULL,
-  `description` text NOT NULL,
+  `offenseId` int(11) NOT NULL,
+  `offenseDate` date NOT NULL,
+  `street` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `parish` varchar(30) NOT NULL,
+  `description` text NULL,
   `fine` float NOT NULL,
   `points` int(11) NOT NULL,
-  `paymentStatus` tinyint(1) NOT NULL,
+  `paymentStatus` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `fk_ticekt_police` (`policeId`),
   KEY `fk_ticekt_offender` (`offenderTrn`),
-  KEY `fk_ticekt_offence` (`offenceId`)
+  KEY `fk_ticekt_offense` (`offenseId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- 2 Police, 3 Taxofficer --
@@ -95,13 +100,14 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 
 ALTER TABLE `payment`
-  ADD CONSTRAINT `fk_payment_ticket` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_payment_ticket` FOREIGN KEY (`ticket_id`) REFERENCES `ticket` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_payment_officer` FOREIGN KEY(`officerId`) REFERENCES `taxofficer` (`officerid`) ON UPDATE CASCADE;
 
 ALTER TABLE `police`
   ADD CONSTRAINT `fk_police_division` FOREIGN KEY (`divisionId`) REFERENCES `division` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `ticket`
-  ADD CONSTRAINT `fk_ticekt_offence` FOREIGN KEY (`offenceId`) REFERENCES `offence` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_ticekt_offense` FOREIGN KEY (`offenseId`) REFERENCES `offense` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_ticekt_offender` FOREIGN KEY (`offenderTrn`) REFERENCES `offender` (`trn`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_ticekt_police` FOREIGN KEY (`policeId`) REFERENCES `police` (`badgeId`) ON DELETE CASCADE ON UPDATE CASCADE;
   
@@ -177,43 +183,32 @@ DELIMITER ;
 
 
 DELIMITER $$
-DROP TRIGGER IF EXISTS `trg_addPoliceUser`$$
-CREATE TRIGGER `trg_addPoliceUser` AFTER INSERT ON police FOR EACH ROW
-BEGIN
-    INSERT INTO `user`(id,handle,pin,accountType) VALUES(DEFAULT,CAST(NEW.badgeId AS CHAR),MD5(NEW.pin),2);
-END$$
-DELIMITER ;
-
-DELIMITER $$
-DROP TRIGGER IF EXISTS `trg_addTaxOfficerUser`$$
-CREATE TRIGGER `trg_addTaxOfficerUser` AFTER INSERT ON taxofficer FOR EACH ROW
-BEGIN
-    INSERT INTO `user`(id,handle,pin,accountType) VALUES(DEFAULT,NEW.officerId,MD5(NEW.pin),2);
-END$$
-DELIMITER ;
-
-
-DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_issueTicket`$$
-CREATE PROCEDURE `sp_issueTicket` (OUT result int)
+CREATE PROCEDURE `sp_issueTicket` (policeId varchar(16), offenderTrn int(11), offenseId int(11), offenseDate date, street varchar(50), city varchar(50), parish varchar(30), description text , fine float, points int(11),OUT result int)
 BEGIN
 	SET result = 0;
-    IF NOT EXISTS (SELECT * FROM `user` where `user`.handle = officerId) AND NOT EXISTS(SELECT * FROM taxofficer WHERE taxofficer.officerId = officerId)  THEN
-        START TRANSACTION;
-			INSERT INTO `taxofficer`(officerId,firstName,middleInitial,lastName,DOB,street,city,parish) VALUES(officerId,fName,mInitial,lName,dob,address1, address2, parish);
-			IF ROW_COUNT() = 1 THEN
-				INSERT INTO `user`(id,handle,pin,accountType) VALUES(DEFAULT,officerId,MD5(password),2);
-				IF ROW_COUNT() = 1 THEN
-					SET result = 1;
-					commit;
-				ELSE
-					rollback;
-				END IF;
-			ELSE
-				rollback;
-			END IF;
-    ELSE
-        SET result = -1;
-    END IF;
+	INSERT INTO `ticket`(id,policeId,offenderTrn,offenseId,offenseDate,street,city,parish,description,fine,points) values(default,policeId,offenderTrn,offenseId,offenseDate,street,city,parish,description,fine,points);
+END$$
+DELIMITER ;
+
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_issueTicketNewOffender`$$
+CREATE PROCEDURE `sp_issueTicketNewOffender` (offenderTrn int(11), firstName varchar(30), lastName varchar(30), middleInitial varchar(1),street varchar(50), city varchar(30), parish varchar(30), dob date,licenseType varchar(20),licensePoints int(11), expiryDate Date ,policeId varchar(16), offenseId int(11), offenseDate date, street varchar(50), city varchar(50), parish varchar(30), description text, fine float, points int(11),OUT result int)
+BEGIN
+	SET result = 0;
+	START TRANSACTION;
+	INSERT INTO `offender`(trn,firstName,lastName,middleInitial,DOB,street,city,parish,licenseType,points,expiryDate) values(offenderTrn,firstName,lastName,middleInitial,street,city,parish,dob,licenseType,licensePoints,expiryDate);
+	IF ROW_COUNT()=1 THEN
+		INSERT INTO `ticket`(id,policeId,offenderTrn,offenseId,offenseDate,street,city,parish,description,fine,points) values(default,policeId,offenderTrn,offenseId,offenseDate,street,city,parish,description,fine,points);
+		IF ROW_COUNT()=1 THEN
+			commit;
+		ELSE
+			SET result = -2;
+			rollback;
+		END IF;
+	ELSE
+		SET result = -1;
+	END IF;
 END$$
 DELIMITER ;

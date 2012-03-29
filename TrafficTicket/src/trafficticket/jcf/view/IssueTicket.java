@@ -573,15 +573,64 @@ public class IssueTicket extends ContentPage {
 		return offenderPanel;
 	}
 	
-	public JTextField getTxtSearchOffenderTrn() {
+	public JTextField getTxtSearchOffenderTrn() 
+	{
 		return txtSearchOffenderTrn;
 	}
 	
-	public JButton getBtnSearchOffender() {
+	public JButton getBtnSearchOffender() 
+	{
 		return btnSearchOffender;
 	}
 	
-	public JPanel getExistingOffenderPanel() {
+	public JPanel getExistingOffenderPanel() 
+	{
 		return existingOffenderPanel;
+	}
+	
+	public JTextArea getTxtAddress1() {
+		return txtAddress1;
+	}
+	public JTextField getTxtExpiryDate() {
+		return txtExpiryDate;
+	}
+	public JTextField getTxtFirstName() {
+		return txtFirstName;
+	}
+	public JTextField getTxtLastName() {
+		return txtLastName;
+	}
+	public JTextField getTxtMiddleInitial() {
+		return txtMiddleInitial;
+	}
+	public JTextField getTxtOffenderTrn() {
+		return txtOffenderTrn;
+	}
+	public JTextField getTxtPoints() {
+		return txtPoints;
+	}
+	public JTextField getTxtTciketOffenseCode() 
+	{
+		return txtTciketOffenseCode;
+	}
+	public JTextArea getTxtTicketAddress1() 
+	{
+		return txtTicketAddress1;
+	}
+	public JTextArea getTxtTicketAddress2() 
+	{
+		return txtTicketAddress2;
+	}
+	public JTextField getTxtTicketFine() 
+	{
+		return txtTicketFine;
+	}
+	public JTextField getTxtTicketPoints() 
+	{
+		return txtTicketPoints;
+	}
+	public JCheckBox getChbxNewOffender() 
+	{
+		return chbxNewOffender;
 	}
 }
