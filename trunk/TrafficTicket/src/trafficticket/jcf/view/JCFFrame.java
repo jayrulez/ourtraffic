@@ -1,7 +1,7 @@
 package trafficticket.jcf.view;
 
-import trafficticket.controller.FrameConnectionController;
 import trafficticket.controller.MiscController;
+import trafficticket.jcf.controller.JCFFrameConnectionController;
 
 import trafficticket.view.MasterFrame;
 
@@ -34,8 +34,8 @@ public class JCFFrame extends MasterFrame implements Runnable {
 	
 	public void testConnection()
 	{
-		Thread connectionThread = new Thread(new FrameConnectionController(this,"JCFFrame"));
-		connectionThread.start();
+		Thread connectionStatusThread = new Thread(new JCFFrameConnectionController(this));
+		connectionStatusThread.start();
 	}
 
 	public void initClock()
