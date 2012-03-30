@@ -1,8 +1,14 @@
 package extension.model;
 
+import java.io.Serializable;
 
-public class Division
+
+public class Division  implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer stationNumber;
 	private String stationTele;
 	private Address address;

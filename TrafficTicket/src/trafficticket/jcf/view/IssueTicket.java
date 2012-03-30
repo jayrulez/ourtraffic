@@ -586,6 +586,7 @@ public class IssueTicket extends ContentPage {
 		this.add(this.buttonPanel);
 		
 		this.initializeListeners();
+		this.initializeWorkers();
 	}
 
 	public void initializeListeners()
@@ -599,6 +600,7 @@ public class IssueTicket extends ContentPage {
 	public void initializeWorkers()
 	{
 		this.cmbxOffenseWorker = new Thread(new IssueTicketConnectionController("loadOffenses", this));
+		this.cmbxOffenseWorker.start();
 		
 	}
 	

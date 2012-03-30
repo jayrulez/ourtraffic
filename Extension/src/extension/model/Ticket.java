@@ -1,10 +1,15 @@
 package extension.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
-public class Ticket
+public class Ticket implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer ticketNumber;
 	private Date offenseDate;
 	private Address offensePlace;

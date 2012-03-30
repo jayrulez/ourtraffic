@@ -2,11 +2,21 @@ package ticketserver.controller;
 import java.net.*;
 import java.io.*;
 
+import javax.swing.JOptionPane;
+
+import ticketserver.view.TicketServerFrame;
+
 
 public class TicketServer implements Runnable
 {
 	public final static int PORT = 26001;
-
+	private TicketServerFrame parentFrame;
+	
+	public TicketServer(TicketServerFrame parentFrame) 
+	{
+		this.parentFrame = parentFrame;
+	}
+	
 	public void initialize()
 	{
 		int requestId = 1;
@@ -21,7 +31,7 @@ public class TicketServer implements Runnable
 			{
 				Socket socket = serverSocket.accept();
 				
-				System.out.println("Client Connected");
+				//System.out.println("Client Connected");
 
 				Thread thread = new TSThreadHandler(socket);
 
@@ -32,10 +42,8 @@ public class TicketServer implements Runnable
 		}
 		catch(IOException e)
 		{
-			System.err.println("Cannot initialize TicketServer on port " + PORT);
-
-			e.printStackTrace();
-
+			this.parentFrame.dispose();
+			JOptionPane.showMessageDialog(this.parentFrame, "Cannot initialize TicketServer on port " + PORT,"Ticket Server: startup failed",JOptionPane.ERROR_MESSAGE);
 			System.exit(-1);
 		}
 	}
@@ -44,5 +52,13 @@ public class TicketServer implements Runnable
 	public void run() 
 	{
 		this.initialize();
+	}
+
+	public TicketServerFrame getParentFrame() {
+		return parentFrame;
+	}
+
+	public void setParentFrame(TicketServerFrame parentFrame) {
+		this.parentFrame = parentFrame;
 	}
 }
