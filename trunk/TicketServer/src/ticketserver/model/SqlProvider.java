@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.Date;
 import java.util.Vector;
 
+import extension.model.Offender;
 import extension.model.Offense;
 import extension.model.Police;
 
@@ -213,4 +214,22 @@ public class SqlProvider
 		return offenses;
 	}
 	
+	public Vector<Offender> getOffender(int OffenderTrn) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException
+	{
+		this.dbConnect();
+		this.callableStatement = connection.prepareCall("call sp_getOffender(?)");
+		this.callableStatement.setInt(1, OffenderTrn);
+		
+		this.resultSet = this.callableStatement.executeQuery();
+		Offender offender;
+		Vector<Offender> offenders = new Vector<Offender>();
+		while(this.resultSet.next())
+		{
+			offender = new Offender(this.resultSet.getInt("trn"),this.resultSet.getString("firstName"),this.resultSet.getString("lastName"),this.resultSet.getString("middleInitial"),this.resultSet.getDate("DOB"),this.resultSet.getString("street"),this.resultSet.getString("city"),this.resultSet.getString("parish"),this.resultSet.getString("licenseType"),this.resultSet.getInt("points"),this.resultSet.getDate("expiryDate"));
+			offenders.add(offender);
+		}
+		this.dbDisconnect();
+		System.out.println("Data Server Sends Data:"+offenders.size());
+		return offenders;		
+	}
 }

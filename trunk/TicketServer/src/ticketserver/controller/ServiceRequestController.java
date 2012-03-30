@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.Vector;
 
 import ticketserver.model.SqlProvider;
+import extension.model.Offender;
 import extension.model.Offense;
 import extension.model.ServiceRequest;
 import extension.model.ServiceResponse;
@@ -106,6 +107,46 @@ public class ServiceRequestController
 			break;
 			
 			case ServiceRequest.GET_OFFENDERS:
+			break;
+			
+			case ServiceRequest.GET_OFFENDER:
+				this.sqlProvider = new SqlProvider();
+				try 
+				{
+					//offender to search for
+					Offender targetOffender = (Offender) this.serviceRequest.getData().firstElement();
+					
+					//get the offender
+					Vector<Offender> offenders = this.sqlProvider.getOffender(targetOffender.getTrnNumber());
+					
+					System.out.println("Server Received Data:"+offenders.size());
+					//pass the result to the response
+					this.serviceResponse.setData(offenders);
+					
+				} 
+				catch (ClassNotFoundException e) 
+				{
+					
+					System.out.println(e.getMessage());
+				} 
+				catch (InstantiationException e) 
+				{
+					System.out.println("Unexpected error occured.");
+				} 
+				catch (IllegalAccessException e) 
+				{
+					System.out.println("Access to the Data Server denied.");
+				} 
+				catch (SQLException e) 
+				{
+					// TODO Auto-generated catch block
+					System.out.println(e.getErrorCode());
+				}
+				finally
+				{
+					this.serviceResponse.setResponse(ServiceResponse.SUCCESS);
+					System.out.println("Success Sent");
+				}
 			break;
 			
 			case ServiceRequest.GET_ALL_OFFENSES:

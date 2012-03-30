@@ -1,5 +1,6 @@
 package trafficticket.jcf.controller;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -7,6 +8,8 @@ import java.awt.event.ItemListener;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
@@ -21,7 +24,7 @@ import trafficticket.controller.ConnectionController;
 import trafficticket.jcf.view.IssueTicket;
 import trafficticket.jcf.view.JCFFrame;
 
-public class IssueTicketController implements ActionListener, ItemListener
+public class IssueTicketController implements ActionListener, ItemListener, DocumentListener
 {
 	private IssueTicket issueTicketPage;
 	private String eventSource;
@@ -36,6 +39,62 @@ public class IssueTicketController implements ActionListener, ItemListener
 	{
 		if(this.eventSource.equalsIgnoreCase("btnSearchOffender"))
 		{
+			Offender targetOffender = new Offender();
+			
+			targetOffender.setTrnNumber(Integer.parseInt(this.issueTicketPage.getTxtSearchOffenderTrn().getText().trim()));
+			
+			ServiceRequest serviceRequest = new ServiceRequest(ServiceRequest.GET_OFFENDER);
+			serviceRequest.getData().add(targetOffender);
+		
+			ConnectionController connectionController = new ConnectionController(serviceRequest);
+			
+			try 
+			{
+				connectionController.submitRequest();
+				if(connectionController.isDialogSuccess())
+				{
+					if(connectionController.getSuccessServiceResponse().getData().isEmpty())
+					{
+						this.issueTicketPage.getLblSearchOffenderStatus().setVisible(true);
+						this.issueTicketPage.getLblSearchOffenderStatus().setForeground(Color.RED);
+						this.issueTicketPage.getLblSearchOffenderStatus().setText("Offender \"" + this.issueTicketPage.getTxtSearchOffenderTrn().getText().trim() + "\" does not Exist");
+					}
+					else
+					{
+						this.issueTicketPage.getLblSearchOffenderStatus().setText("");
+						this.issueTicketPage.getLblSearchOffenderStatus().setVisible(false);
+					}
+				}
+			} 
+			catch (SAXException ex) 
+			{
+				JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Could not connect to sever. Please Check your configuration setting.","JCF Traffic: Configuration Error",JOptionPane.ERROR_MESSAGE);
+			} 
+			catch (IOException ex) 
+			{
+				if(ex.getMessage().equalsIgnoreCase("config file"))
+				{
+					JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Error: Configuration file could not be read.","JCF Traffic: Configuration",JOptionPane.ERROR_MESSAGE);
+				}
+				else
+				{
+					JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Error: Could not contact Server.","JCF Traffic: Server Connection",JOptionPane.ERROR_MESSAGE);
+				}
+			} 
+			catch (ParserConfigurationException ex) 
+			{
+
+				JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Could not connect to sever. Please Check your configuration setting.","JCF Traffic: Configuration",JOptionPane.ERROR_MESSAGE);
+			}
+			catch(NumberFormatException ex)
+			{
+				JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Could not connect to sever. Incorrect configuation connection setting.","JCF Traffic: Configuration",JOptionPane.ERROR_MESSAGE);
+			} 
+			catch (ClassNotFoundException ex) 
+			{
+				JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Error: Some needed resources are unavailable.","JCF Traffic",JOptionPane.ERROR_MESSAGE);
+			}
+			
 			
 		}
 		else  if(this.eventSource.equalsIgnoreCase("btnIssueTicket"))
@@ -155,6 +214,31 @@ public class IssueTicketController implements ActionListener, ItemListener
 				this.issueTicketPage.getBtnSearchOffender().setEnabled(true);
 			}
 		}
+	}
+	@Override
+	public void changedUpdate(DocumentEvent e) 
+	{
+		
+		if(this.eventSource.equalsIgnoreCase("txtSearchOffenderTrn"))
+		{
+			System.out.println("text inserted");
+			if(!this.issueTicketPage.getLblSearchOffenderStatus().getText().isEmpty())
+			{
+				this.issueTicketPage.getLblSearchOffenderStatus().setText("");
+				this.issueTicketPage.getLblSearchOffenderStatus().setVisible(false);
+			}
+		}
+		
+	}
+	@Override
+	public void insertUpdate(DocumentEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void removeUpdate(DocumentEvent e) 
+	{
+		
 	}
 	
 }
