@@ -12,7 +12,7 @@ public class ServiceRequest implements Serializable
 	//service types
 	public static final int PING = 1; //Checks if the server application is online
 	public static final int ADD_TICKET = 2; //Adds a new ticket to the data base
-	public static final int GET_OFFENSES = 3;
+	public static final int GET_ALL_OFFENSES = 3;
 	public static final int GET_TICKETS = 4;
 	public static final int GET_OFFENDERS = 5; 
 	public static final int TERMINATE_CONNECTION = 6;

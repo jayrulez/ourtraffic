@@ -24,8 +24,10 @@ import javax.swing.JButton;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-import trafficticket.controller.IssueTicketController;
+import trafficticket.jcf.controller.IssueTicketConnectionController;
+import trafficticket.jcf.controller.IssueTicketController;
 import trafficticket.view.ContentPage;
+import javax.swing.ScrollPaneConstants;
 
 public class IssueTicket extends ContentPage {
 
@@ -45,10 +47,10 @@ public class IssueTicket extends ContentPage {
 	private JLabel lblOffenderAddress1;
 	private JLabel lblMiddleInitial;
 	private JLabel lblOffenderTrn;
-	private JComboBox cbxLicenseType;
+	private JComboBox cmbxLicenseType;
 	private JLabel lblTrn;
 	private JTextField txtMiddleInitial;
-	private JTextArea textAddress2;
+	private JTextArea txtAddress2;
 	private JScrollPane address2Pane;
 	private JLabel lblAddress2;
 	private JLabel lblDob;
@@ -66,8 +68,7 @@ public class IssueTicket extends ContentPage {
 	
 	private JLabel lblOffense;
 	private JComboBox cmbxTicketOffense;
-	private JLabel lblOffenseCode;
-	private JTextField txtTciketOffenseCode;
+	private JLabel lblTicketOffense;
 	private JLabel lblDateOfOffense;
 	private JTextArea txtTicketAddress1;
 	private JScrollPane ticketAddress1Pane;
@@ -114,6 +115,13 @@ public class IssueTicket extends ContentPage {
 	
 	private String[] licenseTypes;
 	private String[] parishes;
+	private JLabel lblTicketDescription;
+	private JScrollPane ticketDescriptionPane;
+	private JTextArea txtTicketDescription;
+	private JComboBox cmbxOffense;
+	private JLabel lblOffenseStatus;
+	
+	private Thread cmbxOffenseWorker;
 
 	public IssueTicket() {
 		this.initialize();
@@ -175,7 +183,7 @@ public class IssueTicket extends ContentPage {
 				FormFactory.LINE_GAP_ROWSPEC, }));
 
 		this.licenseTypes = new String[]{"Select a type","General","Private"};
-		cbxLicenseType = new JComboBox(this.licenseTypes);
+		cmbxLicenseType = new JComboBox(this.licenseTypes);
 		
 		lblOffenderTrn = new JLabel("Offender TRN:");
 		this.lblTrn = new JLabel("TRN:");
@@ -223,11 +231,11 @@ public class IssueTicket extends ContentPage {
 		this.lblAddress2 = new JLabel("Address 2:");
 		this.offenderPanel.add(this.lblAddress2, "6, 10, right, default");
 
-		this.textAddress2 = new JTextArea(4,3);
-		this.textAddress2.setLineWrap(true);
-		this.textAddress2.setToolTipText("Enter Offender's Town/District");
+		this.txtAddress2 = new JTextArea(4,3);
+		this.txtAddress2.setLineWrap(true);
+		this.txtAddress2.setToolTipText("Enter Offender's Town/District");
 		
-		this.address2Pane = new JScrollPane(this.textAddress2);
+		this.address2Pane = new JScrollPane(this.txtAddress2);
 		this.address2Pane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		
 		this.offenderPanel.add(this.address2Pane, "8, 10, fill, default");
@@ -240,8 +248,8 @@ public class IssueTicket extends ContentPage {
 		lblLicenseType = new JLabel("Type of License:");
 		this.offenderPanel.add(lblLicenseType, "2, 14, right, center");
 
-		this.cbxLicenseType.setToolTipText("Select Offender's License Type");
-		this.offenderPanel.add(this.cbxLicenseType, "4, 14, fill, default");
+		this.cmbxLicenseType.setToolTipText("Select Offender's License Type");
+		this.offenderPanel.add(this.cmbxLicenseType, "4, 14, fill, default");
 
 		this.lblPoints = new JLabel("Points:");
 		this.offenderPanel.add(this.lblPoints, "2, 16, right, default");
@@ -427,13 +435,16 @@ public class IssueTicket extends ContentPage {
 		this.add(this.offenderPanel);
 		this.add(this.ticketPanel);
 		this.ticketPanel.setLayout(new FormLayout(new ColumnSpec[] {
-				ColumnSpec.decode("18px"), ColumnSpec.decode("89px"),
+				ColumnSpec.decode("18px"),
+				ColumnSpec.decode("89px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				ColumnSpec.decode("107px"),
+				ColumnSpec.decode("107px:grow"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("84px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				ColumnSpec.decode("left:129px:grow"),
+				ColumnSpec.decode("left:129px"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
 				ColumnSpec.decode("32px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
@@ -447,16 +458,23 @@ public class IssueTicket extends ContentPage {
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("28px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				ColumnSpec.decode("52px"), }, new RowSpec[] {
-				FormFactory.LINE_GAP_ROWSPEC, RowSpec.decode("20px"),
-				FormFactory.LINE_GAP_ROWSPEC, RowSpec.decode("30px"),
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
+				ColumnSpec.decode("52px"),},
+			new RowSpec[] {
+				FormFactory.LINE_GAP_ROWSPEC,
+				RowSpec.decode("20px"),
+				FormFactory.LINE_GAP_ROWSPEC,
+				RowSpec.decode("30px"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(14dlu;default)"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(15dlu;default)"),
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC, }));
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),
+				FormFactory.RELATED_GAP_ROWSPEC,}));
 
 		this.lblOffense = new JLabel("Offense:");
 		this.ticketPanel.add(this.lblOffense, "2, 2, right, center");
@@ -464,12 +482,14 @@ public class IssueTicket extends ContentPage {
 		this.cmbxTicketOffense = new JComboBox();
 		this.ticketPanel.add(this.cmbxTicketOffense, "4, 2, left, center");
 
-		this.lblOffenseCode = new JLabel("Offense Code:");
-		this.ticketPanel.add(this.lblOffenseCode, "6, 2, right, default");
-
-		this.txtTciketOffenseCode = new JTextField();
-		this.ticketPanel.add(this.txtTciketOffenseCode, "8, 2, left, default");
-		this.txtTciketOffenseCode.setColumns(15);
+		this.lblTicketOffense = new JLabel("Offense:");
+		this.ticketPanel.add(this.lblTicketOffense, "6, 2, right, default");
+		//new component
+		this.cmbxOffense = new JComboBox();
+		this.ticketPanel.add(this.cmbxOffense, "8, 2, fill, center");
+		//new component
+		this.lblOffenseStatus = new JLabel("");
+		this.ticketPanel.add(this.lblOffenseStatus, "10, 2");
 
 		this.lblDateOfOffense = new JLabel("Date of Offense");
 		this.ticketPanel.add(this.lblDateOfOffense, "2, 4, right, center");
@@ -517,6 +537,17 @@ public class IssueTicket extends ContentPage {
 		this.txtTicketPoints = new JTextField();
 		this.ticketPanel.add(this.txtTicketPoints, "4, 12, fill, default");
 		this.txtTicketPoints.setColumns(10);
+		//new component
+		this.lblTicketDescription = new JLabel("Description");
+		this.ticketPanel.add(this.lblTicketDescription, "2, 14, right, center");
+		//new component
+		this.ticketDescriptionPane = new JScrollPane();
+		this.ticketDescriptionPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		this.ticketPanel.add(this.ticketDescriptionPane, "4, 14, fill, fill");
+		//new component
+		this.txtTicketDescription = new JTextArea();
+		this.txtTicketDescription.setRows(4);
+		this.ticketDescriptionPane.setViewportView(this.txtTicketDescription);
 		
 		this.buttonPanel = new JPanel();
 		
@@ -565,6 +596,12 @@ public class IssueTicket extends ContentPage {
 		this.btnResetIssueTicket.addActionListener(new IssueTicketController(this, "btnResetIssueTicket"));
 	}
 	
+	public void initializeWorkers()
+	{
+		this.cmbxOffenseWorker = new Thread(new IssueTicketConnectionController("loadOffenses", this));
+		
+	}
+	
 	public void startInit() {
 		this.initialize();
 	}
@@ -609,10 +646,6 @@ public class IssueTicket extends ContentPage {
 	public JTextField getTxtPoints() {
 		return txtPoints;
 	}
-	public JTextField getTxtTciketOffenseCode() 
-	{
-		return txtTciketOffenseCode;
-	}
 	public JTextArea getTxtTicketAddress1() 
 	{
 		return txtTicketAddress1;
@@ -632,5 +665,42 @@ public class IssueTicket extends ContentPage {
 	public JCheckBox getChbxNewOffender() 
 	{
 		return chbxNewOffender;
+	}
+	
+	public JDateChooser getOffenseDateChooser() {
+		return offenseDateChooser;
+	}
+	public JDateChooser getExpiryDateChooser() {
+		return expiryDateChooser;
+	}
+	public JDateChooser getExistingOffenderDobChooser() {
+		return existingOffenderDobChooser;
+	}
+	public JTextArea getTxtAddress2() {
+		return txtAddress2;
+	}
+	public JComboBox getCmbxOffenderParish() {
+		return cmbxOffenderParish;
+	}
+	public JComboBox getCmbxLicenseType() {
+		return cmbxLicenseType;
+	}
+	public JComboBox getCmbxTicketParish() {
+		return cmbxTicketParish;
+	}
+	public JComboBox getCmbxTicketOffense() {
+		return cmbxTicketOffense;
+	}
+	public JTextArea getTxtTicketDescription() {
+		return txtTicketDescription;
+	}
+	public JLabel getLblExistingOffenderTrnValue() {
+		return lblExistingOffenderTrnValue;
+	}
+	public JComboBox getCmbxOffense() {
+		return cmbxOffense;
+	}
+	public JLabel getLblOffenseStatus() {
+		return lblOffenseStatus;
 	}
 }

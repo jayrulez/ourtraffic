@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.Date;
 import java.util.Vector;
 
+import extension.model.Offense;
 import extension.model.Police;
 
 //import com.mysql.jdbc.Driver;
@@ -194,5 +195,20 @@ public class SqlProvider
 		
 	}
 	
+	public Vector<Offense> getAllOffenses() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException
+	{
+		this.dbConnect();
+		this.callableStatement = connection.prepareCall("call sp_getAllOffenses()");
+		
+		this.resultSet = this.callableStatement.executeQuery();
+		Offense offense;
+		Vector<Offense> offenses = new Vector<Offense>();
+		while(this.resultSet.next())
+		{
+			offense = new Offense(this.resultSet.getInt("id"),this.resultSet.getString("name"),this.resultSet.getString("description"));
+			offenses.add(offense);
+		}
+		return offenses;
+	}
 	
 }

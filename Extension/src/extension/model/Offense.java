@@ -4,15 +4,17 @@ public class Offense
 {
 	private Integer offenseCode;
 	private String offenceName;
+	private String description;
 	
 	public Offense() 
 	{
 		// TODO Auto-generated constructor stub
 	}
-	public Offense(Integer offenseCode, String offenseName) 
+	public Offense(Integer offenseCode, String offenseName, String description) 
 	{
 		this.offenceName = offenseName;
 		this.offenseCode = offenseCode;
+		this.description = description;
 	}
 	
 	public Offense(Integer offenseCode) 
@@ -35,5 +37,16 @@ public class Offense
 	public Integer getOffenseCode() 
 	{
 		return offenseCode;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	@Override
+	public String toString() 
+	{
+		return this.offenceName;
 	}
 }

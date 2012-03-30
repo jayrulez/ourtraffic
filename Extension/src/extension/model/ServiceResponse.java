@@ -17,10 +17,13 @@ public class ServiceResponse implements Serializable
 	
 	private Integer response;
 	private Vector data;
+	private Integer status;
+	private String description;
 	
 	public ServiceResponse() 
 	{
 		this.response  = 0;
+		this.status = 0;
 		this.data = new Vector();;
 	}
 	
@@ -39,5 +42,31 @@ public class ServiceResponse implements Serializable
 	public void setData(Vector data) 
 	{
 		this.data = data;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+	
+	public ServiceResponse copy(ServiceResponse serviceResponse)
+	{
+		ServiceResponse newServiceRespose = new ServiceResponse();
+		newServiceRespose.data = serviceResponse.data;
+		newServiceRespose.description = serviceResponse.description;
+		newServiceRespose.response = serviceResponse.response;
+		newServiceRespose.status = serviceResponse.status;
+		return newServiceRespose;
 	}
 }
