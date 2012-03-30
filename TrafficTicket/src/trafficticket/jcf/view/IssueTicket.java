@@ -28,6 +28,7 @@ import trafficticket.jcf.controller.IssueTicketConnectionController;
 import trafficticket.jcf.controller.IssueTicketController;
 import trafficticket.view.ContentPage;
 import javax.swing.ScrollPaneConstants;
+import java.awt.FlowLayout;
 
 public class IssueTicket extends ContentPage {
 
@@ -122,6 +123,8 @@ public class IssueTicket extends ContentPage {
 	private JLabel lblOffenseStatus;
 	
 	private Thread cmbxOffenseWorker;
+	private JPanel searchOffenderStatusPanel;
+	private JLabel lblSearchOffenderStatus;
 
 	public IssueTicket() {
 		this.initialize();
@@ -312,6 +315,14 @@ public class IssueTicket extends ContentPage {
 
 		this.btnSearchOffender = new JButton("Search");
 		this.searchOffenderPanel.add(this.btnSearchOffender, "2, 4");
+		//new component
+		this.searchOffenderStatusPanel = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) this.searchOffenderStatusPanel.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		add(this.searchOffenderStatusPanel);
+		//new component
+		this.lblSearchOffenderStatus = new JLabel("");
+		this.searchOffenderStatusPanel.add(this.lblSearchOffenderStatus);
 
 		this.add(this.existingOffenderPanel);
 		this.existingOffenderPanel.setLayout(new FormLayout(new ColumnSpec[] {
@@ -595,6 +606,8 @@ public class IssueTicket extends ContentPage {
 		this.btnSearchOffender.addActionListener(new IssueTicketController(this, "btnSearchOffender"));
 		this.btnIssueTicket.addActionListener(new IssueTicketController(this, "btnIssueTicket"));
 		this.btnResetIssueTicket.addActionListener(new IssueTicketController(this, "btnResetIssueTicket"));
+		
+		this.txtSearchOffenderTrn.getDocument().addDocumentListener(new IssueTicketController(this, "txtSearchOffenderTrn"));
 	}
 	
 	public void initializeWorkers()
@@ -704,5 +717,9 @@ public class IssueTicket extends ContentPage {
 	}
 	public JLabel getLblOffenseStatus() {
 		return lblOffenseStatus;
+	}
+	public JLabel getLblSearchOffenderStatus() 
+	{
+		return lblSearchOffenderStatus;
 	}
 }

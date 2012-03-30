@@ -202,6 +202,15 @@ DELIMITER ;
 
 
 DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_getOffender`$$
+CREATE PROCEDURE `sp_getOffender` (offenderTrn int)
+BEGIN
+	select * from `offender` where `offender`.trn = offenderTrn;
+END$$
+DELIMITER ;
+
+
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_issueTicketNewOffender`$$
 CREATE PROCEDURE `sp_issueTicketNewOffender` (offenderTrn int(11), firstName varchar(30), lastName varchar(30), middleInitial varchar(1),street varchar(50), city varchar(30), parish varchar(30), dob date,licenseType varchar(20),licensePoints int(11), expiryDate Date ,policeId varchar(16), offenseId int(11), offenseDate date, street varchar(50), city varchar(50), parish varchar(30), description text, fine float, points int(11),OUT result int)
 BEGIN
