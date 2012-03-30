@@ -18,6 +18,7 @@ import extension.model.ServiceResponse;
 
 public class ConnectionController
 {
+	private ServiceResponse successServiceResponse;
 	private ServiceRequest serviceRequest;
 	private ServiceResponse serviceResponse;
 	private ConnectionProvider connectionProvider;
@@ -25,14 +26,17 @@ public class ConnectionController
 	private ObjectInputStream objectInputStream;
 	private Socket socket;
 	private boolean dialogueSuccess;
+	private boolean dialogueTerminated;
 	public ConnectionController() 
 	{
 		this.dialogueSuccess = false;
+		this.dialogueTerminated = false;
 	}
 	
 	public ConnectionController(ServiceRequest serviceRequest) 
 	{
 		this.dialogueSuccess = false;
+		this.dialogueTerminated = false;
 		this.serviceRequest = serviceRequest;
 	}
 	
@@ -85,16 +89,18 @@ public class ConnectionController
 		{
 			//server agreed to terminate the  connection so let's terminate
 			case ServiceResponse.TERMINATE_CONNECTION:
+				this.dialogueTerminated = true;
 				System.out.println("Client received TERMINATE from server");
 				
 				//close connection
 				this.socket.close();
 				System.out.println("client socket closed");
-				this.dialogueSuccess = true;
 			break;
 			
 			//server has successfully received the request
 			case ServiceResponse.SUCCESS:
+				this.dialogueSuccess = true;
+				this.successServiceResponse.copy(this.serviceResponse);
 				System.out.println("Success received from server");
 				
 				//prepare a request to terminate the connection
@@ -135,5 +141,10 @@ public class ConnectionController
 	public boolean isDialogSuccess() 
 	{
 		return this.dialogueSuccess;
+	}
+	
+	public ServiceResponse getSuccessServiceResponse() 
+	{
+		return successServiceResponse;
 	}
 }

@@ -1,8 +1,10 @@
 package ticketserver.controller;
 
 import java.sql.SQLException;
+import java.util.Vector;
 
 import ticketserver.model.SqlProvider;
+import extension.model.Offense;
 import extension.model.ServiceRequest;
 import extension.model.ServiceResponse;
 import extension.model.Ticket;
@@ -57,37 +59,46 @@ public class ServiceRequestController
 						int result = this.sqlProvider.issueTicketNewOffender(ticket.getOffender().getTrnNumber(), ticket.getOffender().getFirstName(), ticket.getOffender().getLastName(),ticket.getOffender().getMiddleInitial(), ticket.getOffender().getDob(), ticket.getOffender().getAddress().getAddress1(), ticket.getOffender().getAddress().getAddress2(), ticket.getOffender().getAddress().getParish(), ticket.getOffender().getLicenseType(), ticket.getOffender().getPoints(),ticket.getOffender().getExpiryDate(), ticket.getPolice().getBadgeNumber(), ticket.getOffense().getOffenseCode(), ticket.getOffenseDate(), ticket.getOffensePlace().getAddress1(), ticket.getOffensePlace().getAddress2(), ticket.getOffensePlace().getParish(), ticket.getDescription(), ticket.getFine(), ticket.getPoints());
 						if(result == 0)
 						{
-							//error adding offender ticket
+							this.serviceResponse.setStatus(result);
+							this.serviceResponse.setDescription("Could not issue this ticket to offender. Please try again.");
 						}
 						else if(result == -1)
 						{
-							//error adding offender
+							this.serviceResponse.setStatus(result);
+							this.serviceResponse.setDescription("Could not save this offender's information. Please try again.");
 						}
 						else if(result == -2)
 						{
-							//error adding ticket
+							this.serviceResponse.setStatus(result);
+							this.serviceResponse.setDescription("Could not save this ticket information. Please try again.");
 						}
 					} 
 					catch (ClassNotFoundException e) 
 					{
 						
-						e.printStackTrace();
+						System.out.println(e.getMessage());
 					} 
 					catch (InstantiationException e) 
 					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						System.out.println("Unexpected error occured.");
 					} 
 					catch (IllegalAccessException e) 
 					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						System.out.println("Access to the Data Server denied.");
 					} 
 					catch (SQLException e) 
 					{
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						System.out.println(e.getErrorCode());
 					}
+					finally
+					{
+						this.serviceResponse.setResponse(ServiceResponse.SUCCESS);
+					}
+				}
+				else
+				{
+					this.serviceResponse.setResponse(ServiceResponse.SUCCESS);
 				}
 			break;	
 			
@@ -97,7 +108,36 @@ public class ServiceRequestController
 			case ServiceRequest.GET_OFFENDERS:
 			break;
 			
-			case ServiceRequest.GET_OFFENSES:
+			case ServiceRequest.GET_ALL_OFFENSES:
+				
+				this.sqlProvider = new SqlProvider();
+				try 
+				{
+					Vector<Offense> offenses = this.sqlProvider.getAllOffenses();
+					this.serviceResponse.setData(offenses);
+				} 
+				catch (ClassNotFoundException e) 
+				{
+					
+					System.out.println(e.getMessage());
+				} 
+				catch (InstantiationException e) 
+				{
+					System.out.println("Unexpected error occured.");
+				} 
+				catch (IllegalAccessException e) 
+				{
+					System.out.println("Access to the Data Server denied.");
+				} 
+				catch (SQLException e) 
+				{
+					// TODO Auto-generated catch block
+					System.out.println(e.getErrorCode());
+				}
+				finally
+				{
+					this.serviceResponse.setResponse(ServiceResponse.SUCCESS);
+				}
 			break;
 			
 			case ServiceRequest.GET_TICKETS:

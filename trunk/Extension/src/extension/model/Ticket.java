@@ -18,7 +18,7 @@ public class Ticket
 	
 	public Ticket() 
 	{
-		// TODO Auto-generated constructor stub
+
 	}
 	public Ticket(Integer ticketNumber, Date offenseDate, Address offensePlace, String description, Float fine, Integer points, Integer payementStatus) 
 	{
