@@ -208,6 +208,8 @@ public class SqlProvider
 			offense = new Offense(this.resultSet.getInt("id"),this.resultSet.getString("name"),this.resultSet.getString("description"));
 			offenses.add(offense);
 		}
+		this.dbDisconnect();
+		System.out.println("Data Server Sends Data:"+offenses.size());
 		return offenses;
 	}
 	

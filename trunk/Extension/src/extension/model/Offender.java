@@ -1,11 +1,16 @@
 package extension.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
 
-public class Offender extends Person
+public class Offender extends Person  implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer trnNumber;
 	private String licenseType;
 	private Integer points;

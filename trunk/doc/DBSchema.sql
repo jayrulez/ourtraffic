@@ -221,3 +221,11 @@ BEGIN
 	END IF;
 END$$
 DELIMITER ;
+
+call sp_getAllOffenses();
+
+insert into `offense`(id,name,description) values(default,"Speeding","");
+insert into `offense`(id,name,description) values(default,"Double Park","");
+insert into `offense`(id,name,description) values(default,"Traffic Light","");
+insert into `offense`(id,name,description) values(default,"Overload","");
+insert into `offense`(id,name,description) values(default,"No parking","");

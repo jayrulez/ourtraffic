@@ -70,7 +70,7 @@ public class BtnLoginController extends MouseAdapter implements ActionListener {
 			SwingUtilities.invokeLater(ticketFrame);
 			
 			//listening for client connections
-			Thread ticketServerThread = new Thread(new TicketServer());
+			Thread ticketServerThread = new Thread(new TicketServer(ticketFrame));
 			ticketServerThread.start();
 		}
 

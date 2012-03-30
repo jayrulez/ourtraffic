@@ -40,21 +40,26 @@ class TSThreadHandler extends Thread
 						
 						//process service request and produce a service response
 						this.requestController.processServiceRequest();
+						
 						serviceResponse = this.requestController.getServiceResponse();
 						
 						//remove service request since a response is created
 						serviceRequest = null;
 						
+						System.out.println("Before write");
+						System.out.println("Server Sent Data:"+serviceResponse.getData().size());
 						//send the response to the client
+						System.out.println("Stream info:"+objectOutputStream);
 						objectOutputStream.writeObject(serviceResponse);
+						System.out.println("Server Sent Data:"+serviceResponse.getData().size());
+						System.out.println("Written");
 						objectOutputStream.flush();
-						
 						//remove the response since it is sent to the client
-						serviceResponse = null;
 					}
 				}
 				catch(IOException ex)
 				{
+					System.out.println("exception:"+ex);
 					break;
 				}
 			}

@@ -63,13 +63,32 @@ public class IssueTicketConnectionController implements Runnable
 				Vector<Offense> offenses;
 				
 				offenses = (Vector<Offense>) connectionController.getSuccessServiceResponse().getData();
-				
-				this.issueTicketPage.getCmbxOffense().addItem("Select an offense");
+				if(this.issueTicketPage.getCmbxOffense().getItemAt(0) != "Select an offense")
+				{
+					this.issueTicketPage.getCmbxOffense().addItem("Select an offense");
+				}
 				if(!offenses.isEmpty())
 				{
+					int index = 1;
 					for(Offense offense:offenses)
 					{
-						this.issueTicketPage.getCmbxOffense().addItem(offense.getOffenceName());
+						//if there is an item in position x
+						if(this.issueTicketPage.getCmbxOffense().getItemAt(index) != null)
+						{
+							//if the item does not match that of the source
+							if(!this.issueTicketPage.getCmbxOffense().getItemAt(index).toString().equalsIgnoreCase(offense.toString()))
+							{
+								//update that item
+								this.issueTicketPage.getCmbxOffense().removeItemAt(index);
+								this.issueTicketPage.getCmbxOffense().insertItemAt(offense, index);
+							}
+						}
+						else //when there is not item in position x
+						{
+							//insert a new item
+							this.issueTicketPage.getCmbxOffense().insertItemAt(offense, index);
+						}
+						index++;
 					}
 				}
 				connectionController = null;

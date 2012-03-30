@@ -1,8 +1,14 @@
 package extension.model;
 
+import java.io.Serializable;
 
-public class Address
+
+public class Address  implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String address1;
 	private String address2;
 	private String parish;

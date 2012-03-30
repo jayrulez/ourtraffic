@@ -60,7 +60,7 @@ public class ServiceResponse implements Serializable
 		this.status = status;
 	}
 	
-	public ServiceResponse copy(ServiceResponse serviceResponse)
+	public static ServiceResponse copy(ServiceResponse serviceResponse)
 	{
 		ServiceResponse newServiceRespose = new ServiceResponse();
 		newServiceRespose.data = serviceResponse.data;

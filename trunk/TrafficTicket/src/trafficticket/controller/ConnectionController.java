@@ -100,7 +100,9 @@ public class ConnectionController
 			//server has successfully received the request
 			case ServiceResponse.SUCCESS:
 				this.dialogueSuccess = true;
-				this.successServiceResponse.copy(this.serviceResponse);
+		
+				this.successServiceResponse = ServiceResponse.copy(this.serviceResponse);
+				
 				System.out.println("Success received from server");
 				
 				//prepare a request to terminate the connection

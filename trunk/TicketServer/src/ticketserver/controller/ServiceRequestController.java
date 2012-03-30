@@ -40,7 +40,7 @@ public class ServiceRequestController
 		switch(this.serviceRequest.getAction())
 		{
 			case ServiceRequest.PING:
-				System.out.println("Ping received");
+				//System.out.println("Ping received");
 				this.serviceResponse.setResponse(ServiceResponse.SUCCESS);
 			break;
 			
@@ -114,7 +114,9 @@ public class ServiceRequestController
 				try 
 				{
 					Vector<Offense> offenses = this.sqlProvider.getAllOffenses();
+					System.out.println("Server Received Data:"+offenses.size());
 					this.serviceResponse.setData(offenses);
+					
 				} 
 				catch (ClassNotFoundException e) 
 				{
@@ -137,6 +139,7 @@ public class ServiceRequestController
 				finally
 				{
 					this.serviceResponse.setResponse(ServiceResponse.SUCCESS);
+					System.out.println("Success Sent");
 				}
 			break;
 			
@@ -144,7 +147,6 @@ public class ServiceRequestController
 			break;
 			
 			case ServiceRequest.TERMINATE_CONNECTION:
-				System.out.println("terminate received");
 				this.serviceResponse.setResponse(ServiceResponse.TERMINATE_CONNECTION);
 			break;
 				

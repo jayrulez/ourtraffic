@@ -1,7 +1,13 @@
 package extension.model;
 
-public class Offense
+import java.io.Serializable;
+
+public class Offense implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer offenseCode;
 	private String offenceName;
 	private String description;
@@ -47,6 +53,6 @@ public class Offense
 	@Override
 	public String toString() 
 	{
-		return this.offenceName;
+		return this.offenseCode + ": " + this.offenceName;
 	}
 }
