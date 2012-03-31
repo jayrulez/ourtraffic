@@ -9,6 +9,7 @@ import extension.model.Offense;
 import extension.model.ServiceRequest;
 import extension.model.ServiceResponse;
 import extension.model.Ticket;
+import extension.model.User;
 
 public class ServiceRequestController
 {
@@ -46,9 +47,6 @@ public class ServiceRequestController
 			break;
 			
 			case ServiceRequest.ISSUE_TICKET_EXISTING_OFFENDER:
-			break;
-			
-			case ServiceRequest.ISSUE_TICKET_NEW_OFFENDER:
 				Ticket ticket = null;
 				if(!this.serviceRequest.getData().isEmpty())
 				{
@@ -57,20 +55,65 @@ public class ServiceRequestController
 					try 
 					{
 						
-						int result = this.sqlProvider.issueTicketNewOffender(ticket.getOffender().getTrnNumber(), ticket.getOffender().getFirstName(), ticket.getOffender().getLastName(),ticket.getOffender().getMiddleInitial(), ticket.getOffender().getDob(), ticket.getOffender().getAddress().getAddress1(), ticket.getOffender().getAddress().getAddress2(), ticket.getOffender().getAddress().getParish(), ticket.getOffender().getLicenseType(), ticket.getOffender().getPoints(),ticket.getOffender().getExpiryDate(), ticket.getPolice().getBadgeNumber(), ticket.getOffense().getOffenseCode(), ticket.getOffenseDate(), ticket.getOffensePlace().getAddress1(), ticket.getOffensePlace().getAddress2(), ticket.getOffensePlace().getParish(), ticket.getDescription(), ticket.getFine(), ticket.getPoints());
-						if(result == 0)
+						int result = this.sqlProvider.issueTicketExistingOffender(ticket.getOffender().getTrnNumber(), ticket.getPolice().getBadgeNumber(), ticket.getOffense().getOffenseCode(), ticket.getOffenseDate(), ticket.getOffensePlace().getAddress1(), ticket.getOffensePlace().getAddress2(), ticket.getOffensePlace().getParish(), ticket.getDescription(), ticket.getFine(), ticket.getPoints());
+						this.serviceResponse.setStatus(result);
+						
+						if (result == 0)
 						{
-							this.serviceResponse.setStatus(result);
+							this.serviceResponse.setDescription("Could not issue this ticket to offender. Please try again.");
+						}
+					} 
+					catch (ClassNotFoundException e) 
+					{
+						
+						System.out.println(e.getMessage());
+					} 
+					catch (InstantiationException e) 
+					{
+						System.out.println("Unexpected error occured.");
+					} 
+					catch (IllegalAccessException e) 
+					{
+						System.out.println("Access to the Data Server denied.");
+					} 
+					catch (SQLException e) 
+					{
+						// TODO Auto-generated catch block
+						System.out.println(e.getErrorCode());
+					}
+					finally
+					{
+						this.serviceResponse.setResponse(ServiceResponse.SUCCESS);
+					}
+				}
+				else
+				{
+					this.serviceResponse.setResponse(ServiceResponse.SUCCESS);
+				}
+			break;
+			
+			case ServiceRequest.ISSUE_TICKET_NEW_OFFENDER:
+				Ticket newOffenderTicket = null;
+				if(!this.serviceRequest.getData().isEmpty())
+				{
+					newOffenderTicket  = (Ticket) this.serviceRequest.getData().firstElement();
+					this.sqlProvider = new SqlProvider();
+					try 
+					{
+						int result = this.sqlProvider.issueTicketNewOffender(newOffenderTicket.getOffender().getTrnNumber(), newOffenderTicket.getOffender().getFirstName(), newOffenderTicket.getOffender().getLastName(),newOffenderTicket.getOffender().getMiddleInitial(), newOffenderTicket.getOffender().getDob(), newOffenderTicket.getOffender().getAddress().getAddress1(), newOffenderTicket.getOffender().getAddress().getAddress2(), newOffenderTicket.getOffender().getAddress().getParish(), newOffenderTicket.getOffender().getLicenseType(), newOffenderTicket .getOffender().getPoints(),newOffenderTicket.getOffender().getExpiryDate(), newOffenderTicket.getPolice().getBadgeNumber(), newOffenderTicket.getOffense().getOffenseCode(), newOffenderTicket.getOffenseDate(), newOffenderTicket.getOffensePlace().getAddress1(), newOffenderTicket.getOffensePlace().getAddress2(), newOffenderTicket.getOffensePlace().getParish(), newOffenderTicket.getDescription(), newOffenderTicket.getFine(), newOffenderTicket.getPoints());
+		
+						this.serviceResponse.setStatus(result);
+					
+						if (result == 0)
+						{
 							this.serviceResponse.setDescription("Could not issue this ticket to offender. Please try again.");
 						}
 						else if(result == -1)
 						{
-							this.serviceResponse.setStatus(result);
 							this.serviceResponse.setDescription("Could not save this offender's information. Please try again.");
 						}
 						else if(result == -2)
 						{
-							this.serviceResponse.setStatus(result);
 							this.serviceResponse.setDescription("Could not save this ticket information. Please try again.");
 						}
 					} 
@@ -172,6 +215,47 @@ public class ServiceRequestController
 				{
 					System.out.println("Access to the Data Server denied.");
 				} 
+				catch (SQLException e) 
+				{
+					// TODO Auto-generated catch block
+					System.out.println(e.getErrorCode());
+				}
+				finally
+				{
+					this.serviceResponse.setResponse(ServiceResponse.SUCCESS);
+					System.out.println("Success Sent");
+				}
+			break;
+			
+			case ServiceRequest.GET_USER:
+				this.sqlProvider = new SqlProvider();
+				try 
+				{
+					User targetUser = (User) this.serviceRequest.getData().firstElement();
+					
+					Vector<User> users = this.sqlProvider.getUser(targetUser.getHandle());
+					
+					System.out.println("Server Received Data:"+users.size());
+					this.serviceResponse.setData(users);
+					
+				} 
+				catch (ClassNotFoundException e) 
+				{
+					
+					System.out.println(e.getMessage());
+				} 
+				catch (InstantiationException e) 
+				{
+					System.out.println("Unexpected error occured.");
+				} 
+				catch (IllegalAccessException e) 
+				{
+					System.out.println("Access to the Data Server denied.");
+				} 
+				catch(ClassCastException e)
+				{
+					System.out.println("Unexpected error occured.");
+				}
 				catch (SQLException e) 
 				{
 					// TODO Auto-generated catch block

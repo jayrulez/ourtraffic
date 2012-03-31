@@ -19,6 +19,7 @@ public class ServiceRequest implements Serializable
 	public static final int ISSUE_TICKET_EXISTING_OFFENDER = 7;
 	public static final int ISSUE_TICKET_NEW_OFFENDER = 8;
 	public static final int GET_OFFENDER = 9;
+	public static final int GET_USER = 10;
 	
 	private Integer action;
 	private Vector data;

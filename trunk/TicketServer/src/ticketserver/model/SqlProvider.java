@@ -13,6 +13,8 @@ import java.util.Vector;
 import extension.model.Offender;
 import extension.model.Offense;
 import extension.model.Police;
+import extension.model.TaxOfficer;
+import extension.model.User;
 
 //import com.mysql.jdbc.Driver;
 public class SqlProvider
@@ -61,9 +63,9 @@ public class SqlProvider
 		}
 	}
 	
-	public Vector getUser(String userHandle) throws SQLException
+	public Vector getUser(String userHandle) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException
 	{
-
+		this.dbConnect();
 		this.callableStatement = connection.prepareCall("{call getUser(?)}");
 		this.callableStatement.setString(1,userHandle);
 		
@@ -75,19 +77,38 @@ public class SqlProvider
 		{
 			while(this.resultSet.next())
 			{
-				if(this.resultSet.getInt("accountType")==2)
-				{
-					results.add(new Police(this.resultSet.getString("badgeId"),this.resultSet.getString("firstName"),this.resultSet.getString("lastName"),this.resultSet.getString("middleInitial"),this.resultSet.getDate("DOB"),
+
+				results.add(new User(this.resultSet.getString("firstName"),this.resultSet.getString("lastName"),this.resultSet.getString("middleInitial"),this.resultSet.getDate("DOB"),
 							this.resultSet.getString("street"),this.resultSet.getString("city"),this.resultSet.getString("parish"),this.resultSet.getString("pin"),this.resultSet.getInt("accountType")));
-				}
-				else if(this.resultSet.getInt("accountType")==3)
-				{
-					results.add(new Police(this.resultSet.getString("id"),this.resultSet.getString("firstName"),this.resultSet.getString("lastName"),this.resultSet.getString("middleInitial"),this.resultSet.getDate("DOB"),
-							this.resultSet.getString("street"),this.resultSet.getString("city"),this.resultSet.getString("parish"),this.resultSet.getString("pin"),this.resultSet.getInt("accountType")));
-				}
-				
+		
 			}
 		}
+		this.dbDisconnect();
+		return results;
+	}
+	
+	public Vector getUserLogin(String userHandle,String password) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException
+	{
+		this.dbConnect();
+		this.callableStatement = connection.prepareCall("{call getUser(?,?)}");
+		this.callableStatement.setString(1,userHandle);
+		this.callableStatement.setString(1,password);
+		
+		this.resultSet = this.callableStatement.executeQuery();
+		
+		Vector results = new Vector();
+		
+		if(this.resultSet != null)
+		{
+			while(this.resultSet.next())
+			{
+
+				results.add(new User(this.resultSet.getString("firstName"),this.resultSet.getString("lastName"),this.resultSet.getString("middleInitial"),this.resultSet.getDate("DOB"),
+							this.resultSet.getString("street"),this.resultSet.getString("city"),this.resultSet.getString("parish"),"",this.resultSet.getInt("accountType")));
+		
+			}
+		}
+		this.dbDisconnect();
 		return results;
 	}
 	
@@ -109,7 +130,7 @@ public class SqlProvider
 	
 		this.callableStatement.execute();	
 		System.out.println(this.callableStatement.getInt("result"));
-
+		this.dbDisconnect();
 		return this.callableStatement.getInt("result");
 	}
 	
@@ -130,7 +151,8 @@ public class SqlProvider
 	
 		this.callableStatement.execute();	
 		System.out.println(this.callableStatement.getInt("result"));
-
+		
+		this.dbDisconnect();
 		return this.callableStatement.getInt("result");
 	}
 	
@@ -163,15 +185,15 @@ public class SqlProvider
 		this.callableStatement.registerOutParameter(21, java.sql.Types.INTEGER);
 		this.callableStatement.execute();	
 		System.out.println(this.callableStatement.getInt("result"));
-
+		this.dbDisconnect();
 		return this.callableStatement.getInt("result");
 	}
 	//offenderTrn int(11), firstName varchar(30), lastName varchar(30), middleInitial varchar(1),street varchar(50), city varchar(30), parish varchar(30), dob date,licenseType varchar(20),licensePoints int(11), expiryDate Date ,policeId varchar(16), offenseId int(11), offenseDate date, street varchar(50), city varchar(50), parish varchar(30), description text, fine float, points int(11),OUT result int
-	public int issueTicket(Integer offenderTrn ,String policeId, Integer offenseId, Date offenseDate, String ticketAddress1, String ticketAddress2, String ticketParish, String description, Float fine, Integer ticketPoints)throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException
+	public int issueTicketExistingOffender(Integer offenderTrn ,String policeId, Integer offenseId, Date offenseDate, String ticketAddress1, String ticketAddress2, String ticketParish, String description, Float fine, Integer ticketPoints)throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException
 	{
 		this.dbConnect();
 		
-		this.callableStatement = connection.prepareCall("call sp_issueTicketNewOffender(?,?,?,?,?,?,?,?,?,?,?)");
+		this.callableStatement = connection.prepareCall("call sp_issueTicket(?,?,?,?,?,?,?,?,?,?,?)");
 		this.callableStatement.setInt(1,offenderTrn);
 		this.callableStatement.setString(2,policeId);
 		this.callableStatement.setInt(3,offenseId);
@@ -186,8 +208,9 @@ public class SqlProvider
 		this.callableStatement.registerOutParameter(11, java.sql.Types.INTEGER);	
 		
 		this.callableStatement.execute();	
+		System.out.println("QUERY EXECUTED");
 		System.out.println(this.callableStatement.getInt("result"));
-
+		this.dbDisconnect();
 		return this.callableStatement.getInt("result");
 	}
 	

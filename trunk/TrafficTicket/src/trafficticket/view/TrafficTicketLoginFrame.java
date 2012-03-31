@@ -57,13 +57,11 @@ public class TrafficTicketLoginFrame extends JFrame implements Runnable {
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.NARROW_LINE_GAP_ROWSPEC,}));
 		
-		this.lblConnectionStatus = new JLabel("Status:");
-		this.pnlStatusBar.add(this.lblConnectionStatus, "2, 2");
+		//this.lblConnectionStatus = new JLabel("Status:");
+		//this.pnlStatusBar.add(this.lblConnectionStatus, "2, 2");
 		
-		this.lblConnectionStatusValue = new JLabel("");
-		this.pnlStatusBar.add(this.lblConnectionStatusValue, "4, 2");
-		this.loginForm.initiateListners();
-		
+		//this.lblConnectionStatusValue = new JLabel("");
+		//this.pnlStatusBar.add(this.lblConnectionStatusValue, "4, 2");
 		
 	}
 	public void setLblConnectionStatusValue(JLabel lblConnectionStatusValue) 
@@ -73,6 +71,7 @@ public class TrafficTicketLoginFrame extends JFrame implements Runnable {
 	@Override
 	public void run() 
 	{
+		this.loginForm.initiateListners();
 		this.setVisible(true);
 	}
 

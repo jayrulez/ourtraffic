@@ -1,14 +1,20 @@
 package extension.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
 
-public class User extends Person
+public class User extends Person implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public final static Integer ADMINISTRATOR = 1;
 	public final static Integer TAXOFFICER = 2;
 	public final static Integer POLICE = 3;
+	private String handle;
 	private String password;
 	private Integer type;
 	
@@ -45,5 +51,13 @@ public class User extends Person
 	public Integer getType() 
 	{
 		return type;
+	}
+
+	public String getHandle() {
+		return handle;
+	}
+
+	public void setHandle(String handle) {
+		this.handle = handle;
 	}
 }
