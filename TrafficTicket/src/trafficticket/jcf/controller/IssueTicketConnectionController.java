@@ -54,10 +54,11 @@ public class IssueTicketConnectionController implements Runnable
 		ServiceRequest serviceRequest = new ServiceRequest(ServiceRequest.GET_ALL_OFFENSES);
 		
 		ConnectionController connectionController = new ConnectionController(serviceRequest);
-		this.issueTicketPage.getLblOffenseStatus().setText("");
+
 		try 
 		{
 			connectionController.submitRequest();
+			this.issueTicketPage.getLblOffenseStatus().setText("");
 			if(connectionController.isDialogSuccess())
 			{
 				Vector<Offense> offenses;

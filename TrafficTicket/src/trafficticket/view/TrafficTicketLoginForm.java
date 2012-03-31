@@ -18,7 +18,6 @@ import javax.swing.ImageIcon;
 
 public class TrafficTicketLoginForm extends JPanel {
 	private static final long serialVersionUID = 1L;
-	private BtnLoginController btnLoginController;
 	private JLabel lblUsername;
 	private JLabel lblPassword;
 	private JTextField txtUsername;
@@ -66,11 +65,19 @@ public class TrafficTicketLoginForm extends JPanel {
 		add(this.btnLogin, "4, 10, left, center");
 	}
 
-	public void initiateListners() {
-		this.btnLoginController = new BtnLoginController(
-				(JFrame) this.getTopLevelAncestor());
-		this.btnLoginController.setLblControllerStatus(this.lblLoginStatus);
-		this.btnLogin.addActionListener(this.btnLoginController);
-		// this.btnLogin.addMouseListener(this.btnLoginController);
+	public JPasswordField getTxtPassword() {
+		return txtPassword;
+	}
+	public JTextField getTxtUsername() {
+		return txtUsername;
+	}
+	public JLabel getLblLoginStatus() {
+		return lblLoginStatus;
+	}
+	
+	
+	public void initiateListners() 
+	{
+		this.btnLogin.addActionListener(new BtnLoginController(this,"btnLogin"));
 	}
 }

@@ -1,6 +1,8 @@
 package extension.model;
 
 import java.io.Serializable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Offense implements Serializable
 {
@@ -50,6 +52,19 @@ public class Offense implements Serializable
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public static String extractCode(String input)
+	{
+		Pattern pattern = Pattern.compile("\\d+:");
+		Matcher matcher = pattern.matcher(input);
+		
+		if(matcher.find())
+		{
+			return matcher.group(0).replace(":", "");
+		}
+		return null;
+	}
+	
 	@Override
 	public String toString() 
 	{

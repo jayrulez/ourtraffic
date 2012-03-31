@@ -23,7 +23,7 @@ public class TicketServerFrameConnectionController implements Runnable
 	public void connectionStatus()
 	{
 		SqlProvider sqlProvider = new SqlProvider();
-		while(this.ticketServerFrame.isEnabled())
+		while(this.ticketServerFrame !=null)
 		{
 			try 
 			{

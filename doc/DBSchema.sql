@@ -114,21 +114,41 @@ ALTER TABLE `ticket`
   
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_getUser`$$
-CREATE PROCEDURE `sp_getUser` (userHandleString varchar(32))
+CREATE PROCEDURE `sp_getUser` (userHandle varchar(16))
 BEGIN
     DECLARE userType tinyint(1) DEFAULT 0;
-    IF EXISTS(SELECT `user`.accountType from `user` WHERE `user`.handle = userHandleString) THEN
-        SELECT `user`.accountType INTO userType from `user` WHERE `user`.handle = userHandleString;
+    IF EXISTS(SELECT `user`.accountType from `user` WHERE `user`.handle = userHandle) THEN
+        SELECT `user`.accountType INTO userType from `user` WHERE `user`.handle = userHandle;
         IF userType = 2 THEN
-            SELECT `police`.*, `user`.* FROM `user` INNER JOIN `police` ON `police`.badgeId = CAST(`user`.handle AS SIGNED) WHERE `user`.handle = userHandleString;
+            SELECT `police`.*, `user`.* FROM `user` INNER JOIN `police` ON `police`.badgeId = `user`.handle WHERE `user`.handle = userHandle;
         ELSE 
             IF userType = 3 THEN
-                SELECT `taxofficer`.*, `user`.* FROM `user` INNER JOIN `taxofficer` ON `police`.badgeId = CAST(`user`.handle AS SIGNED) WHERE `user`.handle = userHandleString;
+                SELECT `taxofficer`.*, `user`.* FROM `user` INNER JOIN `taxofficer` ON `taxofficer`.officerId = `user`.handle WHERE `user`.handle = userHandle;
             END IF;
         END IF;
     END IF;
 END$$
 DELIMITER ;
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_getUserLogin`$$
+CREATE PROCEDURE `sp_getUserLogin` (userHandle varchar(16), password varchar(32))
+BEGIN
+    DECLARE userType tinyint(1) DEFAULT 0;
+    IF EXISTS(SELECT `user`.accountType from `user` WHERE `user`.handle = userHandle AND `user`.pin = password) THEN
+        SELECT `user`.accountType INTO userType from `user` WHERE `user`.handle = userHandle and `user`.pin = password;
+        IF userType = 2 THEN
+            SELECT `police`.*, `user`.* FROM `user` INNER JOIN `police` ON `police`.badgeId = `user`.handle WHERE `user`.handle = userHandle;
+        ELSE 
+            IF userType = 3 THEN
+                SELECT `taxofficer`.*, `user`.* FROM `user` INNER JOIN `taxofficer` ON `taxofficer`.officerId = `user`.handle WHERE `user`.handle = userHandle;
+            END IF;
+        END IF;
+    END IF;
+END$$
+DELIMITER ;
+
+call sp_getUser("21223");
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_addPolice`$$
@@ -139,7 +159,7 @@ BEGIN
         START TRANSACTION;
         INSERT INTO `police`(badgeId,divisionId,firstName,middleInitial,lastName,DOB,street,city,parish) VALUES(badgeId,divId,fName,mInitial,lName,dob,address1, address2, parish);
 			IF ROW_COUNT() = 1 THEN
-				INSERT INTO `user`(id,handle,pin,accountType) VALUES(DEFAULT,badgeId,MD5(password),2);
+				INSERT INTO `user`(id,handle,pin,accountType) VALUES(DEFAULT,badgeId,password,2);
 				IF ROW_COUNT() = 1 THEN
 					SET result = 1;
 					commit;
@@ -165,7 +185,7 @@ BEGIN
         START TRANSACTION;
 			INSERT INTO `taxofficer`(officerId,firstName,middleInitial,lastName,DOB,street,city,parish) VALUES(officerId,fName,mInitial,lName,dob,address1, address2, parish);
 			IF ROW_COUNT() = 1 THEN
-				INSERT INTO `user`(id,handle,pin,accountType) VALUES(DEFAULT,officerId,MD5(password),2);
+				INSERT INTO `user`(id,handle,pin,accountType) VALUES(DEFAULT,officerId,password,2);
 				IF ROW_COUNT() = 1 THEN
 					SET result = 1;
 					commit;
@@ -188,6 +208,7 @@ CREATE PROCEDURE `sp_issueTicket` (policeId varchar(16), offenderTrn int(11), of
 BEGIN
 	SET result = 0;
 	INSERT INTO `ticket`(id,policeId,offenderTrn,offenseId,offenseDate,street,city,parish,description,fine,points) values(default,policeId,offenderTrn,offenseId,offenseDate,street,city,parish,description,fine,points);
+    SET result = 1;
 END$$
 DELIMITER ;
 
@@ -212,15 +233,16 @@ DELIMITER ;
 
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_issueTicketNewOffender`$$
-CREATE PROCEDURE `sp_issueTicketNewOffender` (offenderTrn int(11), firstName varchar(30), lastName varchar(30), middleInitial varchar(1),street varchar(50), city varchar(30), parish varchar(30), dob date,licenseType varchar(20),licensePoints int(11), expiryDate Date ,policeId varchar(16), offenseId int(11), offenseDate date, street varchar(50), city varchar(50), parish varchar(30), description text, fine float, points int(11),OUT result int)
+CREATE PROCEDURE `sp_issueTicketNewOffender` (offenderTrn int(11), firstName varchar(30), lastName varchar(30), middleInitial varchar(1),street varchar(50), city varchar(30), parish varchar(30), dob date,licenseType varchar(20),licensePoints int(11), expiryDate Date ,policeId varchar(16), offenseId int(11), offenseDate date, ticketStreet varchar(50), ticketCity varchar(50), ticketParish varchar(30), description text, fine float, ticketPoints int(11),OUT result int)
 BEGIN
 	SET result = 0;
 	START TRANSACTION;
 	INSERT INTO `offender`(trn,firstName,lastName,middleInitial,DOB,street,city,parish,licenseType,points,expiryDate) values(offenderTrn,firstName,lastName,middleInitial,street,city,parish,dob,licenseType,licensePoints,expiryDate);
 	IF ROW_COUNT()=1 THEN
-		INSERT INTO `ticket`(id,policeId,offenderTrn,offenseId,offenseDate,street,city,parish,description,fine,points) values(default,policeId,offenderTrn,offenseId,offenseDate,street,city,parish,description,fine,points);
+		INSERT INTO `ticket`(id,policeId,offenderTrn,offenseId,offenseDate,street,city,parish,description,fine,points) values(default,policeId,offenderTrn,offenseId,offenseDate,ticketStreet,ticketCity,ticketParish,description,fine,ticketPoints);
 		IF ROW_COUNT()=1 THEN
 			commit;
+        SET result = 1;
 		ELSE
 			SET result = -2;
 			rollback;
@@ -238,3 +260,6 @@ insert into `offense`(id,name,description) values(default,"Double Park","");
 insert into `offense`(id,name,description) values(default,"Traffic Light","");
 insert into `offense`(id,name,description) values(default,"Overload","");
 insert into `offense`(id,name,description) values(default,"No parking","");
+
+select * from offender;
+insert into offender(trn,firstName,lastName,middleInitial,DOB,street,city,parish,licenseType,points,expiryDate) values('1000003','sync','mcfarlane','b','2008-7-22','17 blue dale street','portmore','Saint Catherine','General',223,'2013-12-1');

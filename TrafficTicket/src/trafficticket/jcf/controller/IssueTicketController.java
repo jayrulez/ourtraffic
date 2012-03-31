@@ -7,6 +7,10 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.util.Vector;
+
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -63,6 +67,45 @@ public class IssueTicketController implements ActionListener, ItemListener, Docu
 					{
 						this.issueTicketPage.getLblSearchOffenderStatus().setText("");
 						this.issueTicketPage.getLblSearchOffenderStatus().setVisible(false);
+						try
+						{
+							Offender foundOffender = (Offender) connectionController.getSuccessServiceResponse().getData().firstElement();
+							
+							if(foundOffender != null)
+							{
+								this.issueTicketPage.getLblExistingOffenderTrnValue().setText(String.valueOf(foundOffender.getTrnNumber()));
+								this.issueTicketPage.getLblExistingFirstNameValue().setText(foundOffender.getFirstName());
+								this.issueTicketPage.getLblExistingLastNameValue().setText(foundOffender.getLastName());
+								this.issueTicketPage.getLblExistingMiddleInitialValue().setText(foundOffender.getMiddleInitial());
+								
+								SimpleDateFormat dobFormat = new SimpleDateFormat("d'-'MMM'-'yyyy");
+								
+								this.issueTicketPage.getLblExistingDobValue().setText(dobFormat.format(foundOffender.getDob()));
+								this.issueTicketPage.getTxtExistingAddress1().setText(foundOffender.getAddress().getAddress1());
+								this.issueTicketPage.getTxtExistingAddress2().setText(foundOffender.getAddress().getAddress2());
+								this.issueTicketPage.getLblExistingParishValue().setText(foundOffender.getAddress().getParish());
+								
+								this.issueTicketPage.getLblExistingLicenseTypeValue().setText(foundOffender.getLicenseType());
+								this.issueTicketPage.getLblExistingPointsValue().setText(String.valueOf(foundOffender.getPoints()));
+								
+								SimpleDateFormat expiryDateFormat = new SimpleDateFormat("d'-'MMM'-'yyyy");
+								this.issueTicketPage.getLblExistingExpiryDateValue().setText(expiryDateFormat.format(foundOffender.getExpiryDate()));
+								
+								this.issueTicketPage.getExistingOffenderPanel().setVisible(true);
+							}
+							else
+							{
+								this.issueTicketPage.getLblSearchOffenderStatus().setVisible(true);
+								this.issueTicketPage.getLblSearchOffenderStatus().setForeground(Color.RED);
+								this.issueTicketPage.getLblSearchOffenderStatus().setText("Offender \"" + this.issueTicketPage.getTxtSearchOffenderTrn().getText().trim() + "\" does not Exist");
+							}
+						}
+						catch(ClassCastException ex)
+						{
+							this.issueTicketPage.getLblSearchOffenderStatus().setVisible(true);
+							this.issueTicketPage.getLblSearchOffenderStatus().setForeground(Color.RED);
+							this.issueTicketPage.getLblSearchOffenderStatus().setText("Unexpected error occured while rendering the offender data.");
+						}
 					}
 				}
 			} 
@@ -106,9 +149,11 @@ public class IssueTicketController implements ActionListener, ItemListener, Docu
 			//public Offender(Integer trnNumber, String firstName, String lastName, String middleInitial, Date dob, String address1, String address2, String parish,String licenseType,Integer points, Date expiryDate) 
 			if(this.issueTicketPage.getChbxNewOffender().isSelected())
 			{
-				Offender offender = new Offender(Integer.parseInt(this.issueTicketPage.getTxtOffenderTrn().getText().trim()),this.issueTicketPage.getTxtFirstName().getText().trim(),this.issueTicketPage.getTxtLastName().getText().trim(),this.issueTicketPage.getTxtMiddleInitial().getText().trim(),this.issueTicketPage.getExistingOffenderDobChooser().getDate(),this.issueTicketPage.getTxtAddress1().getText().trim(),this.issueTicketPage.getTxtAddress2().getText().trim(),(String)this.issueTicketPage.getCmbxOffenderParish().getSelectedItem(),(String)this.issueTicketPage.getCmbxLicenseType().getSelectedItem(),Integer.parseInt(this.issueTicketPage.getTxtPoints().getText().trim()),this.issueTicketPage.getExpiryDateChooser().getDate());
+				Offender offender = new Offender(Integer.parseInt(this.issueTicketPage.getTxtOffenderTrn().getText().trim()),this.issueTicketPage.getTxtFirstName().getText().trim(),this.issueTicketPage.getTxtLastName().getText().trim(),this.issueTicketPage.getTxtMiddleInitial().getText().trim(),this.issueTicketPage.getOffenderDobChooser().getDate(),this.issueTicketPage.getTxtAddress1().getText().trim(),this.issueTicketPage.getTxtAddress2().getText().trim(),(String)this.issueTicketPage.getCmbxOffenderParish().getSelectedItem(),(String)this.issueTicketPage.getCmbxLicenseType().getSelectedItem(),Integer.parseInt(this.issueTicketPage.getTxtPoints().getText().trim()),this.issueTicketPage.getExpiryDateChooser().getDate());
 				ticket = new Ticket();
 				offense = new Offense();
+
+				offense.setOffenseCode(Integer.parseInt(Offense.extractCode(this.issueTicketPage.getCmbxOffense().getSelectedItem().toString())));
 				
 				ticket.setDescription(this.issueTicketPage.getTxtTicketAddress1().getText().trim());
 				ticket.setFine(Float.parseFloat(this.issueTicketPage.getTxtTicketFine().getText().trim()));
@@ -121,6 +166,8 @@ public class IssueTicketController implements ActionListener, ItemListener, Docu
 				ticket.setPoints(Integer.parseInt(this.issueTicketPage.getTxtTicketPoints().getText().trim()));
 				
 				serviceRequest = new ServiceRequest(ServiceRequest.ISSUE_TICKET_NEW_OFFENDER);
+				
+				serviceRequest.getData().add(ticket);
 			}
 			else
 			{
@@ -141,16 +188,25 @@ public class IssueTicketController implements ActionListener, ItemListener, Docu
 				ticket.setPoints(Integer.parseInt(this.issueTicketPage.getTxtTicketPoints().getText().trim()));
 				
 				serviceRequest = new ServiceRequest(ServiceRequest.ISSUE_TICKET_EXISTING_OFFENDER);
+				serviceRequest.getData().add(ticket);
 			}
 
 			ConnectionController connectionController = new ConnectionController(serviceRequest);
 			
 			try 
 			{
+				System.out.println("BEFORE SUBMIT");
 				connectionController.submitRequest();
 				if(connectionController.isDialogSuccess())
 				{
-					
+					if(connectionController.getSuccessServiceResponse().getStatus()==1)
+					{
+						JOptionPane.showMessageDialog(this.issueTicketPage, "Ticket was issued to: " + this.issueTicketPage.getTxtFirstName().getText().trim() + " " + this.issueTicketPage.getTxtLastName().getText().trim(),"Issue Ticket: success",JOptionPane.DEFAULT_OPTION,new ImageIcon(IssueTicketController.class.getResource("/trafficTicket/resources/successIcon_32x32.png")));
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(this.issueTicketPage,"Failed to issue ticket to "+ "\""+ this.issueTicketPage.getTxtFirstName().getText().trim() +" "+this.issueTicketPage.getTxtLastName().getText().trim() +". Please Try again." ,"Issue Ticket: failed",JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			} 
 			catch (SAXException ex) 
@@ -184,9 +240,15 @@ public class IssueTicketController implements ActionListener, ItemListener, Docu
 		}
 		else if(this.eventSource.equalsIgnoreCase("btnResetIssueTicket"))
 		{
-			
+			this.resetIssueTicket();
 		}
 	}
+	
+	public void resetIssueTicket()
+	{
+		
+	}
+	
 	@Override
 	public void itemStateChanged(ItemEvent e) 
 	{
@@ -219,9 +281,13 @@ public class IssueTicketController implements ActionListener, ItemListener, Docu
 	public void changedUpdate(DocumentEvent e) 
 	{
 		
+	}
+	@Override
+	public void insertUpdate(DocumentEvent e) 
+	{
 		if(this.eventSource.equalsIgnoreCase("txtSearchOffenderTrn"))
 		{
-			System.out.println("text inserted");
+			
 			if(!this.issueTicketPage.getLblSearchOffenderStatus().getText().isEmpty())
 			{
 				this.issueTicketPage.getLblSearchOffenderStatus().setText("");
@@ -231,14 +297,17 @@ public class IssueTicketController implements ActionListener, ItemListener, Docu
 		
 	}
 	@Override
-	public void insertUpdate(DocumentEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
 	public void removeUpdate(DocumentEvent e) 
 	{
-		
+		if(this.eventSource.equalsIgnoreCase("txtSearchOffenderTrn"))
+		{
+			
+			if(!this.issueTicketPage.getLblSearchOffenderStatus().getText().isEmpty())
+			{
+				this.issueTicketPage.getLblSearchOffenderStatus().setText("");
+				this.issueTicketPage.getLblSearchOffenderStatus().setVisible(false);
+			}
+		}		
 	}
 	
 }
