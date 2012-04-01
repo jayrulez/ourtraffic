@@ -15,7 +15,7 @@ public class Offender extends Person  implements Serializable
 	private String licenseType;
 	private Integer points;
 	private Date expiryDate;
-	
+
 	private ArrayList<Ticket> tickets;
 	
 	public Offender() 

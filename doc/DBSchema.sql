@@ -1,13 +1,13 @@
 -- create database if not exists ticketingdb;
 
 CREATE TABLE IF NOT EXISTS `division` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `street` varchar(50) NOT NULL,
   `city` varchar(50) NOT NULL,
   `parish` varchar(30) NOT NULL,
   `phoneNumber` varchar(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ;
 
 CREATE TABLE IF NOT EXISTS `offense` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -261,5 +261,13 @@ insert into `offense`(id,name,description) values(default,"Traffic Light","");
 insert into `offense`(id,name,description) values(default,"Overload","");
 insert into `offense`(id,name,description) values(default,"No parking","");
 
+select * from division;
+
+insert into division values(101,"18 clover road","Kingtson 7","Kingston","988-2001");
+SELECT * from police;
+call sp_getUserLogin("K1001","password");
+
+select * from user;
 select * from offender;
+select * from ticket;
 insert into offender(trn,firstName,lastName,middleInitial,DOB,street,city,parish,licenseType,points,expiryDate) values('1000003','sync','mcfarlane','b','2008-7-22','17 blue dale street','portmore','Saint Catherine','General',223,'2013-12-1');

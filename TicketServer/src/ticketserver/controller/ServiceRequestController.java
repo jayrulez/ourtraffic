@@ -54,10 +54,13 @@ public class ServiceRequestController
 					this.sqlProvider = new SqlProvider();
 					try 
 					{
+						System.out.println(this.serviceRequest.getData().size());
+						System.out.println("Police:" + ticket.getPolice().getBadgeNumber());
+						int result = 0;
+						result = this.sqlProvider.issueTicketExistingOffender(ticket.getPolice().getBadgeNumber(),ticket.getOffender().getTrnNumber() , ticket.getOffense().getOffenseCode(), ticket.getOffenseDate(), ticket.getOffensePlace().getAddress1(), ticket.getOffensePlace().getAddress2(), ticket.getOffensePlace().getParish(), ticket.getDescription(), ticket.getFine(), ticket.getPoints());
 						
-						int result = this.sqlProvider.issueTicketExistingOffender(ticket.getOffender().getTrnNumber(), ticket.getPolice().getBadgeNumber(), ticket.getOffense().getOffenseCode(), ticket.getOffenseDate(), ticket.getOffensePlace().getAddress1(), ticket.getOffensePlace().getAddress2(), ticket.getOffensePlace().getParish(), ticket.getDescription(), ticket.getFine(), ticket.getPoints());
 						this.serviceResponse.setStatus(result);
-						
+						System.out.println("Result:"+result);
 						if (result == 0)
 						{
 							this.serviceResponse.setDescription("Could not issue this ticket to offender. Please try again.");
@@ -80,6 +83,11 @@ public class ServiceRequestController
 					{
 						// TODO Auto-generated catch block
 						System.out.println(e.getErrorCode());
+					}
+					catch(NullPointerException e)
+					{
+						e.printStackTrace();
+						System.out.println("Error " + e);
 					}
 					finally
 					{
@@ -227,13 +235,15 @@ public class ServiceRequestController
 				}
 			break;
 			
-			case ServiceRequest.GET_USER:
+			case ServiceRequest.GET_USER_LOGIN:
 				this.sqlProvider = new SqlProvider();
 				try 
 				{
 					User targetUser = (User) this.serviceRequest.getData().firstElement();
 					
-					Vector<User> users = this.sqlProvider.getUser(targetUser.getHandle());
+					Vector<User> users = this.sqlProvider.getUserLogin(targetUser.getHandle(),targetUser.getPassword());
+					
+					System.out.println("Server Received Data: "+users.firstElement().getFirstName());
 					
 					System.out.println("Server Received Data:"+users.size());
 					this.serviceResponse.setData(users);
