@@ -52,7 +52,7 @@ public class BtnLoginController extends MouseAdapter implements ActionListener {
 	private void login() {
 		
 		
-		ServiceRequest serviceRequest = new ServiceRequest(ServiceRequest.GET_USER);
+		ServiceRequest serviceRequest = new ServiceRequest(ServiceRequest.GET_USER_LOGIN);
 		
 		User loginUser = new User();
 		
@@ -75,18 +75,15 @@ public class BtnLoginController extends MouseAdapter implements ActionListener {
 				
 				if(!users.isEmpty())
 				{
-					
 					TrafficTicketLoginFrame loginFrame = (TrafficTicketLoginFrame) this.loginPage.getTopLevelAncestor();
 					if(loginFrame != null)
 					{
-					
 						User foundUser = (User) users.firstElement();
-						
 						if(foundUser.getType()==User.POLICE)
 						{
 							
 							loginFrame.setVisible(false);
-	
+							
 							/* distroy the login frame and all its contents */
 							loginFrame.dispose();
 	
@@ -95,8 +92,12 @@ public class BtnLoginController extends MouseAdapter implements ActionListener {
 							// SwingUtilities.invokeLater(taxFrame);
 	
 							// start Tax Office program module
+							
 							JCFFrame jcfFrame = new JCFFrame();
 							SwingUtilities.invokeLater(jcfFrame);
+							jcfFrame.setCurrentUser(User.copy(foundUser));
+							
+							jcfFrame.getLblUserInfo().setText(foundUser.getFirstName().substring(0, 0) + ". " + foundUser.getMiddleInitial() + ". " + foundUser.getLastName());
 						}
 						else if(foundUser.getType()==User.TAXOFFICER)
 						{
@@ -112,6 +113,9 @@ public class BtnLoginController extends MouseAdapter implements ActionListener {
 							// start Tax Office program module
 							TaxFrame taxFrame = new TaxFrame();
 							SwingUtilities.invokeLater(taxFrame);
+							taxFrame.setCurrentUser(User.copy(foundUser));
+							
+							taxFrame.getLblUserInfo().setText(foundUser.getFirstName().substring(0, 0) + ". " + foundUser.getMiddleInitial() + ". " + foundUser.getLastName());
 						}
 					}
 					else
@@ -127,7 +131,12 @@ public class BtnLoginController extends MouseAdapter implements ActionListener {
 				connectionController = null;
 			}
 		} 
-		catch (NumberFormatException | ClassNotFoundException | SAXException | IOException| ParserConfigurationException | ClassCastException e) 
+		catch (NumberFormatException | SAXException | IOException| ParserConfigurationException e) 
+		{
+			this.loginPage.getLblLoginStatus().setText("Error: Could not contact host.");
+			this.loginPage.getLblLoginStatus().setForeground(Color.RED);
+		}
+		catch(ClassNotFoundException| ClassCastException e)
 		{
 			this.loginPage.getLblLoginStatus().setText("An unexpected error occured.");
 			this.loginPage.getLblLoginStatus().setForeground(Color.RED);

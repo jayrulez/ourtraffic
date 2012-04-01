@@ -21,6 +21,7 @@ import org.xml.sax.SAXException;
 import extension.model.Address;
 import extension.model.Offender;
 import extension.model.Offense;
+import extension.model.Police;
 import extension.model.ServiceRequest;
 import extension.model.Ticket;
 
@@ -145,6 +146,9 @@ public class IssueTicketController implements ActionListener, ItemListener, Docu
 			ServiceRequest serviceRequest = null;
 			Ticket ticket = null;
 			Offense offense = null;		
+			Police police = null;
+			
+			JCFFrame parentFrame = (JCFFrame)this.issueTicketPage.getTopLevelAncestor();
 			
 			//public Offender(Integer trnNumber, String firstName, String lastName, String middleInitial, Date dob, String address1, String address2, String parish,String licenseType,Integer points, Date expiryDate) 
 			if(this.issueTicketPage.getChbxNewOffender().isSelected())
@@ -152,7 +156,13 @@ public class IssueTicketController implements ActionListener, ItemListener, Docu
 				Offender offender = new Offender(Integer.parseInt(this.issueTicketPage.getTxtOffenderTrn().getText().trim()),this.issueTicketPage.getTxtFirstName().getText().trim(),this.issueTicketPage.getTxtLastName().getText().trim(),this.issueTicketPage.getTxtMiddleInitial().getText().trim(),this.issueTicketPage.getOffenderDobChooser().getDate(),this.issueTicketPage.getTxtAddress1().getText().trim(),this.issueTicketPage.getTxtAddress2().getText().trim(),(String)this.issueTicketPage.getCmbxOffenderParish().getSelectedItem(),(String)this.issueTicketPage.getCmbxLicenseType().getSelectedItem(),Integer.parseInt(this.issueTicketPage.getTxtPoints().getText().trim()),this.issueTicketPage.getExpiryDateChooser().getDate());
 				ticket = new Ticket();
 				offense = new Offense();
-
+				police = new Police();
+				
+				if(parentFrame != null)
+				{
+					police.setBadgeNumber(parentFrame.getCurrentUser().getHandle());
+				}
+				ticket.setPolice(police);
 				offense.setOffenseCode(Integer.parseInt(Offense.extractCode(this.issueTicketPage.getCmbxOffense().getSelectedItem().toString())));
 				
 				ticket.setDescription(this.issueTicketPage.getTxtTicketAddress1().getText().trim());
@@ -176,6 +186,15 @@ public class IssueTicketController implements ActionListener, ItemListener, Docu
 				
 				ticket = new Ticket();
 				offense = new Offense();
+				police = new Police();
+				
+				if(parentFrame != null)
+				{
+					System.out.println("Police User:" + parentFrame.getCurrentUser().getFirstName());
+					police.setBadgeNumber(parentFrame.getCurrentUser().getHandle());
+				}
+				ticket.setPolice(police);
+				offense.setOffenseCode(Integer.parseInt(Offense.extractCode(this.issueTicketPage.getCmbxOffense().getSelectedItem().toString())));
 				
 				ticket.setDescription(this.issueTicketPage.getTxtTicketAddress1().getText().trim());
 				ticket.setFine(Float.parseFloat(this.issueTicketPage.getTxtTicketFine().getText().trim()));
@@ -195,17 +214,31 @@ public class IssueTicketController implements ActionListener, ItemListener, Docu
 			
 			try 
 			{
-				System.out.println("BEFORE SUBMIT");
 				connectionController.submitRequest();
 				if(connectionController.isDialogSuccess())
 				{
 					if(connectionController.getSuccessServiceResponse().getStatus()==1)
 					{
-						JOptionPane.showMessageDialog(this.issueTicketPage, "Ticket was issued to: " + this.issueTicketPage.getTxtFirstName().getText().trim() + " " + this.issueTicketPage.getTxtLastName().getText().trim(),"Issue Ticket: success",JOptionPane.DEFAULT_OPTION,new ImageIcon(IssueTicketController.class.getResource("/trafficTicket/resources/successIcon_32x32.png")));
+						if(!this.issueTicketPage.getExistingOffenderPanel().isVisible())
+						{
+							JOptionPane.showMessageDialog(this.issueTicketPage, "Ticket was issued to: " + this.issueTicketPage.getTxtFirstName().getText().trim() + " " + this.issueTicketPage.getTxtLastName().getText().trim(),"Issue Ticket: success",JOptionPane.DEFAULT_OPTION,new ImageIcon(IssueTicketController.class.getResource("/trafficticket/resources/successIcon_32x32.png")));
+					
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(this.issueTicketPage, "Ticket was issued to: " + this.issueTicketPage.getLblExistingFirstNameValue().getText().trim() + " " + this.issueTicketPage.getLblExistingLastNameValue().getText().trim(),"Issue Ticket: success",JOptionPane.DEFAULT_OPTION,new ImageIcon(IssueTicketController.class.getResource("/trafficticket/resources/successIcon_32x32.png")));
+						}
 					}
 					else
 					{
-						JOptionPane.showMessageDialog(this.issueTicketPage,"Failed to issue ticket to "+ "\""+ this.issueTicketPage.getTxtFirstName().getText().trim() +" "+this.issueTicketPage.getTxtLastName().getText().trim() +". Please Try again." ,"Issue Ticket: failed",JOptionPane.ERROR_MESSAGE);
+						if(!this.issueTicketPage.getExistingOffenderPanel().isVisible())
+						{
+							JOptionPane.showMessageDialog(this.issueTicketPage,"Failed to issue ticket to "+ "\""+ this.issueTicketPage.getTxtFirstName().getText().trim() +" "+this.issueTicketPage.getTxtLastName().getText().trim() +"\". Please Try again." ,"Issue Ticket: failed",JOptionPane.ERROR_MESSAGE);
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(this.issueTicketPage,"Failed to issue ticket to "+ "\""+ this.issueTicketPage.getLblExistingFirstNameValue().getText().trim() +" "+this.issueTicketPage.getLblExistingLastNameValue().getText().trim() +"\". Please Try again." ,"Issue Ticket: failed",JOptionPane.ERROR_MESSAGE);
+						}
 					}
 				}
 			} 

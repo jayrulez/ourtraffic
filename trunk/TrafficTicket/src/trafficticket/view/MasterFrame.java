@@ -16,6 +16,8 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
+import extension.model.User;
+
 public class MasterFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTabbedPane tabbedPane;
@@ -27,6 +29,13 @@ public class MasterFrame extends JFrame {
 	private JLabel lblSystemConectionStatus;
 	private JLabel lblSystemDate;
 	private JLabel lblconnectionStatusValue;
+	
+	private User currentUser;
+	private JPanel pnlUserInfo;
+	private JPanel pnlDateStatus;
+	private JPanel pnlConnectionStatus;
+	private JLabel lblUserInfo;
+	private JLabel lblUser;
 
 	public MasterFrame() {
 		this.initialize();
@@ -136,47 +145,49 @@ public class MasterFrame extends JFrame {
 
 		this.pnlStatusBar = new JPanel();
 		getContentPane().add(this.pnlStatusBar, BorderLayout.SOUTH);
-		this.pnlStatusBar.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(25dlu;default)"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("left:max(77dlu;default)"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(59dlu;default)"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("left:max(69dlu;default)"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(157dlu;default)"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,},
-			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,}));
-
-		this.lblSystemConectionStatus = new JLabel("Status:");
-		this.pnlStatusBar.add(this.lblSystemConectionStatus, "2, 2");
+		this.pnlStatusBar.setLayout(new BorderLayout(0, 0));
 		//new component
-		this.lblconnectionStatusValue = new JLabel("");
-		this.pnlStatusBar.add(this.lblconnectionStatusValue, "4, 2, left, center");
+		this.pnlConnectionStatus = new JPanel();
+		this.pnlStatusBar.add(this.pnlConnectionStatus, BorderLayout.WEST);
+				this.pnlConnectionStatus.setLayout(new FormLayout(new ColumnSpec[] {
+						FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+						ColumnSpec.decode("35px"),
+						FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+						ColumnSpec.decode("1px"),},
+					new RowSpec[] {
+						FormFactory.LINE_GAP_ROWSPEC,
+						RowSpec.decode("14px"),}));
+		
+				this.lblSystemConectionStatus = new JLabel("Status:");
+				this.pnlConnectionStatus.add(this.lblSystemConectionStatus, "2, 2, left, top");
+				//new component
+				this.lblconnectionStatusValue = new JLabel("");
+				this.pnlConnectionStatus.add(this.lblconnectionStatusValue, "4, 2, left, center");
+		//new component
+		this.pnlUserInfo = new JPanel();
+		this.pnlStatusBar.add(this.pnlUserInfo, BorderLayout.CENTER);
+		//new component
+		this.lblUser = new JLabel("New label");
+		this.pnlUserInfo.add(this.lblUser);
+		//new component
+		this.lblUserInfo = new JLabel("");
+		this.pnlUserInfo.add(this.lblUserInfo);
+		//new component
+		this.pnlDateStatus = new JPanel();
+		this.pnlStatusBar.add(this.pnlDateStatus, BorderLayout.EAST);
+		
+				this.lblSystemDate = new JLabel("");
+				this.pnlDateStatus.add(this.lblSystemDate);
+	}
 
-		this.lblSystemDate = new JLabel("Date");
-		this.pnlStatusBar.add(this.lblSystemDate, "10, 2, right, default");
+	public User getCurrentUser() {
+		return currentUser;
+	}
+
+	public void setCurrentUser(User currentUser) {
+		this.currentUser = User.copy(currentUser);
+	}
+	public JLabel getLblUserInfo() {
+		return lblUserInfo;
 	}
 }
