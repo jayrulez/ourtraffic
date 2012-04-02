@@ -363,7 +363,7 @@ public class TicketPayment extends ContentPage
 		this.txtTicketAddress1.setRows(4);
 		this.scrollPane_2.setViewportView(this.txtTicketAddress1);
 		//new component
-		this.lblTicketAddress2 = new JLabel("Address:");
+		this.lblTicketAddress2 = new JLabel("Address 2:");
 		this.pnlOffensePlaceSummary.add(this.lblTicketAddress2, "8, 2");
 		//new component
 		this.scrollPane_1 = new JScrollPane();
@@ -395,23 +395,47 @@ public class TicketPayment extends ContentPage
 		this.pnlButtonPanel.add(this.btnReset);
 	}
 	
+	public JTextField getTxtOffenseName() 
+	{
+		return txtOffenseName;
+	}
+	
+	public JTextArea getTxtTicketAddress1() 
+	{
+		return txtTicketAddress1;
+	}
+	
+	public void setTxtOffenseName(JTextField txtOffenseName) 
+	{
+		this.txtOffenseName = txtOffenseName;
+	}
+	
+	public void setTxtTicketAddress1(JTextArea txtTicketAddress1)
+	{
+		this.txtTicketAddress1 = txtTicketAddress1;
+	}
+	
 	public JPanel getPnlSearchTicket() {
 		return pnlSearchTicket;
 	}
 
-	public void setPnlSearchTicket(JPanel pnlSearchTicket) {
+	public void setPnlSearchTicket(JPanel pnlSearchTicket) 
+	{
 		this.pnlSearchTicket = pnlSearchTicket;
 	}
 
-	public JPanel getPnlSearchTicketStatus() {
+	public JPanel getPnlSearchTicketStatus()
+	{
 		return pnlSearchTicketStatus;
 	}
 
-	public void setPnlSearchTicketStatus(JPanel pnlSearchTicketStatus) {
+	public void setPnlSearchTicketStatus(JPanel pnlSearchTicketStatus)
+	{
 		this.pnlSearchTicketStatus = pnlSearchTicketStatus;
 	}
 
-	public JPanel getPnlTicketDetails() {
+	public JPanel getPnlTicketDetails() 
+	{
 		return pnlTicketDetails;
 	}
 
