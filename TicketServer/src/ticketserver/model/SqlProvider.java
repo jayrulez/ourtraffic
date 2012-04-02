@@ -308,6 +308,9 @@ public class SqlProvider
 			police.setMiddleInitial(this.resultSet.getString("policeMiddleInitial"));
 		
 			offense = new Offense(this.resultSet.getInt("offenseId"),this.resultSet.getString("offenseName"),"");
+			ticket.setOffender(offender);
+			ticket.setOffense(offense);
+			ticket.setPolice(police);
 			tickets.add(ticket);
 		}
 		this.dbDisconnect();

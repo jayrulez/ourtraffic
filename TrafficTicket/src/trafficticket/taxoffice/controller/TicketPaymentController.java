@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -52,11 +53,48 @@ public class TicketPaymentController implements ActionListener, DocumentListener
 				{
 					this.ticketPaymentPage.getLblTicketSearchStatus().setText("");
 					
-					Ticket foundTicket = (Ticket) connectionController.getSuccessServiceResponse().getData().firstElement();
-					
-					if(foundTicket != null)
+					if(!connectionController.getSuccessServiceResponse().getData().isEmpty())	
 					{
-						this.ticketPaymentPage.getTxtTicketNumber().setText(String.valueOf(foundTicket.getTicketNumber()));
+						Ticket foundTicket = (Ticket) connectionController.getSuccessServiceResponse().getData().firstElement();
+						if(foundTicket != null)	
+						{
+						
+							//ticket summary
+							this.ticketPaymentPage.getTxtTicketNumber().setText(String.valueOf(foundTicket.getTicketNumber()));
+							this.ticketPaymentPage.getTxtOffenseCode().setText(String.valueOf(foundTicket.getOffense().getOffenseCode()));
+							this.ticketPaymentPage.getTxtOffenseName().setText(foundTicket.getOffense().getOffenceName());
+							
+							SimpleDateFormat dateFormat = new SimpleDateFormat("d'-'MMM'-'yyyy");
+							
+							this.ticketPaymentPage.getTxtOffenseDate().setText(dateFormat.format(foundTicket.getOffenseDate()));
+							this.ticketPaymentPage.getTxtFine().setText(String.valueOf(foundTicket.getFine()));
+							this.ticketPaymentPage.getTxtTicketPoints().setText(String.valueOf(foundTicket.getPoints()));
+							this.ticketPaymentPage.getTxtTicketDescription().setText(foundTicket.getDescription());
+							
+							//issued to
+							this.ticketPaymentPage.getTxtOffenderTrn().setText(String.valueOf(foundTicket.getOffender().getTrnNumber()));
+							this.ticketPaymentPage.getTxtOffenderFirstName().setText(foundTicket.getOffender().getFirstName());
+							this.ticketPaymentPage.getTxtOffenderLastName().setText(foundTicket.getOffender().getLastName());
+							this.ticketPaymentPage.getTxtOffenderMiddleInitial().setText(foundTicket.getOffender().getMiddleInitial());
+							this.ticketPaymentPage.getTxtOffenderLicensePoints().setText(String.valueOf(foundTicket.getOffender().getPoints()));
+							
+							//issued by
+							this.ticketPaymentPage.getTxtDivision().setText(String.valueOf(foundTicket.getPolice().getDivision().getStationNumber()));
+							this.ticketPaymentPage.getTxtBadgeNumber().setText(foundTicket.getPolice().getBadgeNumber());
+							this.ticketPaymentPage.getTxtPoliceFirstName().setText(foundTicket.getPolice().getFirstName());
+							this.ticketPaymentPage.getTxtPoliceLastName().setText(foundTicket.getPolice().getLastName());
+							
+							
+							//issued at
+							this.ticketPaymentPage.getTxtTicketAddress1().setText(foundTicket.getOffensePlace().getAddress1());
+							this.ticketPaymentPage.getTxtTicketAddress2().setText(foundTicket.getOffensePlace().getAddress2());
+							this.ticketPaymentPage.getTxtTicketPoints().setText(foundTicket.getOffensePlace().getParish());
+						}
+						else
+						{
+							this.ticketPaymentPage.getLblTicketSearchStatus().setForeground(Color.RED);
+							this.ticketPaymentPage.getLblTicketSearchStatus().setText("Error occured while attemping to load the ticket information.");
+						}
 					}
 					else
 					{
