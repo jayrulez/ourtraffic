@@ -99,7 +99,7 @@ public class AddUserController implements ActionListener
 				}
 				
 			}
-			else if(this.addUserPage.getCmbxUserTye().getSelectedIndex() == 3)
+			else if(this.addUserPage.getCmbxUserTye().getSelectedIndex() == 1)
 			{
 				try
 				{
@@ -122,7 +122,7 @@ public class AddUserController implements ActionListener
 				}
 				catch(SQLException ex)
 				{
-					JOptionPane.showMessageDialog(this.addUserPage,"Could not accesss the Data Source. Tax Officer "+ "\""+ this.addUserPage.getTxtFirstName().getText().trim() + " " +this.addUserPage.getTxtLastName().getText().trim() +"\" was not added","Add Tax Officer",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this.addUserPage,"An error occured while saving data. Tax Officer "+ "\""+ this.addUserPage.getTxtFirstName().getText().trim() + " " +this.addUserPage.getTxtLastName().getText().trim() +"\" was not added","Add Tax Officer",JOptionPane.ERROR_MESSAGE);
 					//System.out.println("here");
 				} 
 				catch (ClassNotFoundException ex) 

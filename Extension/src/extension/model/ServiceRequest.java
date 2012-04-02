@@ -21,6 +21,7 @@ public class ServiceRequest implements Serializable
 	public static final int GET_OFFENDER = 9;
 	public static final int GET_USER = 10;
 	public static final int GET_USER_LOGIN = 11;
+	public static final int GET_TICKET = 12;
 	
 	private Integer action;
 	private Vector data;

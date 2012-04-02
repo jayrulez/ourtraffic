@@ -7,16 +7,16 @@ import java.util.Date;
 
 import javax.swing.JLabel;
 
-import trafficticket.jcf.view.JCFFrame;
+import trafficticket.view.MasterFrame;
 
 public class MiscController implements Runnable
 {
-	private JCFFrame jcfFrame;
+	private MasterFrame masterFrame;
 	private String type;
 	
-	public MiscController(JCFFrame parentFrame,String type) {
+	public MiscController(MasterFrame parentFrame,String type) {
 		// TODO Auto-generated constructor stub
-		this.jcfFrame = parentFrame;
+		this.masterFrame = parentFrame;
 		this.type = type;
 	}
 	
@@ -32,9 +32,9 @@ public class MiscController implements Runnable
 	
 	public void clock()
 	{
-		JLabel lblDate = jcfFrame.getLblSystemDate();
+		JLabel lblDate = masterFrame.getLblSystemDate();
 		
-		while(this.jcfFrame.isEnabled())
+		while(this.masterFrame.isEnabled())
 		{
 			Date currentDate = new Date();
 			SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM yyyy '|' h:mm a");

@@ -9,8 +9,10 @@ public class TaxFrame extends MasterFrame implements Runnable {
 	private TaxMainMenu mainNavMenu;
 	
 
-	public TaxFrame() {
+	public TaxFrame() 
+	{
 		
+		this.initGui();
 	}
 
 	public void initGui() {
@@ -20,15 +22,21 @@ public class TaxFrame extends MasterFrame implements Runnable {
 		this.mainMenuBar = new TaxMenuBar();
 		this.setJMenuBar(this.mainMenuBar);
 		this.mainMenuBar.initialize();
+		this.mainMenuBar.initializeListener();
 
 		this.mainNavMenu = new TaxMainMenu();
 		this.addLeftNavPanelContent(this.mainNavMenu);
+		this.mainNavMenu.initialiseLisenters(); 
 
 
 		this.setVisible(true);
 	}
+
+	
 	public void run() 
 	{
-			this.initGui();
+		this.testConnection();	
+		this.initClock();
 	}
+
 }

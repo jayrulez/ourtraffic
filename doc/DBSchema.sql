@@ -185,7 +185,7 @@ BEGIN
         START TRANSACTION;
 			INSERT INTO `taxofficer`(officerId,firstName,middleInitial,lastName,DOB,street,city,parish) VALUES(officerId,fName,mInitial,lName,dob,address1, address2, parish);
 			IF ROW_COUNT() = 1 THEN
-				INSERT INTO `user`(id,handle,pin,accountType) VALUES(DEFAULT,officerId,password,2);
+				INSERT INTO `user`(id,handle,pin,accountType) VALUES(DEFAULT,officerId,password,3);
 				IF ROW_COUNT() = 1 THEN
 					SET result = 1;
 					commit;
@@ -253,6 +253,18 @@ BEGIN
 END$$
 DELIMITER ;
 
+
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_getTicket`$$
+CREATE PROCEDURE `sp_getTicket` (ticketNumber int(11))
+BEGIN
+    select `ticket`.id as ticketNumer, `ticket`.offenseDate, `ticket`.street as ticketDate,`ticket`.city as ticketCity, `ticket`.parish as ticketParish,`ticket`.description as ticketDescription,`ticket`.fine as ticketFine,`ticket`.points as ticketPoints,`ticket`.paymentStatus, `offender`.trn as offenderTrn, `offender`.firstName as offenderFirstName,`offender`.lastName as offenderLastName,`offender`.middleInitial as offenderMiddleInitial,`offender`.DOB as offenderDob,`offender`.street as offenderStreet, `offender`.city as offenderCity,`offender`.parish as offenderParish,`offender`.licenseType as licenseType,`offender`.points as licensePoints,`offender`.expiryDate as licenseExpiryDate, `police`.badgeId,`police`.divisionId,`police`.firstName as policeFirstName,`police`.lastName as policeLastName,`police`.middleInitial as policeMiddleInitial, `offense`.id as offenseId,`offense`.name as offenseName from `ticket` inner join `offender` on `offender`.trn = `ticket`.offenderTrn inner join `police` on `police`.badgeId = `ticket`.policeId inner join `offense` on  `offense`.id = `ticket`.offenseId where `ticket`.id = ticketNumber;
+END$$
+DELIMITER ;
+
+
+call sp_getTicket("1");
+
 call sp_getAllOffenses();
 
 insert into `offense`(id,name,description) values(default,"Speeding","");
@@ -267,7 +279,8 @@ insert into division values(101,"18 clover road","Kingtson 7","Kingston","988-20
 SELECT * from police;
 call sp_getUserLogin("K1001","password");
 
+select * from taxofficer;
 select * from user;
 select * from offender;
 select * from ticket;
-insert into offender(trn,firstName,lastName,middleInitial,DOB,street,city,parish,licenseType,points,expiryDate) values('1000003','sync','mcfarlane','b','2008-7-22','17 blue dale street','portmore','Saint Catherine','General',223,'2013-12-1');
+insert into offender(trn,firstName,lastName,middleInitial,DOB,street,city,parish,licenseType,points,expiryDate) values('1000003','Dale','mcfarlane','B','2008-7-22','17 blue dale street','portmore','Saint Catherine','General',223,'2013-12-1');

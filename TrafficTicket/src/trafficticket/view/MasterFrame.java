@@ -11,12 +11,16 @@ import java.awt.Dimension;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 
+import trafficticket.controller.MiscController;
+import trafficticket.jcf.controller.MasterFrameConnectionController;
+
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
 import extension.model.User;
+import java.awt.Color;
 
 public class MasterFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -41,45 +45,74 @@ public class MasterFrame extends JFrame {
 		this.initialize();
 	}
 
-	public MasterFrame(JPanel mainMenu, JSplitPane splitPane,
-			JScrollPane menuScrollPane) {
+	public MasterFrame(JPanel mainMenu, JSplitPane splitPane,JScrollPane menuScrollPane) 
+	{
 		this.leftNavPanel = mainMenu;
 		this.splitPane = splitPane;
 		this.menuScrollPane = menuScrollPane;
 	}
 
-	public void addLeftNavPanelContent(JPanel content) {
+	public void addLeftNavPanelContent(JPanel content) 
+	{
 		this.leftNavPanel.add(content);
 	}
 
-	public void setLeftNavPanelContent(JPanel content) {
+	public void setLeftNavPanelContent(JPanel content)  
+	{
 		this.leftNavPanel = content;
 	}
 
-	public void addTab(String title, JScrollPane scrollPane) {
-		if (!title.equals("")) {
-			if (!this.tabExist(title)) {
+	
+	public void testConnection()
+	{
+		Thread connectionStatusThread = new Thread(new MasterFrameConnectionController(this));
+		connectionStatusThread.start();
+	}
+
+	public void initClock()
+	{
+		Thread miscThread = new Thread(new MiscController(this, "clock"));
+		miscThread.start();
+	}
+	
+	public void addTab(String title, JScrollPane scrollPane) 
+	{
+		if (!title.equals(""))
+		{
+			if (!this.tabExist(title)) 
+			{
 				this.tabbedPane.add(title, scrollPane);
 			}
 		}
 	}
 
-	public void addTab(String title, ImageIcon icon, JScrollPane scrollPane) {
-		if (!title.equals("")) {
-			if (!this.tabExist(title)) {
+	public void addTab(String title, ImageIcon icon, JScrollPane scrollPane)   
+	{
+		if (!title.equals("")) 
+		{
+			if (!this.tabExist(title)) 
+			{
 				this.tabbedPane.addTab(title.trim(), icon, scrollPane);
+				int newTabIndex = this.getTabIndex(title);
+				if(newTabIndex > -1)
+				{
+					this.tabbedPane.setSelectedIndex(newTabIndex);
+				}
 			}
 		}
 	}
 
-	public boolean tabExist(String title) {
+	public boolean tabExist(String title) 
+	{
 		int tabCount = this.tabbedPane.getTabCount();
 
-		if (tabCount > 0) {
-			for (int tabIndex = 0; tabIndex < tabCount; tabIndex++) {
+		if (tabCount > 0) 
+		{
+			for (int tabIndex = 0; tabIndex < tabCount; tabIndex++) 
+			{
 				title = title.trim();
-				if (title.compareToIgnoreCase(this.tabbedPane
-						.getTitleAt(tabIndex)) == 0) {
+				if (title.compareToIgnoreCase(this.tabbedPane.getTitleAt(tabIndex)) == 0) 
+				{
 					this.tabbedPane.setSelectedIndex(tabIndex);
 					return true;
 				}
@@ -88,6 +121,26 @@ public class MasterFrame extends JFrame {
 		return false;
 	}
 
+	public int getTabIndex(String title) 
+	{
+		int tabCount = this.tabbedPane.getTabCount();
+
+		if (tabCount > 0) 
+		{
+			for (int tabIndex = 0; tabIndex < tabCount; tabIndex++) 
+			{
+				title = title.trim();
+				if (title.compareToIgnoreCase(this.tabbedPane.getTitleAt(tabIndex)) == 0) 
+				{
+					return tabIndex;
+					
+				}
+			}
+		}
+		return -1;
+	}
+
+	
 	public JPanel getPnlStatusBar() 
 	{
 		return pnlStatusBar;
@@ -153,13 +206,13 @@ public class MasterFrame extends JFrame {
 						FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 						ColumnSpec.decode("35px"),
 						FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-						ColumnSpec.decode("1px"),},
+						ColumnSpec.decode("102px"),},
 					new RowSpec[] {
 						FormFactory.LINE_GAP_ROWSPEC,
 						RowSpec.decode("14px"),}));
 		
 				this.lblSystemConectionStatus = new JLabel("Status:");
-				this.pnlConnectionStatus.add(this.lblSystemConectionStatus, "2, 2, left, top");
+				this.pnlConnectionStatus.add(this.lblSystemConectionStatus, "2, 2, right, top");
 				//new component
 				this.lblconnectionStatusValue = new JLabel("");
 				this.pnlConnectionStatus.add(this.lblconnectionStatusValue, "4, 2, left, center");
@@ -167,10 +220,12 @@ public class MasterFrame extends JFrame {
 		this.pnlUserInfo = new JPanel();
 		this.pnlStatusBar.add(this.pnlUserInfo, BorderLayout.CENTER);
 		//new component
-		this.lblUser = new JLabel("New label");
+		this.lblUser = new JLabel("Operator:");
 		this.pnlUserInfo.add(this.lblUser);
 		//new component
 		this.lblUserInfo = new JLabel("");
+		this.lblUserInfo.setForeground(new Color(0, 0, 255));
+		this.lblUserInfo.setBackground(new Color(255, 255, 255));
 		this.pnlUserInfo.add(this.lblUserInfo);
 		//new component
 		this.pnlDateStatus = new JPanel();

@@ -97,7 +97,7 @@ public class BtnLoginController extends MouseAdapter implements ActionListener {
 							SwingUtilities.invokeLater(jcfFrame);
 							jcfFrame.setCurrentUser(User.copy(foundUser));
 							
-							jcfFrame.getLblUserInfo().setText(foundUser.getFirstName().substring(0, 0) + ". " + foundUser.getMiddleInitial() + ". " + foundUser.getLastName());
+							jcfFrame.getLblUserInfo().setText(foundUser.getFirstName().substring(0, 1) + ". " + foundUser.getMiddleInitial() + ". " + foundUser.getLastName());
 						}
 						else if(foundUser.getType()==User.TAXOFFICER)
 						{
@@ -115,7 +115,7 @@ public class BtnLoginController extends MouseAdapter implements ActionListener {
 							SwingUtilities.invokeLater(taxFrame);
 							taxFrame.setCurrentUser(User.copy(foundUser));
 							
-							taxFrame.getLblUserInfo().setText(foundUser.getFirstName().substring(0, 0) + ". " + foundUser.getMiddleInitial() + ". " + foundUser.getLastName());
+							taxFrame.getLblUserInfo().setText(foundUser.getFirstName().substring(0, 1) + ". " + foundUser.getMiddleInitial() + ". " + foundUser.getLastName());
 						}
 					}
 					else
