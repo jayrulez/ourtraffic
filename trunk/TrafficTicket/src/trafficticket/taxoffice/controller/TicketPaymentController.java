@@ -21,48 +21,47 @@ import trafficticket.taxoffice.view.TicketPayment;
 
 public class TicketPaymentController implements ActionListener, DocumentListener
 {
-	private TicketPayment tickeyPaymentPage;
+	private TicketPayment ticketPaymentPage;
 	private String eventSource;
 	
 	public TicketPaymentController(TicketPayment issueTicketPage,String eventSource)
 	{
-		this.tickeyPaymentPage = issueTicketPage;
+		this.ticketPaymentPage = issueTicketPage;
 		this.eventSource = eventSource;
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
-		if(this.eventSource.equalsIgnoreCase("btnSearchOffender"))
+		if(this.eventSource.equalsIgnoreCase("btnSearchTicket"))
 		{
 			
 			Ticket targetTicket = new Ticket();
 			
-			targetTicket.setTicketNumber(Integer.parseInt(this.tickeyPaymentPage.getTxtSearchTicketNumber().getText().trim()));
+			targetTicket.setTicketNumber(Integer.parseInt(this.ticketPaymentPage.getTxtSearchTicketNumber().getText().trim()));
 			
 			ServiceRequest serviceRequest = new ServiceRequest(ServiceRequest.GET_TICKET);
 			serviceRequest.getData().add(targetTicket);
 		
 			ConnectionController connectionController = new ConnectionController(serviceRequest);
 			
-		
 			try 
 			{
 				connectionController.submitRequest();
 				
 				if(connectionController.isDialogSuccess())	
 				{
-					this.tickeyPaymentPage.getLblTicketSearchStatus().setText("");
+					this.ticketPaymentPage.getLblTicketSearchStatus().setText("");
 					
 					Ticket foundTicket = (Ticket) connectionController.getSuccessServiceResponse().getData().firstElement();
 					
 					if(foundTicket != null)
 					{
-						this.tickeyPaymentPage.getTxtTicketNumber().setText(String.valueOf(foundTicket.getTicketNumber()));
+						this.ticketPaymentPage.getTxtTicketNumber().setText(String.valueOf(foundTicket.getTicketNumber()));
 					}
 					else
 					{
-						this.tickeyPaymentPage.getLblTicketSearchStatus().setForeground(Color.RED);
-						this.tickeyPaymentPage.getLblTicketSearchStatus().setText("Ticket was not found. Try searching again.");
+						this.ticketPaymentPage.getLblTicketSearchStatus().setForeground(Color.RED);
+						this.ticketPaymentPage.getLblTicketSearchStatus().setText("Ticket was not found. Try searching again.");
 					}
 				}
 			} 
