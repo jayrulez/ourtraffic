@@ -277,11 +277,14 @@ public class SqlProvider
 	
 	public Vector<Ticket> getTicket(int ticketNumber) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException
 	{
+		System.out.println("HEEEEEEEEEEEEEEEEEEEEEHHHHHHHHHEEEE: ");
 		this.dbConnect();
+		
 		this.callableStatement = connection.prepareCall("call sp_getTicket(?)");
+
 		this.callableStatement.setInt(1, ticketNumber);
 		
-		this.resultSet = this.callableStatement.executeQuery();
+		this.resultSet = this.callableStatement.executeQuery();	
 		
 		Ticket ticket;
 		Offense offense;
@@ -292,8 +295,8 @@ public class SqlProvider
 		Vector<Ticket> tickets = new Vector<Ticket>();
 		while(this.resultSet.next())
 		{
-			ticket = new Ticket(this.resultSet.getInt("ticketNumer"),this.resultSet.getDate("offendeDate"),new Address(this.resultSet.getString("ticketStreet"),this.resultSet.getString("ticketCity"),this.resultSet.getString("ticketParish")),this.resultSet.getString("ticketDescription"),this.resultSet.getFloat("ticketFine"),this.resultSet.getInt("ticketPoints"),this.resultSet.getInt("paymentStatus"));
-			offender = new Offender(this.resultSet.getInt("offenderTrn"),this.resultSet.getString("offenderFirstName"),this.resultSet.getString("offenderLastName"),this.resultSet.getString("offenderMiddleInitial"),this.resultSet.getDate("offenderDob"),this.resultSet.getString("offenderAddress1"),this.resultSet.getString("offenderAddress2"),this.resultSet.getString("offenderParish"),this.resultSet.getString("licenseType"),this.resultSet.getInt("licensePoints"),this.resultSet.getDate("licenseExpiryDate"));
+			ticket = new Ticket(this.resultSet.getInt("ticketNumber"),this.resultSet.getDate("offenseDate"),new Address(this.resultSet.getString("ticketStreet"),this.resultSet.getString("ticketCity"),this.resultSet.getString("ticketParish")),this.resultSet.getString("ticketDescription"),this.resultSet.getFloat("ticketFine"),this.resultSet.getInt("ticketPoints"),this.resultSet.getInt("paymentStatus"));
+			offender = new Offender(this.resultSet.getInt("offenderTrn"),this.resultSet.getString("offenderFirstName"),this.resultSet.getString("offenderLastName"),this.resultSet.getString("offenderMiddleInitial"),this.resultSet.getDate("offenderDob"),this.resultSet.getString("offenderStreet"),this.resultSet.getString("offenderCity"),this.resultSet.getString("offenderParish"),this.resultSet.getString("licenseType"),this.resultSet.getInt("licensePoints"),this.resultSet.getDate("licenseExpiryDate"));
 			
 			police = new Police();
 			police.setBadgeNumber(this.resultSet.getString("badgeId"));

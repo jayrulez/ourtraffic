@@ -161,9 +161,10 @@ public class ServiceRequestController
 			break;
 			
 			case ServiceRequest.GET_OFFENDER:
-				this.sqlProvider = new SqlProvider();
+				
 				try 
 				{
+					this.sqlProvider = new SqlProvider();
 					//offender to search for
 					Offender targetOffender = (Offender) this.serviceRequest.getData().firstElement();
 					
@@ -202,9 +203,10 @@ public class ServiceRequestController
 			
 			case ServiceRequest.GET_ALL_OFFENSES:
 				
-				this.sqlProvider = new SqlProvider();
+				
 				try 
 				{
+					this.sqlProvider = new SqlProvider();
 					Vector<Offense> offenses = this.sqlProvider.getAllOffenses();
 					System.out.println("Server Received Data:"+offenses.size());
 					this.serviceResponse.setData(offenses);
@@ -236,9 +238,10 @@ public class ServiceRequestController
 			break;
 			
 			case ServiceRequest.GET_USER_LOGIN:
-				this.sqlProvider = new SqlProvider();
+				
 				try 
 				{
+					this.sqlProvider = new SqlProvider();
 					User targetUser = (User) this.serviceRequest.getData().firstElement();
 					
 					Vector<User> users = this.sqlProvider.getUserLogin(targetUser.getHandle(),targetUser.getPassword());
@@ -281,16 +284,18 @@ public class ServiceRequestController
 			case ServiceRequest.GET_TICKETS:
 			break;
 			
-			case ServiceRequest.GET_TICKET:
+			case ServiceRequest.GET_TICKET:	
 				try
 				{
+					this.sqlProvider = new SqlProvider();
 					Ticket targetTicket = (Ticket) this.serviceRequest.getData().firstElement();
-					
+
+					System.out.println("HEEEEEEEEEEEEEEEEEEEEEHHHHHHHHHEEEE: "+targetTicket.getTicketNumber());
 					Vector<Ticket> tickets = this.sqlProvider.getTicket(targetTicket.getTicketNumber());
 					
-					System.out.println("Server Received Data: "+tickets.firstElement().getTicketNumber());
+					System.out.println("Server Received Ticket Number: "+tickets.firstElement().getTicketNumber());
 					
-					System.out.println("Server Received Data:"+tickets.size());
+					System.out.println("Server Received Ticket Data:"+tickets.size());
 					this.serviceResponse.setData(tickets);
 					
 				} 
@@ -315,6 +320,11 @@ public class ServiceRequestController
 				{
 					// TODO Auto-generated catch block
 					System.out.println(e.getErrorCode());
+				}
+				catch(NullPointerException e)
+				{
+					e.printStackTrace();
+					System.out.println("Error " + e);
 				}
 				finally
 				{
