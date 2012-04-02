@@ -10,10 +10,13 @@ import java.sql.Statement;
 import java.util.Date;
 import java.util.Vector;
 
+import extension.model.Address;
+import extension.model.Division;
 import extension.model.Offender;
 import extension.model.Offense;
 import extension.model.Police;
 import extension.model.TaxOfficer;
+import extension.model.Ticket;
 import extension.model.User;
 
 //import com.mysql.jdbc.Driver;
@@ -140,7 +143,7 @@ public class SqlProvider
 	public Integer addTaxOfficer(String officerId, String firstName, String lastName, String middleInitial, Date dob, String address1, String address2, String parish, String password) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException
 	{
 		this.dbConnect();
-		this.callableStatement = connection.prepareCall("call sp_addPolice(?,?,?,?,?,?,?,?,?,?)");
+		this.callableStatement = connection.prepareCall("call sp_addTaxOfficer(?,?,?,?,?,?,?,?,?,?)");
 		this.callableStatement.setString(1,officerId);
 		this.callableStatement.setString(2,firstName);
 		this.callableStatement.setString(3,lastName);
@@ -270,5 +273,42 @@ public class SqlProvider
 		this.dbDisconnect();
 		System.out.println("Data Server Sends Data:"+offenders.size());
 		return offenders;		
+	}
+	
+	public Vector<Ticket> getTicket(int ticketNumber) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException
+	{
+		this.dbConnect();
+		this.callableStatement = connection.prepareCall("call sp_getTicket(?)");
+		this.callableStatement.setInt(1, ticketNumber);
+		
+		this.resultSet = this.callableStatement.executeQuery();
+		
+		Ticket ticket;
+		Offense offense;
+		Police police;
+		Offender offender;
+		Division policeDivison;
+		
+		Vector<Ticket> tickets = new Vector<Ticket>();
+		while(this.resultSet.next())
+		{
+			ticket = new Ticket(this.resultSet.getInt("ticketNumer"),this.resultSet.getDate("offendeDate"),new Address(this.resultSet.getString("ticketStreet"),this.resultSet.getString("ticketCity"),this.resultSet.getString("ticketParish")),this.resultSet.getString("ticketDescription"),this.resultSet.getFloat("ticketFine"),this.resultSet.getInt("ticketPoints"),this.resultSet.getInt("paymentStatus"));
+			offender = new Offender(this.resultSet.getInt("offenderTrn"),this.resultSet.getString("offenderFirstName"),this.resultSet.getString("offenderLastName"),this.resultSet.getString("offenderMiddleInitial"),this.resultSet.getDate("offenderDob"),this.resultSet.getString("offenderAddress1"),this.resultSet.getString("offenderAddress2"),this.resultSet.getString("offenderParish"),this.resultSet.getString("licenseType"),this.resultSet.getInt("licensePoints"),this.resultSet.getDate("licenseExpiryDate"));
+			
+			police = new Police();
+			police.setBadgeNumber(this.resultSet.getString("badgeId"));
+			policeDivison = new Division();
+			policeDivison.setStationNumber(this.resultSet.getInt("divisionId"));
+			police.setDivision(policeDivison);
+			police.setFirstName(this.resultSet.getString("policeFirstName"));
+			police.setLastName(this.resultSet.getString("policeLastName"));
+			police.setMiddleInitial(this.resultSet.getString("policeMiddleInitial"));
+		
+			offense = new Offense(this.resultSet.getInt("offenseId"),this.resultSet.getString("offenseName"),"");
+			tickets.add(ticket);
+		}
+		this.dbDisconnect();
+		System.out.println("Data Server Sends Data:"+tickets.size());
+		return tickets;			
 	}
 }

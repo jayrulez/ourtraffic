@@ -19,6 +19,7 @@ import trafficticket.jcf.controller.JCFMainMenuController;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.FlowLayout;
 
 public class JCFMainMenu extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -97,37 +98,39 @@ public class JCFMainMenu extends JPanel {
 				.getResource("/trafficticket/resources/searchIcon.png")));
 		this.ticketMenuPanel.add(this.btnViewTickets, "4, 4, left, center");
 		this.add(this.offenderMenuPanel);
-		this.offenderMenuPanel
-				.setLayout(new FormLayout(
-						new ColumnSpec[] { ColumnSpec.decode("31px"),
-								ColumnSpec.decode("140px"), },
-						new RowSpec[] { RowSpec.decode("22px"),
-								RowSpec.decode("38px"), }));
-
-		this.btnViewOffender = new JButton("View Offender");
-		this.btnViewOffender.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		this.btnViewOffender.setIcon(new ImageIcon(JCFMainMenu.class
-				.getResource("/trafficticket/resources/viewOffenderIcon.png")));
-		this.offenderMenuPanel.add(this.btnViewOffender, "2, 2, left, center");
+		this.offenderMenuPanel.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,},
+			new RowSpec[] {
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("max(19dlu;default)"),}));
+		
+				this.btnViewOffender = new JButton("View Offender");
+				this.btnViewOffender.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+					}
+				});
+				
+				this.btnViewOffender.setIcon(new ImageIcon(JCFMainMenu.class
+						.getResource("/trafficticket/resources/viewOffenderIcon.png")));
+				this.offenderMenuPanel.add(this.btnViewOffender, "4, 2, left, top");
 		this.add(this.offenseMenuPanel);
-		this.offenseMenuPanel.setLayout(new FormLayout(
-				new ColumnSpec[] { FormFactory.RELATED_GAP_COLSPEC,
-						FormFactory.DEFAULT_COLSPEC,
-						FormFactory.RELATED_GAP_COLSPEC,
-						FormFactory.DEFAULT_COLSPEC, }, new RowSpec[] {
-						FormFactory.RELATED_GAP_ROWSPEC,
-						FormFactory.DEFAULT_ROWSPEC,
-						FormFactory.RELATED_GAP_ROWSPEC,
-						RowSpec.decode("max(19dlu;default)"), }));
+		this.offenseMenuPanel.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,},
+			new RowSpec[] {
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("max(19dlu;default)"),}));
 
 		this.btnOffenseType = new JButton("View Offenses");
 		this.btnOffenseType.setToolTipText("View Types of Offenses");
 		this.btnOffenseType.setIcon(new ImageIcon(JCFMainMenu.class
 				.getResource("/trafficticket/resources/viewOffensesIcon.jpg")));
-		this.offenseMenuPanel.add(this.btnOffenseType, "4, 4, left, center");
+		this.offenseMenuPanel.add(this.btnOffenseType, "4, 2, left, center");
 	}
 
 	public void initialiseLisenters() 

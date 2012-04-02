@@ -281,6 +281,48 @@ public class ServiceRequestController
 			case ServiceRequest.GET_TICKETS:
 			break;
 			
+			case ServiceRequest.GET_TICKET:
+				try
+				{
+					Ticket targetTicket = (Ticket) this.serviceRequest.getData().firstElement();
+					
+					Vector<Ticket> tickets = this.sqlProvider.getTicket(targetTicket.getTicketNumber());
+					
+					System.out.println("Server Received Data: "+tickets.firstElement().getTicketNumber());
+					
+					System.out.println("Server Received Data:"+tickets.size());
+					this.serviceResponse.setData(tickets);
+					
+				} 
+				catch (ClassNotFoundException e) 
+				{
+					
+					System.out.println(e.getMessage());
+				} 
+				catch (InstantiationException e) 
+				{
+					System.out.println("Unexpected error occured.");
+				} 
+				catch (IllegalAccessException e) 
+				{
+					System.out.println("Access to the Data Server denied.");
+				} 
+				catch(ClassCastException e)
+				{
+					System.out.println("Unexpected error occured.");
+				}
+				catch (SQLException e) 
+				{
+					// TODO Auto-generated catch block
+					System.out.println(e.getErrorCode());
+				}
+				finally
+				{
+					this.serviceResponse.setResponse(ServiceResponse.SUCCESS);
+					System.out.println("Success Sent");
+				}			
+			break;
+			
 			case ServiceRequest.TERMINATE_CONNECTION:
 				this.serviceResponse.setResponse(ServiceResponse.TERMINATE_CONNECTION);
 			break;

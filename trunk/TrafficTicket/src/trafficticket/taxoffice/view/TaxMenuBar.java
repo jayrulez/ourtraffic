@@ -62,13 +62,16 @@ public class TaxMenuBar extends JMenuBar {
 
 		// this.issueTicketForm = new IssueTicketForm();
 		// issueTicketForm.render();
-
+	}
+	
+	public void initializeListener()
+	{
 		this.parentFrame = ((TaxFrame) this.getTopLevelAncestor());
 		// if(this.parentFrame instanceof JCFFrame && this.parentFrame != null)
 		// System.out.println("hello");
 		this.menuItemsHandler = new TaxMainMenuController(this.parentFrame);
 
 		this.viewTicketItem.addActionListener(this.menuItemsHandler);
+		this.ticketPaymentItem.addActionListener(this.menuItemsHandler);		
 	}
-
 }

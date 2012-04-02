@@ -16,7 +16,10 @@ import javax.swing.border.EtchedBorder;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 
-public class TaxMainMenu extends JPanel {
+import trafficticket.taxoffice.controller.TaxMainMenuController;
+
+public class TaxMainMenu extends JPanel 
+{
 	private static final long serialVersionUID = 1L;
 
 	private JPanel menuContainer;
@@ -27,19 +30,24 @@ public class TaxMainMenu extends JPanel {
 	private JButton btnViewTickets;
 	private JButton btnOffenseType;
 
+	private TaxFrame parentFrame;
 
-	public TaxMainMenu() {
+	private TaxMainMenuController menuItemsHandler;
+
+	public TaxMainMenu() 
+	{
 		this.initialize();
 
 	}
 
-	public void initialize() {
+	public void initialize() 
+	{
 
 
 		this.ticketMenuPanel = new JPanel();
-		this.ticketMenuPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, new Color(227, 227, 227)), "Ticketing", TitledBorder.LEFT, TitledBorder.TOP, null, new Color(25, 25, 112)));
+		this.ticketMenuPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, new Color(176, 196, 222)), "Ticketing", TitledBorder.LEFT, TitledBorder.TOP, null, new Color(25, 25, 112)));
 		this.offenseMenuPanel = new JPanel();
-		this.offenseMenuPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Offense", TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 139)));
+		this.offenseMenuPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, new Color(176, 196, 222)), "Offense", TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 139)));
 
 		this.menuContainer = new JPanel();
 
@@ -98,11 +106,18 @@ public class TaxMainMenu extends JPanel {
 		this.offenseMenuPanel.add(this.btnOffenseType, "4, 4");
 	}
 
-	public void initialiseLisenters() {
-
+	public void initialiseLisenters() 
+	{
+		this.parentFrame = ((TaxFrame)this.getTopLevelAncestor());
+		this.menuItemsHandler = new TaxMainMenuController(this.parentFrame);
+		
+		this.btnTicketPayment.addActionListener(new TaxMainMenuController(parentFrame));
+		this.btnViewTickets.addActionListener(new TaxMainMenuController(parentFrame));
+		this.btnOffenseType.addActionListener(new TaxMainMenuController(parentFrame));
 	}
 
-	public void render() {
+	public void render() 
+	{
 
 	}
 
