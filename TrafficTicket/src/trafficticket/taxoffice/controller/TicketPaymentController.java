@@ -88,7 +88,7 @@ public class TicketPaymentController implements ActionListener, DocumentListener
 							//issued at
 							this.ticketPaymentPage.getTxtTicketAddress1().setText(foundTicket.getOffensePlace().getAddress1());
 							this.ticketPaymentPage.getTxtTicketAddress2().setText(foundTicket.getOffensePlace().getAddress2());
-							this.ticketPaymentPage.getTxtTicketPoints().setText(foundTicket.getOffensePlace().getParish());
+							this.ticketPaymentPage.getTxtTicketParish().setText(foundTicket.getOffensePlace().getParish());
 						}
 						else
 						{
