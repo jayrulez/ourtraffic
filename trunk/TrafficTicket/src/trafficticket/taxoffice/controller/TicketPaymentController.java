@@ -192,7 +192,7 @@ public class TicketPaymentController implements ActionListener, DocumentListener
 							case 0:
 							break;
 							case 1:
-								JOptionPane.showMessageDialog(this.ticketPaymentPage, "An unexpected error occured. The Ticket could not be paid. [0x12]","Tax Ticket: payment failed",JOptionPane.PLAIN_MESSAGE,new ImageIcon(TicketPaymentController.class.getResource("/trafficticket/resources/paidIcon_32x32.png")));
+								JOptionPane.showMessageDialog(this.ticketPaymentPage, "The ticket was paid successfully.","Tax Ticket: payment success",JOptionPane.PLAIN_MESSAGE,new ImageIcon(TicketPaymentController.class.getResource("/trafficticket/resources/paidIcon_32x32.png")));
 							break;
 							case -1:
 							break;
