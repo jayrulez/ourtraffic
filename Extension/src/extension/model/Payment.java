@@ -1,25 +1,26 @@
 package extension.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
-public class Payment
+public class Payment implements Serializable
 {
 	private Date paymentDate;
-	private Double amount;
+	private Float amount;
 	
 	private Ticket ticket;
 	
 	public Payment() 
 	{
-		// TODO Auto-generated constructor stub
+		
 	}
-	public Payment(Date paymentDate, Double amount, Ticket ticket)
+	public Payment(Date paymentDate, Float amount, Ticket ticket)
 	{
 		this.amount = amount;
 		this.paymentDate = paymentDate;
 	}
-	public Double getAmount() 
+	public Float getAmount() 
 	{
 		return amount;
 	}
@@ -31,7 +32,7 @@ public class Payment
 	{
 		return ticket;
 	}
-	public void setAmount(Double amount) 
+	public void setAmount(Float amount) 
 	{
 		this.amount = amount;
 	}

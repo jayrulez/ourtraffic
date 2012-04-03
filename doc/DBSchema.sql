@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `payment` (
   `officerId` varchar(16) NOT NULL, 
   `ticket_id` int(11) NOT NULL,
   `amount` float NOT NULL,
-  `paymentDate` date NOT NULL,
+  `paymentDate` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_payment_ticket` (`ticket_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `ticket` (
   `policeId` varchar(16) NOT NULL,
   `offenderTrn` int(11) NOT NULL,
   `offenseId` int(11) NOT NULL,
-  `offenseDate` date NOT NULL,
+  `offenseDate` datetime NOT NULL,
   `street` varchar(50) NOT NULL,
   `city` varchar(50) NOT NULL,
   `parish` varchar(30) NOT NULL,
@@ -203,17 +203,6 @@ DELIMITER ;
 
 
 DELIMITER $$
-DROP PROCEDURE IF EXISTS `sp_issueTicket`$$
-CREATE PROCEDURE `sp_issueTicket` (policeId varchar(16), offenderTrn int(11), offenseId int(11), offenseDate date, street varchar(50), city varchar(50), parish varchar(30), description text , fine float, points int(11),OUT result int)
-BEGIN
-	SET result = 0;
-	INSERT INTO `ticket`(id,policeId,offenderTrn,offenseId,offenseDate,street,city,parish,description,fine,points) values(default,policeId,offenderTrn,offenseId,offenseDate,street,city,parish,description,fine,points);
-    SET result = 1;
-END$$
-DELIMITER ;
-
-
-DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_getAllOffenses`$$
 CREATE PROCEDURE `sp_getAllOffenses` ()
 BEGIN
@@ -232,12 +221,37 @@ DELIMITER ;
 
 
 DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_issueTicket`$$
+CREATE PROCEDURE `sp_issueTicket` (policeId varchar(16), offenderTrn int(11), offenseId int(11), offenseDate date, street varchar(50), city varchar(50), parish varchar(30), description text , fine float, points int(11),OUT result int)
+BEGIN
+    declare currentPoints int;
+    SET result = 0;
+    start transaction;
+    update `offender` set `offender`.points = `offender`.points - points where `offender`.trn = offenderTrn;
+    if row_count() = 1 then
+        INSERT INTO `ticket`(id,policeId,offenderTrn,offenseId,offenseDate,street,city,parish,description,fine,points) values(default,policeId,offenderTrn,offenseId,offenseDate,street,city,parish,description,fine,points); 
+        if row_count() = 1 then
+            SET result = 1;
+            commit;
+        else
+            rollback;
+            set result = -2;
+        end if;
+    else
+        set result = -1;
+    end if;
+END$$
+DELIMITER ;
+
+
+
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_issueTicketNewOffender`$$
 CREATE PROCEDURE `sp_issueTicketNewOffender` (offenderTrn int(11), firstName varchar(30), lastName varchar(30), middleInitial varchar(1),street varchar(50), city varchar(30), parish varchar(30), dob date,licenseType varchar(20),licensePoints int(11), expiryDate Date ,policeId varchar(16), offenseId int(11), offenseDate date, ticketStreet varchar(50), ticketCity varchar(50), ticketParish varchar(30), description text, fine float, ticketPoints int(11),OUT result int)
 BEGIN
 	SET result = 0;
 	START TRANSACTION;
-	INSERT INTO `offender`(trn,firstName,lastName,middleInitial,DOB,street,city,parish,licenseType,points,expiryDate) values(offenderTrn,firstName,lastName,middleInitial,street,city,parish,dob,licenseType,licensePoints,expiryDate);
+	INSERT INTO `offender`(trn,firstName,lastName,middleInitial,DOB,street,city,parish,licenseType,points,expiryDate) values(offenderTrn,firstName,lastName,middleInitial,street,city,parish,dob,licenseType,licensePoints-ticketPoints,expiryDate);
 	IF ROW_COUNT()=1 THEN
 		INSERT INTO `ticket`(id,policeId,offenderTrn,offenseId,offenseDate,street,city,parish,description,fine,points) values(default,policeId,offenderTrn,offenseId,offenseDate,ticketStreet,ticketCity,ticketParish,description,fine,ticketPoints);
 		IF ROW_COUNT()=1 THEN
@@ -263,9 +277,31 @@ END$$
 DELIMITER ;
 
 
-call sp_getTicket("1");
+DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_payTicket`$$
+CREATE PROCEDURE `sp_payTicket` (ticketNumber int(11),officerId varchar(16),amount float,out result int(11))
+BEGIN
+    set result = 0;
+    
+    start transaction;
+    
+    update `ticket` set `ticket`.paymentStatus = 1 where `ticket`.id = ticketNumber;
+    if row_count() = 1 then
+        insert into `payment` (id,officerId,ticket_id,amount,paymentDate) values(default,officerId,ticketNumber,amount, now());
+        if row_count() = 1 then
+            set result = 1;
+            commit;
+        else
+            set result = -2;
+            rollback;
+        end if;
+    else
+        set result = -1;
+   end if;
+END$$
+DELIMITER ;
 
-call sp_getAllOffenses();
+
 
 insert into `offense`(id,name,description) values(default,"Speeding","");
 insert into `offense`(id,name,description) values(default,"Double Park","");
@@ -273,14 +309,19 @@ insert into `offense`(id,name,description) values(default,"Traffic Light","");
 insert into `offense`(id,name,description) values(default,"Overload","");
 insert into `offense`(id,name,description) values(default,"No parking","");
 
-select * from division;
-
 insert into division values(101,"18 clover road","Kingtson 7","Kingston","988-2001");
-SELECT * from police;
+
+insert into offender(trn,firstName,lastName,middleInitial,DOB,street,city,parish,licenseType,points,expiryDate) values('1000003','Dale','mcfarlane','B','2008-7-22','17 blue dale street','portmore','Saint Catherine','General',223,'2013-12-1');
+
+
+call sp_getTicket("1");
+call sp_getAllOffenses();
 call sp_getUserLogin("K1001","password");
 
+select * from division;
+select * from police;
 select * from taxofficer;
 select * from user;
 select * from offender;
 select * from ticket;
-insert into offender(trn,firstName,lastName,middleInitial,DOB,street,city,parish,licenseType,points,expiryDate) values('1000003','Dale','mcfarlane','B','2008-7-22','17 blue dale street','portmore','Saint Catherine','General',223,'2013-12-1');
+select * from payment;

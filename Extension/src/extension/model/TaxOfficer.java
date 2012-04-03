@@ -1,35 +1,42 @@
 package extension.model;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.Vector;
 
 
 
 public class TaxOfficer extends User
 {
-	private Integer idNumber;
-	private ArrayList <Payment> payments;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String idNumber;
+	private Vector <Payment> payments;
 	public TaxOfficer() 
 	{
 		super();
+		this.payments = new Vector<Payment>();
 	}
-	public TaxOfficer(Integer idNumber, String firstName, String lastName, String middleInitial, Date dob, String address1, String address2, String parish) 
+	public TaxOfficer(String idNumber, String firstName, String lastName, String middleInitial, Date dob, String address1, String address2, String parish) 
 	{
 		super(firstName, lastName, middleInitial, dob, address1, address2,parish);
 		this.idNumber = idNumber;
+		this.payments = new Vector<Payment>();
 	}
 	
-	public TaxOfficer(Integer idNumber, String firstName, String lastName, String middleInitial, Date dob, String address1, String address2, String parish, String accountPassword, Integer accountType) 
+	public TaxOfficer(String idNumber, String firstName, String lastName, String middleInitial, Date dob, String address1, String address2, String parish, String accountPassword, Integer accountType) 
 	{
 		super(firstName, lastName, middleInitial, dob, address1, address2,parish,accountPassword, accountType);
 		this.idNumber = idNumber;
+		this.payments = new Vector<Payment>();
 	}
-	public void setIdeNumber(Integer idNumber) 
+	public void setIdNumber(String idNumber) 
 	{
 		this.idNumber = idNumber;
 	}
 	
-	public Integer getIdNumber() 
+	public String getIdNumber() 
 	{
 		return idNumber;
 	}
@@ -52,7 +59,7 @@ public class TaxOfficer extends User
 		}
 		return null;
 	}
-	public ArrayList<Payment> getPayments() 
+	public Vector<Payment> getPayments() 
 	{
 		return payments;
 	}
