@@ -1,24 +1,32 @@
 package trafficticket.taxoffice.controller;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
+import java.util.Vector;
 
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import extension.model.Payment;
 import extension.model.ServiceRequest;
+import extension.model.TaxOfficer;
 import extension.model.Ticket;
 
 import trafficticket.controller.ConnectionController;
+import trafficticket.taxoffice.view.TaxFrame;
 import trafficticket.taxoffice.view.TicketPayment;
+import trafficticket.view.MasterFrame;
 
 public class TicketPaymentController implements ActionListener, DocumentListener
 {
@@ -58,7 +66,6 @@ public class TicketPaymentController implements ActionListener, DocumentListener
 						Ticket foundTicket = (Ticket) connectionController.getSuccessServiceResponse().getData().firstElement();
 						if(foundTicket != null)	
 						{
-						
 							//ticket summary
 							this.ticketPaymentPage.getTxtTicketNumber().setText(String.valueOf(foundTicket.getTicketNumber()));
 							this.ticketPaymentPage.getTxtOffenseCode().setText(String.valueOf(foundTicket.getOffense().getOffenseCode()));
@@ -89,6 +96,19 @@ public class TicketPaymentController implements ActionListener, DocumentListener
 							this.ticketPaymentPage.getTxtTicketAddress1().setText(foundTicket.getOffensePlace().getAddress1());
 							this.ticketPaymentPage.getTxtTicketAddress2().setText(foundTicket.getOffensePlace().getAddress2());
 							this.ticketPaymentPage.getTxtTicketParish().setText(foundTicket.getOffensePlace().getParish());
+							
+							if(foundTicket.getPaymentStatus()==0)
+							{
+								this.ticketPaymentPage.getLblTicketSearchStatus().setText("");
+								this.ticketPaymentPage.getBtnPayTicket().setEnabled(true);
+							}
+							else
+							{
+								this.ticketPaymentPage.getLblTicketSearchStatus().setForeground(Color.BLUE);
+								this.ticketPaymentPage.getLblTicketSearchStatus().setFont(new Font("Comic Sans MS",Font.BOLD,20));
+								this.ticketPaymentPage.getLblTicketSearchStatus().setText("This ticket is already paid.");
+								this.ticketPaymentPage.getBtnPayTicket().setEnabled(false);
+							}
 						}
 						else
 						{
@@ -137,7 +157,87 @@ public class TicketPaymentController implements ActionListener, DocumentListener
 		}
 		else  if(this.eventSource.equalsIgnoreCase("btnPayTicket"))
 		{
+			TaxOfficer paymentOfficer = new TaxOfficer();
+			Payment ticketPayment = new Payment();
+			Ticket targetTicket = new Ticket();
 			
+			MasterFrame parentFrame = (TaxFrame)this.ticketPaymentPage.getTopLevelAncestor();
+			
+			if(parentFrame != null)
+			{
+				paymentOfficer.setIdNumber(parentFrame.getCurrentUser().getHandle());
+				
+				targetTicket.setTicketNumber(Integer.parseInt(this.ticketPaymentPage.getTxtSearchTicketNumber().getText().trim()));
+				
+				ticketPayment.setAmount(Float.parseFloat(this.ticketPaymentPage.getTxtFine().getText().trim()));
+				
+				ticketPayment.setTicket(targetTicket);
+				
+				paymentOfficer.getPayments().add(ticketPayment);
+				
+				ServiceRequest serviceRequest = new ServiceRequest(ServiceRequest.PAY_TICKET);
+				
+				serviceRequest.getData().add(paymentOfficer);
+			
+				ConnectionController connectionController = new ConnectionController(serviceRequest);
+				
+				try 
+				{
+					connectionController.submitRequest();
+					
+					if(connectionController.isDialogSuccess())	
+					{
+						switch(connectionController.getSuccessServiceResponse().getStatus())
+						{
+							case 0:
+							break;
+							case 1:
+								JOptionPane.showMessageDialog(this.ticketPaymentPage, "An unexpected error occured. The Ticket could not be paid. [0x12]","Tax Ticket: payment failed",JOptionPane.PLAIN_MESSAGE,new ImageIcon(TicketPaymentController.class.getResource("/trafficticket/resources/paidIcon_32x32.png")));
+							break;
+							case -1:
+							break;
+							case -2:
+							break;
+							case -3:
+							break;
+						}
+					}
+				} 
+				catch (NumberFormatException e1) 
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} 
+				catch (UnknownHostException e1) 
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} 
+				catch (ClassNotFoundException e1) 
+				{
+					JOptionPane.showMessageDialog(this.ticketPaymentPage, "An unexpected error occured. The Ticket could not be paid. [0x12]","Tax Ticket: payment failed",JOptionPane.ERROR_MESSAGE);
+					e1.printStackTrace();
+				} 
+				catch (SAXException e1) 
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				catch (IOException e1) 
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				catch (ParserConfigurationException e1) 
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(this.ticketPaymentPage, "An unexpected error occured. The Ticket could not be paid.[0x1a","Tax Ticket: payment failed",JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	
 	}

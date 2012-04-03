@@ -6,8 +6,10 @@ import java.util.Vector;
 import ticketserver.model.SqlProvider;
 import extension.model.Offender;
 import extension.model.Offense;
+import extension.model.Payment;
 import extension.model.ServiceRequest;
 import extension.model.ServiceResponse;
+import extension.model.TaxOfficer;
 import extension.model.Ticket;
 import extension.model.User;
 
@@ -154,9 +156,6 @@ public class ServiceRequestController
 				}
 			break;	
 			
-			case ServiceRequest.ADD_TICKET:
-			break;
-			
 			case ServiceRequest.GET_OFFENDERS:
 			break;
 			
@@ -288,15 +287,91 @@ public class ServiceRequestController
 				try
 				{
 					this.sqlProvider = new SqlProvider();
-					Ticket targetTicket = (Ticket) this.serviceRequest.getData().firstElement();
+					if(!this.serviceRequest.getData().isEmpty())
+					{
+						Ticket targetTicket = (Ticket) this.serviceRequest.getData().firstElement();
+						
+						Vector<Ticket> tickets = this.sqlProvider.getTicket(targetTicket.getTicketNumber());
 
-					System.out.println("HEEEEEEEEEEEEEEEEEEEEEHHHHHHHHHEEEE: "+targetTicket.getTicketNumber());
-					Vector<Ticket> tickets = this.sqlProvider.getTicket(targetTicket.getTicketNumber());
+						this.serviceResponse.setData(tickets);
+					}
+					else
+					{
+						
+					}
 					
-					System.out.println("Server Received Ticket Number: "+tickets.firstElement().getTicketNumber());
+				} 
+				catch (ClassNotFoundException e) 
+				{
 					
-					System.out.println("Server Received Ticket Data:"+tickets.size());
-					this.serviceResponse.setData(tickets);
+					System.out.println(e.getMessage());
+				} 
+				catch (InstantiationException e) 
+				{
+					System.out.println("Unexpected error occured.");
+				} 
+				catch (IllegalAccessException e) 
+				{
+					System.out.println("Access to the Data Server denied.");
+				} 
+				catch(ClassCastException e)
+				{
+					System.out.println("Unexpected error occured.");
+				}
+				catch (SQLException e) 
+				{
+					// TODO Auto-generated catch block
+					System.out.println(e.getErrorCode());
+				}
+				catch(NullPointerException e)
+				{
+					e.printStackTrace();
+					System.out.println("Error " + e);
+				}
+				finally
+				{
+					this.serviceResponse.setResponse(ServiceResponse.SUCCESS);
+					System.out.println("Success Sent");
+				}			
+			break;
+			
+			case ServiceRequest.PAY_TICKET:	
+				try
+				{
+					this.sqlProvider = new SqlProvider();
+					
+					TaxOfficer taxOfficer = (TaxOfficer)this.serviceRequest.getData().firstElement();
+					
+					Payment targetPayment = taxOfficer.getPayments().firstElement();
+					
+					if(targetPayment != null && targetPayment.getTicket() != null)
+					{
+						//System.out.println("HEEEEEEEEEEEEEEEEEEEEEHHHHHHHHHEEEE: "+targetTicket.getTicketNumber());
+						int result = 0;
+						
+						result = this.sqlProvider.payTicket(targetPayment.getTicket().getTicketNumber(),taxOfficer.getIdNumber(),targetPayment.getAmount());
+						
+						System.out.println("Server Ticket Payement Result: "+result);
+						
+						this.serviceResponse.setStatus(result);
+						
+						if (result == 0)
+						{
+							this.serviceResponse.setDescription("Could not pay this ticket. Please try again.");
+						}
+						else if(result == -1)
+						{
+							this.serviceResponse.setDescription("Could not access this ticket record. Please try again.");
+						}
+						else if(result == -2)
+						{
+							this.serviceResponse.setDescription("Could not save the payment information. Please try again.");
+						}
+					}
+					else
+					{
+						this.serviceResponse.setStatus(-3);
+					}
 					
 				} 
 				catch (ClassNotFoundException e) 

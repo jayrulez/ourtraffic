@@ -15,7 +15,6 @@ import extension.model.Division;
 import extension.model.Offender;
 import extension.model.Offense;
 import extension.model.Police;
-import extension.model.TaxOfficer;
 import extension.model.Ticket;
 import extension.model.User;
 
@@ -66,7 +65,7 @@ public class SqlProvider
 		}
 	}
 	
-	public Vector getUser(String userHandle) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException
+	public Vector<User> getUser(String userHandle) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException
 	{
 		this.dbConnect();
 		this.callableStatement = connection.prepareCall("call sp_getUser(?)");
@@ -74,7 +73,7 @@ public class SqlProvider
 		
 		this.resultSet = this.callableStatement.executeQuery();
 		
-		Vector results = new Vector();
+		Vector<User> results = new Vector<User>();
 		
 		if(this.resultSet != null)
 		{
@@ -90,7 +89,7 @@ public class SqlProvider
 		return results;
 	}
 	
-	public Vector getUserLogin(String userHandle,String password) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException
+	public Vector<User> getUserLogin(String userHandle,String password) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException
 	{
 		this.dbConnect();
 		this.callableStatement = connection.prepareCall("call sp_getUserLogin(?,?)");
@@ -99,7 +98,7 @@ public class SqlProvider
 		
 		this.resultSet = this.callableStatement.executeQuery();
 		
-		Vector results = new Vector();
+		Vector<User> results = new Vector<User>();
 		
 		if(this.resultSet != null)
 		{
@@ -277,7 +276,6 @@ public class SqlProvider
 	
 	public Vector<Ticket> getTicket(int ticketNumber) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException
 	{
-		System.out.println("HEEEEEEEEEEEEEEEEEEEEEHHHHHHHHHEEEE: ");
 		this.dbConnect();
 		
 		this.callableStatement = connection.prepareCall("call sp_getTicket(?)");
@@ -316,5 +314,29 @@ public class SqlProvider
 		this.dbDisconnect();
 		System.out.println("Data Server Sends Data:"+tickets.size());
 		return tickets;			
+	}
+	
+	public int payTicket(int ticketNumber, String officerId, float amount) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException
+	{
+		this.dbConnect();
+		
+		this.callableStatement = connection.prepareCall("call sp_payTicket(?,?,?,?)");
+		
+		this.callableStatement.setInt(1,ticketNumber);
+		this.callableStatement.setString(2,officerId);
+		this.callableStatement.setFloat(3,amount);
+		this.callableStatement.registerOutParameter(4, java.sql.Types.INTEGER);	
+	
+		this.callableStatement.execute();	
+		
+		System.out.println("QUERY EXECUTED");
+		System.out.println(this.callableStatement.getInt("result"));
+		
+		int result = 0;
+		result = this.callableStatement.getInt("result");
+		
+		this.dbDisconnect();
+		
+		return result;
 	}
 }

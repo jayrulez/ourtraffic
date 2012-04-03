@@ -120,7 +120,6 @@ public class TicketPayment extends ContentPage
 		this.pnlSearchTicketStatus = new JPanel();
 		this.pnlSearchTicketStatus.setBorder(null);
 		FlowLayout flowLayout = (FlowLayout) this.pnlSearchTicketStatus.getLayout();
-		flowLayout.setAlignment(FlowLayout.LEFT);
 		add(this.pnlSearchTicketStatus);
 		//new component
 		this.lblTicketSearchStatus = new JLabel("");
@@ -814,6 +813,7 @@ public class TicketPayment extends ContentPage
 	public void initialiseListeners()
 	{
 		this.btnSearchTicket.addActionListener(new TicketPaymentController(this, "btnSearchTicket"));
+		this.btnPayTicket.addActionListener(new TicketPaymentController(this, "btnPayTicket"));
 	}
 	
 	@Override
