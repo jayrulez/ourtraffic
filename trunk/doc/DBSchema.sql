@@ -278,6 +278,18 @@ DELIMITER ;
 
 
 DELIMITER $$
+DROP PROCEDURE IF EXISTS `sp_getTickets`$$
+CREATE PROCEDURE `sp_getTickets` (ticketNumber int(11),offenderTrn int(11),paymentStatus int)
+BEGIN
+    if ticketNumber is not null then
+    
+    end if;
+    select `ticket`.id as ticketNumber, `ticket`.offenseDate, `ticket`.street as ticketStreet,`ticket`.city as ticketCity, `ticket`.parish as ticketParish,`ticket`.description as ticketDescription,`ticket`.fine as ticketFine,`ticket`.points as ticketPoints,`ticket`.paymentStatus, `offender`.trn as offenderTrn, `offender`.firstName as offenderFirstName,`offender`.lastName as offenderLastName,`offender`.middleInitial as offenderMiddleInitial,`offender`.DOB as offenderDob,`offender`.street as offenderStreet, `offender`.city as offenderCity,`offender`.parish as offenderParish,`offender`.licenseType as licenseType,`offender`.points as licensePoints,`offender`.expiryDate as licenseExpiryDate, `police`.badgeId,`police`.divisionId,`police`.firstName as policeFirstName,`police`.lastName as policeLastName,`police`.middleInitial as policeMiddleInitial, `offense`.id as offenseId,`offense`.name as offenseName from `ticket` inner join `offender` on `offender`.trn = `ticket`.offenderTrn inner join `police` on `police`.badgeId = `ticket`.policeId inner join `offense` on  `offense`.id = `ticket`.offenseId where `ticket`.id = ticketNumber;
+END$$
+DELIMITER ;
+
+
+DELIMITER $$
 DROP PROCEDURE IF EXISTS `sp_payTicket`$$
 CREATE PROCEDURE `sp_payTicket` (ticketNumber int(11),officerId varchar(16),amount float,out result int(11))
 BEGIN
@@ -325,3 +337,5 @@ select * from user;
 select * from offender;
 select * from ticket;
 select * from payment;
+
+select `ticket`.id as ticketNumber, `ticket`.offenseDate, `ticket`.street as ticketStreet,`ticket`.city as ticketCity, `ticket`.parish as ticketParish,`ticket`.description as ticketDescription,`ticket`.fine as ticketFine,`ticket`.points as ticketPoints,`ticket`.paymentStatus, `offender`.trn as offenderTrn, `offender`.firstName as offenderFirstName,`offender`.lastName as offenderLastName,`offender`.middleInitial as offenderMiddleInitial,`offender`.DOB as offenderDob,`offender`.street as offenderStreet, `offender`.city as offenderCity,`offender`.parish as offenderParish,`offender`.licenseType as licenseType,`offender`.points as licensePoints,`offender`.expiryDate as licenseExpiryDate, `police`.badgeId,`police`.divisionId,`police`.firstName as policeFirstName,`police`.lastName as policeLastName,`police`.middleInitial as policeMiddleInitial, `offense`.id as offenseId,`offense`.name as offenseName from `ticket` inner join `offender` on `offender`.trn = `ticket`.offenderTrn inner join `police` on `police`.badgeId = `ticket`.policeId inner join `offense` on  `offense`.id = `ticket`.offenseId where 1=1;
