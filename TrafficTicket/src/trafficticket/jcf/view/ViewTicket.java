@@ -14,9 +14,13 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 
+import trafficticket.jcf.controller.ViewTicketController;
+import trafficticket.taxoffice.controller.ViewTicketTableController;
 import trafficticket.view.ContentPage;
 import javax.swing.JCheckBox;
 import javax.swing.ImageIcon;
+import javax.swing.BoxLayout;
+import java.awt.Font;
 
 
 public class ViewTicket extends ContentPage
@@ -27,23 +31,28 @@ public class ViewTicket extends ContentPage
 	private JLabel lblOffenderTrn;
 	private JLabel lblPaymentStatus;
 	private JTextField txtOffenderTrn;
-	private JTextField txtPaymentStatus;
 	private JLabel lblTicketNumber;
 	private JTextField txtTicketNumber;
 	private JButton btnRunView;
-	private JTable table;
-	private JScrollPane scrollPane;
+	private JTable tblTicketResults;
+	private JScrollPane ticketResultsScrollPane;
 	private JCheckBox chbxViewAll;
 	private JLabel lblViewAll;
+	private JCheckBox chckbxPaid;
+	private JCheckBox chckbxUnpaid;
+	private JPanel pnlSearchStatus;
+	private JLabel lblSearchTicketStatus;
+	private JPanel pnlResult;
 	public ViewTicket() {
 		this.initialize();
+		this.initialiseListener();
 	}
 
 	private void initialize() {
-		setLayout(new BorderLayout());
+		setLayout(new BorderLayout(0, 0));
 		
 		this.pnlTicketSearch = new JPanel();
-		add(this.pnlTicketSearch,BorderLayout.NORTH);
+		add(this.pnlTicketSearch, BorderLayout.NORTH);
 		this.pnlTicketSearch.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(63dlu;default)"),
@@ -78,10 +87,12 @@ public class ViewTicket extends ContentPage
 		
 		this.lblPaymentStatus = new JLabel("Payment Status:");
 		this.pnlTicketSearch.add(this.lblPaymentStatus, "2, 4, right, default");
-		
-		this.txtPaymentStatus = new JTextField();
-		this.pnlTicketSearch.add(this.txtPaymentStatus, "4, 4, fill, default");
-		this.txtPaymentStatus.setColumns(10);
+		//new component
+		this.chckbxPaid = new JCheckBox("Paid");
+		this.pnlTicketSearch.add(this.chckbxPaid, "4, 4");
+		//new component
+		this.chckbxUnpaid = new JCheckBox("Unpaid");
+		this.pnlTicketSearch.add(this.chckbxUnpaid, "6, 4");
 		
 		this.chbxViewAll = new JCheckBox("");
 		this.pnlTicketSearch.add(this.chbxViewAll, "2, 6, right, default");
@@ -92,51 +103,176 @@ public class ViewTicket extends ContentPage
 		this.btnRunView = new JButton("Run View");
 		this.btnRunView.setIcon(new ImageIcon(ViewTicket.class.getResource("/trafficticket/resources/viewIcon.gif")));
 		this.pnlTicketSearch.add(this.btnRunView, "2, 7");
+		//new component
+		this.pnlResult = new JPanel();
+		add(this.pnlResult);
+		this.pnlResult.setLayout(new BorderLayout(0, 0));
+		//new component
+		this.pnlSearchStatus = new JPanel();
+		this.pnlResult.add(this.pnlSearchStatus, BorderLayout.NORTH);
+		//new component
+		this.lblSearchTicketStatus = new JLabel("");
+		this.lblSearchTicketStatus.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+		this.pnlSearchStatus.add(this.lblSearchTicketStatus);
 		
-		this.table = new JTable();
+		this.tblTicketResults = new JTable();
 		
-		this.scrollPane = new JScrollPane(this.table);
-		add(this.scrollPane, BorderLayout.CENTER);
+		this.ticketResultsScrollPane = new JScrollPane(this.tblTicketResults);
+		this.pnlResult.add(this.ticketResultsScrollPane, BorderLayout.CENTER);
 		
 		
-		this.table.setFillsViewportHeight(true);
-		this.table.setCellSelectionEnabled(true);
-		this.table.setColumnSelectionAllowed(true);
-		this.table.setModel(new DefaultTableModel(
+		this.tblTicketResults.setFillsViewportHeight(true);
+		this.tblTicketResults.setCellSelectionEnabled(true);
+		this.tblTicketResults.setColumnSelectionAllowed(true);
+		this.tblTicketResults.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
 			},
 			new String[] {
 				"Ticket Number", "Payment Status", "Offender TRN", "Offender Name", "Offense Date", "Fine (JMD)", "Points"
 			}
 		) {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-			@SuppressWarnings("rawtypes")
-			Class[] columnTypes = new Class[] {
-				Integer.class, String.class, Integer.class, String.class, String.class, Double.class, Integer.class
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false, false, false, false
 			};
-			@SuppressWarnings({ "unchecked", "rawtypes" })
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
 			}
 		});
-		this.table.getColumnModel().getColumn(0).setPreferredWidth(110);
-		this.table.getColumnModel().getColumn(1).setPreferredWidth(91);
-		this.table.getColumnModel().getColumn(2).setPreferredWidth(94);
-		this.table.getColumnModel().getColumn(3).setPreferredWidth(169);
-		this.table.getColumnModel().getColumn(4).setPreferredWidth(93);
+		this.tblTicketResults.getColumnModel().getColumn(0).setPreferredWidth(110);
+		this.tblTicketResults.getColumnModel().getColumn(1).setPreferredWidth(91);
+		this.tblTicketResults.getColumnModel().getColumn(2).setPreferredWidth(94);
+		this.tblTicketResults.getColumnModel().getColumn(3).setPreferredWidth(169);
+		this.tblTicketResults.getColumnModel().getColumn(4).setPreferredWidth(93);
 	}
 	
+	public JButton getBtnRunView() {
+		return btnRunView;
+	}
+
+	
+	public JPanel getPnlTicketSearch() {
+		return pnlTicketSearch;
+	}
+
+	public void setPnlTicketSearch(JPanel pnlTicketSearch) {
+		this.pnlTicketSearch = pnlTicketSearch;
+	}
+
+	public JLabel getLblOffenderTrn() {
+		return lblOffenderTrn;
+	}
+
+	public void setLblOffenderTrn(JLabel lblOffenderTrn) {
+		this.lblOffenderTrn = lblOffenderTrn;
+	}
+
+	public JLabel getLblPaymentStatus() {
+		return lblPaymentStatus;
+	}
+
+	public void setLblPaymentStatus(JLabel lblPaymentStatus) {
+		this.lblPaymentStatus = lblPaymentStatus;
+	}
+
+	public JTextField getTxtOffenderTrn() {
+		return txtOffenderTrn;
+	}
+
+	public void setTxtOffenderTrn(JTextField txtOffenderTrn) {
+		this.txtOffenderTrn = txtOffenderTrn;
+	}
+
+	public JLabel getLblTicketNumber() {
+		return lblTicketNumber;
+	}
+
+	public void setLblTicketNumber(JLabel lblTicketNumber) {
+		this.lblTicketNumber = lblTicketNumber;
+	}
+
+	public JTextField getTxtTicketNumber() {
+		return txtTicketNumber;
+	}
+
+	public void setTxtTicketNumber(JTextField txtTicketNumber) {
+		this.txtTicketNumber = txtTicketNumber;
+	}
+
+	public JScrollPane getScrollPane() {
+		return ticketResultsScrollPane;
+	}
+
+	public void setScrollPane(JScrollPane scrollPane) {
+		this.ticketResultsScrollPane = scrollPane;
+	}
+
+	public JTable getTblTicketResults() {
+		return tblTicketResults;
+	}
+
+	public void setTblTicketResults(JTable tblTicketResults) {
+		this.tblTicketResults = tblTicketResults;
+	}
+
+	public JScrollPane getTicketResultsScrollPane() {
+		return ticketResultsScrollPane;
+	}
+
+	public void setTicketResultsScrollPane(JScrollPane ticketResultsScrollPane) {
+		this.ticketResultsScrollPane = ticketResultsScrollPane;
+	}
+
+	public JCheckBox getChbxViewAll() {
+		return chbxViewAll;
+	}
+
+	public void setChbxViewAll(JCheckBox chbxViewAll) {
+		this.chbxViewAll = chbxViewAll;
+	}
+
+	public JLabel getLblViewAll() {
+		return lblViewAll;
+	}
+
+	public void setLblViewAll(JLabel lblViewAll) {
+		this.lblViewAll = lblViewAll;
+	}
+
+	public JCheckBox getChckbxPaid() {
+		return chckbxPaid;
+	}
+
+	public void setChckbxPaid(JCheckBox chckbxPaid) {
+		this.chckbxPaid = chckbxPaid;
+	}
+
+	public JCheckBox getChckbxUnpaid() {
+		return chckbxUnpaid;
+	}
+
+	public void setChckbxUnpaid(JCheckBox chckbxUnpaid) {
+		this.chckbxUnpaid = chckbxUnpaid;
+	}
+
+	public void setBtnRunView(JButton btnRunView) {
+		this.btnRunView = btnRunView;
+	}
+
 	public void startInit()
 	{
 		this.initialize();
 	}
 	
+	public JLabel getLblSearchTicketStatus() {
+		return lblSearchTicketStatus;
+	}
+	public JPanel getPnlSearchStatus() {
+		return pnlSearchStatus;
+	}
+	
+	public void initialiseListener()
+	{
+		this.btnRunView.addActionListener(new ViewTicketController(this,"btnRunView"));
+		this.chbxViewAll.addItemListener(new ViewTicketController(this, "chbxViewAll"));
+	}
 }

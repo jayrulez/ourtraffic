@@ -339,4 +339,146 @@ public class SqlProvider
 		
 		return result;
 	}
+	
+	public Vector<Ticket> getTickets(Integer ticketNumber,Integer offenderTrn,Integer paymentStatus) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException
+	{
+		this.dbConnect();
+		
+		
+		String queryString = " select `ticket`.id as ticketNumber, `ticket`.offenseDate, `ticket`.street as ticketStreet,`ticket`.city as ticketCity, `ticket`.parish as ticketParish,`ticket`.description as ticketDescription,`ticket`.fine as ticketFine,`ticket`.points as ticketPoints,`ticket`.paymentStatus, `offender`.trn as offenderTrn, `offender`.firstName as offenderFirstName,`offender`.lastName as offenderLastName,`offender`.middleInitial as offenderMiddleInitial,`offender`.DOB as offenderDob,`offender`.street as offenderStreet, `offender`.city as offenderCity,`offender`.parish as offenderParish,`offender`.licenseType as licenseType,`offender`.points as licensePoints,`offender`.expiryDate as licenseExpiryDate, `police`.badgeId,`police`.divisionId,`police`.firstName as policeFirstName,`police`.lastName as policeLastName,`police`.middleInitial as policeMiddleInitial, `offense`.id as offenseId,`offense`.name as offenseName from `ticket` inner join `offender` on `offender`.trn = `ticket`.offenderTrn inner join `police` on `police`.badgeId = `ticket`.policeId inner join `offense` on  `offense`.id = `ticket`.offenseId where 1=1";
+		
+		if(ticketNumber != null)
+		{
+			queryString = queryString.concat(" and `ticket`.id = "+ticketNumber);
+		}
+		if(offenderTrn != null)
+		{
+			queryString = queryString.concat(" and `offender`.trn = "+offenderTrn);
+		}
+		if(paymentStatus != null)
+		{
+			queryString = queryString.concat(" and `ticket`.paymentStatus = "+paymentStatus);
+		}
+		
+		queryString = queryString.concat(";");
+		
+		System.out.println("QUERY: "+queryString);
+		
+		this.callableStatement = connection.prepareCall(queryString);
+
+		this.resultSet = this.callableStatement.executeQuery();	
+		
+		Ticket ticket;
+		Offense offense;
+		Police police;
+		Offender offender;
+		Division policeDivison;
+		
+		Vector<Ticket> tickets = new Vector<Ticket>();
+		while(this.resultSet.next())
+		{
+			ticket = new Ticket(this.resultSet.getInt("ticketNumber"),this.resultSet.getDate("offenseDate"),new Address(this.resultSet.getString("ticketStreet"),this.resultSet.getString("ticketCity"),this.resultSet.getString("ticketParish")),this.resultSet.getString("ticketDescription"),this.resultSet.getFloat("ticketFine"),this.resultSet.getInt("ticketPoints"),this.resultSet.getInt("paymentStatus"));
+			offender = new Offender(this.resultSet.getInt("offenderTrn"),this.resultSet.getString("offenderFirstName"),this.resultSet.getString("offenderLastName"),this.resultSet.getString("offenderMiddleInitial"),this.resultSet.getDate("offenderDob"),this.resultSet.getString("offenderStreet"),this.resultSet.getString("offenderCity"),this.resultSet.getString("offenderParish"),this.resultSet.getString("licenseType"),this.resultSet.getInt("licensePoints"),this.resultSet.getDate("licenseExpiryDate"));
+			
+			police = new Police();
+			police.setBadgeNumber(this.resultSet.getString("badgeId"));
+			policeDivison = new Division();
+			policeDivison.setStationNumber(this.resultSet.getInt("divisionId"));
+			police.setDivision(policeDivison);
+			police.setFirstName(this.resultSet.getString("policeFirstName"));
+			police.setLastName(this.resultSet.getString("policeLastName"));
+			police.setMiddleInitial(this.resultSet.getString("policeMiddleInitial"));
+		
+			offense = new Offense(this.resultSet.getInt("offenseId"),this.resultSet.getString("offenseName"),"");
+			ticket.setOffender(offender);
+			ticket.setOffense(offense);
+			ticket.setPolice(police);
+			tickets.add(ticket);
+		}
+		
+		this.dbDisconnect();
+		System.out.println("Data Server Sends Data:"+tickets.size());
+		
+		return tickets;		
+	}
+
+	public Vector<Offender> getOffenders(Integer trnNumber, String firstName,String lastName) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException 
+	{
+		this.dbConnect();
+		
+		
+		String queryString = " select `offender`.trn as offenderTrn, `offender`.firstName as offenderFirstName,`offender`.lastName as offenderLastName,`offender`.middleInitial as offenderMiddleInitial,`offender`.DOB as offenderDob,`offender`.street as offenderStreet, `offender`.city as offenderCity,`offender`.parish as offenderParish,`offender`.licenseType as licenseType,`offender`.points as licensePoints,`offender`.expiryDate as licenseExpiryDate where 1=1";
+		
+		if(trnNumber != null)
+		{
+			queryString = queryString.concat(" and `offender`.trn = "+trnNumber);
+		}
+		if(firstName != null)
+		{
+			queryString = queryString.concat(" and `offender`.firstName = "+firstName);
+		}
+		if(lastName != null)
+		{
+			queryString = queryString.concat(" and `offender`.lastName = "+lastName);
+		}
+		
+		queryString = queryString.concat(";");
+		
+		System.out.println("QUERY: "+queryString);
+		
+		this.callableStatement = connection.prepareCall(queryString);
+
+		this.resultSet = this.callableStatement.executeQuery();	
+		
+		Offender offender;
+		
+		Vector<Offender> offenders = new Vector<Offender>();
+		while(this.resultSet.next())
+		{
+			offender = new Offender(this.resultSet.getInt("offenderTrn"),this.resultSet.getString("offenderFirstName"),this.resultSet.getString("offenderLastName"),this.resultSet.getString("offenderMiddleInitial"),this.resultSet.getDate("offenderDob"),this.resultSet.getString("offenderStreet"),this.resultSet.getString("offenderCity"),this.resultSet.getString("offenderParish"),this.resultSet.getString("licenseType"),this.resultSet.getInt("licensePoints"),this.resultSet.getDate("licenseExpiryDate"));
+		}
+		
+		this.dbDisconnect();
+		System.out.println("Data Server Sends Data:"+offenders.size());
+		
+		return offenders;		
+	}
+	
+	public Vector<Offense> getOffenses(Integer offenseCode, String offenseName ) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException 
+	{
+		this.dbConnect();
+		
+		
+		String queryString = " select `offense`.id,`offense`.name,`offense`.description as where 1=1";
+		
+		if(offenseCode != null)
+		{
+			queryString = queryString.concat(" and `offense`.id = "+offenseCode);
+		}
+		if(offenseName != null)
+		{
+			queryString = queryString.concat(" and `offense`.name = "+offenseName);
+		}
+		
+		queryString = queryString.concat(";");
+		
+		System.out.println("QUERY: "+queryString);
+		
+		this.callableStatement = connection.prepareCall(queryString);
+
+		this.resultSet = this.callableStatement.executeQuery();	
+		
+		Offense offense;
+		
+		Vector<Offense> offenses = new Vector<Offense>();
+		while(this.resultSet.next())
+		{
+			offense = new Offense(this.resultSet.getInt("id"),this.resultSet.getString("name"),this.resultSet.getString("description"));
+		}
+		
+		this.dbDisconnect();
+		System.out.println("Data Server Sends Data:"+offenses.size());
+		
+		return offenses;		
+	}
 }

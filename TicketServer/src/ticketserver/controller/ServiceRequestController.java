@@ -156,11 +156,110 @@ public class ServiceRequestController
 				}
 			break;	
 			
+			case ServiceRequest.GET_OFFENSES:
+				try
+				{
+					this.sqlProvider = new SqlProvider();
+					if(!this.serviceRequest.getData().isEmpty())
+					{
+						Offense targetOffense = (Offense) this.serviceRequest.getData().firstElement();
+						
+						Vector<Offense> offenses = this.sqlProvider.getOffenses(targetOffense.getOffenseCode(),targetOffense.getOffenceName());
+
+						this.serviceResponse.setData(offenses);
+					}
+					else
+					{
+						
+					}
+					
+				} 
+				catch (ClassNotFoundException e) 
+				{
+					
+					System.out.println(e.getMessage());
+				} 
+				catch (InstantiationException e) 
+				{
+					System.out.println("Unexpected error occured.");
+				} 
+				catch (IllegalAccessException e) 
+				{
+					System.out.println("Access to the Data Server denied.");
+				} 
+				catch(ClassCastException e)
+				{
+					System.out.println("Unexpected error occured.");
+				}
+				catch (SQLException e) 
+				{
+					// TODO Auto-generated catch block
+					System.out.println(e.getErrorCode());
+				}
+				catch(NullPointerException e)
+				{
+					e.printStackTrace();
+					System.out.println("Error " + e);
+				}
+				finally
+				{
+					this.serviceResponse.setResponse(ServiceResponse.SUCCESS);
+					System.out.println("Success Sent");
+				}
+			
 			case ServiceRequest.GET_OFFENDERS:
+				try
+				{
+					this.sqlProvider = new SqlProvider();
+					if(!this.serviceRequest.getData().isEmpty())
+					{
+						Offender targetOffender = (Offender) this.serviceRequest.getData().firstElement();
+						
+						Vector<Offender> offenders = this.sqlProvider.getOffenders(targetOffender.getTrnNumber(),targetOffender.getFirstName(), targetOffender.getLastName());
+
+						this.serviceResponse.setData(offenders);
+					}
+					else
+					{
+						
+					}
+					
+				} 
+				catch (ClassNotFoundException e) 
+				{
+					
+					System.out.println(e.getMessage());
+				} 
+				catch (InstantiationException e) 
+				{
+					System.out.println("Unexpected error occured.");
+				} 
+				catch (IllegalAccessException e) 
+				{
+					System.out.println("Access to the Data Server denied.");
+				} 
+				catch(ClassCastException e)
+				{
+					System.out.println("Unexpected error occured.");
+				}
+				catch (SQLException e) 
+				{
+					// TODO Auto-generated catch block
+					System.out.println(e.getErrorCode());
+				}
+				catch(NullPointerException e)
+				{
+					e.printStackTrace();
+					System.out.println("Error " + e);
+				}
+				finally
+				{
+					this.serviceResponse.setResponse(ServiceResponse.SUCCESS);
+					System.out.println("Success Sent");
+				}
 			break;
 			
 			case ServiceRequest.GET_OFFENDER:
-				
 				try 
 				{
 					this.sqlProvider = new SqlProvider();
@@ -201,8 +300,6 @@ public class ServiceRequestController
 			break;
 			
 			case ServiceRequest.GET_ALL_OFFENSES:
-				
-				
 				try 
 				{
 					this.sqlProvider = new SqlProvider();
@@ -237,7 +334,6 @@ public class ServiceRequestController
 			break;
 			
 			case ServiceRequest.GET_USER_LOGIN:
-				
 				try 
 				{
 					this.sqlProvider = new SqlProvider();
@@ -281,6 +377,55 @@ public class ServiceRequestController
 			break;
 			
 			case ServiceRequest.GET_TICKETS:
+				try
+				{
+					this.sqlProvider = new SqlProvider();
+					if(!this.serviceRequest.getData().isEmpty())
+					{
+						Ticket targetTicket = (Ticket) this.serviceRequest.getData().firstElement();
+						
+						Vector<Ticket> tickets = this.sqlProvider.getTickets(targetTicket.getTicketNumber(),targetTicket.getOffender().getTrnNumber(),targetTicket.getPaymentStatus());
+
+						this.serviceResponse.setData(tickets);
+					}
+					else
+					{
+						
+					}
+					
+				} 
+				catch (ClassNotFoundException e) 
+				{
+					
+					System.out.println(e.getMessage());
+				} 
+				catch (InstantiationException e) 
+				{
+					System.out.println("Unexpected error occured.");
+				} 
+				catch (IllegalAccessException e) 
+				{
+					System.out.println("Access to the Data Server denied.");
+				} 
+				catch(ClassCastException e)
+				{
+					System.out.println("Unexpected error occured.");
+				}
+				catch (SQLException e) 
+				{
+					// TODO Auto-generated catch block
+					System.out.println(e.getErrorCode());
+				}
+				catch(NullPointerException e)
+				{
+					e.printStackTrace();
+					System.out.println("Error " + e);
+				}
+				finally
+				{
+					this.serviceResponse.setResponse(ServiceResponse.SUCCESS);
+					System.out.println("Success Sent");
+				}	
 			break;
 			
 			case ServiceRequest.GET_TICKET:	
