@@ -37,6 +37,7 @@ public class MainMenu extends JPanel {
 	private MainMenuController menuItemsHandler;
 
 	public MainMenu() {
+	
 	}
 
 	public void initialize() {
@@ -150,9 +151,5 @@ public class MainMenu extends JPanel {
 		
 	}
 
-
-	public void render() {
-
-	}
 
 }
