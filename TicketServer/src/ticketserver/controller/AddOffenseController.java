@@ -40,7 +40,7 @@ public class AddOffenseController implements ActionListener
 				}
 				else if(result > 0)
 				{
-					JOptionPane.showMessageDialog(this.addOffensePage, "<html>The Offense was added.<br/><table><tr><td>Offense ID:</td><td>"+result+"</td></tr> <tr><td>Name:</td><td>"+this.addOffensePage.getTxtOffenseName()+"</td></tr> <tr><td>Description:</td><td>"+this.addOffensePage.getTxtOffenseDescription()+"</td></tr></table></html>","Add Offense: success",JOptionPane.DEFAULT_OPTION,new ImageIcon(AddOffenseController.class.getResource("/ticketserver/resources/addOffenseIcon.png")));
+					JOptionPane.showMessageDialog(this.addOffensePage, "<html>The Offense was added.<br/><table><tr><td><strong>Offense ID:</strong></td><td>"+result+"</td></tr> <tr><td><strong>Name:</strong></td><td>"+this.addOffensePage.getTxtOffenseName().getText().trim()+"</td></tr> <tr><td><strong>Description:</strong></td><td>"+this.addOffensePage.getTxtOffenseDescription().getText().trim()+"</td></tr></table></html>","Add Offense: success",JOptionPane.DEFAULT_OPTION,new ImageIcon(AddOffenseController.class.getResource("/ticketserver/resources/addOffenseIcon.png")));
 				}
 				else if(result == -1)
 				{
@@ -55,7 +55,7 @@ public class AddOffenseController implements ActionListener
 			catch(SQLException ex)
 			{
 				JOptionPane.showMessageDialog(this.addOffensePage,"Could not accesss the Data Source. Offense "+ "\""+ this.addOffensePage.getTxtOffenseName().getText().trim()+"\" was not added","Add Offense: failed",JOptionPane.ERROR_MESSAGE);
-				//System.out.println("here");
+				System.out.println(ex.getErrorCode());
 			} 
 			catch (ClassNotFoundException ex) 
 			{
