@@ -23,7 +23,7 @@ public class TicketServerFrame extends MasterFrame implements Runnable {
 
 		this.mainNavMenu = new MainMenu();
 		this.addLeftNavPanelContent(this.mainNavMenu);
-		this.mainNavMenu.initialize();
+		this.mainNavMenu.initialiseLisenters();
 		
 		this.setVisible(true);
 	}

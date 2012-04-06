@@ -22,7 +22,7 @@ import javax.swing.border.EtchedBorder;
 import java.awt.Color;
 import java.awt.Dimension;
 
-public class AddUser extends JPanel
+public class AddUser extends ContentPage
 {
 	public AddUser() 
 	{
@@ -321,5 +321,10 @@ public class AddUser extends JPanel
 	private JPanel pnlTaxOfficerId;
 	private JLabel lblDivisionId;
 	private JTextField txtDivisionId;
+	@Override
+	public void startInit() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.Vector;
 
+import javax.swing.ImageIcon;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
@@ -22,7 +23,9 @@ import ticketserver.view.ViewUser;
 
 
 import extension.model.Offender;
+import extension.model.Police;
 import extension.model.ServiceRequest;
+import extension.model.TaxOfficer;
 import extension.model.User;
 
 public class ViewUserController implements ActionListener, ItemListener, DocumentListener
@@ -40,11 +43,11 @@ public class ViewUserController implements ActionListener, ItemListener, Documen
 	{
 		if(this.eventSource.equalsIgnoreCase("btnRunView"))
 		{
-			this.viewUserPage.getLblOffenderSearchStatus().setText("");
+			this.viewUserPage.getLblUserSearchStatus().setText("");
 			
 			DefaultTableModel defaultTableModel;
 			
-			defaultTableModel = (DefaultTableModel) this.viewUserPage.getOffenderTable().getModel();
+			defaultTableModel = (DefaultTableModel) this.viewUserPage.getUserTable().getModel();
 			
 			String userId = null;
 			String firstName = null;
@@ -54,29 +57,51 @@ public class ViewUserController implements ActionListener, ItemListener, Documen
 			
 			if(!this.viewUserPage.getChbxViewAll().isSelected())
 			{
-				if(!this.viewUserPage.getTxtOffenderFirstName().getText().trim().isEmpty())
+				if(!this.viewUserPage.getTxtUserId().getText().trim().isEmpty())
 				{
-
+					userId = this.viewUserPage.getTxtUserId().getText().trim();
 				}
 				else
 				{
 
 				}
 				
-				if(!this.viewUserPage.getTxtOffenderLastName().getText().trim().isEmpty())
+				if(!this.viewUserPage.getTxtUserFirstName().getText().trim().isEmpty())
+				{
+					firstName = this.viewUserPage.getTxtUserFirstName().getText().trim();
+				}
+				else
 				{
 
+				}
+				
+				if(!this.viewUserPage.getTxtUserLastName().getText().trim().isEmpty())
+				{
+					firstName = this.viewUserPage.getTxtUserLastName().getText().trim();
+				}
+				else
+				{
+
+				}
+				
+				if(this.viewUserPage.getChckbxPolice().isSelected())
+				{
+					policeType = User.POLICE;
+				}
+				else
+				{
+
+				}
+				
+				if(this.viewUserPage.getChckbxTaxOfficer().isSelected())
+				{
+					taxOfficerType = User.TAXOFFICER;
 				}
 				else
 				{
 
 				}
 			}
-			else
-			{
-
-			}
-			
 
 			try
 			{
@@ -89,58 +114,83 @@ public class ViewUserController implements ActionListener, ItemListener, Documen
 					{
 							
 						Iterator itr = users.iterator();
-						
-						Offender offenderRow;
+		
 						
 						defaultTableModel.setRowCount(0);
 						
 						SimpleDateFormat dateFormat = new SimpleDateFormat("d'-'MMM'-'yyyy");
 						
+						Police police;
+						TaxOfficer taxOfficer;
+						
 						while(itr.hasNext())
 						{
-							
-							offenderRow = (Offender) itr.next();
-							
 							Vector rowData = new Vector();
 							
-							//System.out.println("Tickets Number: "+ offenderRow.getTrnNumber());
+							Object obj = itr.next();
 							
-							rowData.add(offenderRow.getTrnNumber());
-						
+							
+							if(obj  instanceof Police)
+							{
+								police = (Police)obj;
 								
-							rowData.add(offenderRow.getFirstName());
-							rowData.add(offenderRow.getMiddleInitial());
-							rowData.add(offenderRow.getFirstName());
+								rowData.add(police.getBadgeNumber());
+								
+								rowData.add(new ImageIcon(ViewUserController.class.getResource("/ticketserver/resources/policeOfficerIcon_32x32.png")));
+								
+								rowData.add("Police");
+								rowData.add(police.getFirstName());
+								rowData.add(police.getMiddleInitial());
+								rowData.add(police.getLastName());
+								
+								
+								rowData.add(police.getAddress().getAddress1());
+								rowData.add(police.getAddress().getAddress2());
+								rowData.add(police.getAddress().getParish());
+								
+								defaultTableModel.addRow(rowData);
+								rowData = null;	
+							}
+							else if (obj  instanceof TaxOfficer)
+							{
+								taxOfficer = (TaxOfficer)obj;
+								
+								rowData.add(taxOfficer.getIdNumber());
+								rowData.add(new ImageIcon(ViewUserController.class.getResource("/ticketserver/resources/taxOfficerIcon_32x32.png")));
+								
+								rowData.add("Tax Officer");
+								rowData.add(taxOfficer.getFirstName());
+								rowData.add(taxOfficer.getMiddleInitial());
+								rowData.add(taxOfficer.getLastName());
+								
+								
+								rowData.add(taxOfficer.getAddress().getAddress1());
+								rowData.add(taxOfficer.getAddress().getAddress2());
+								rowData.add(taxOfficer.getAddress().getParish());
+								
+								
+								defaultTableModel.addRow(rowData);
+								rowData = null;
+							}
 							
-							
-							rowData.add(offenderRow.getAddress().getAddress1());
-							rowData.add(offenderRow.getAddress().getAddress2());
-							rowData.add(offenderRow.getAddress().getParish());
-							
-							rowData.add(dateFormat.format(offenderRow.getDob()));
-							
-							rowData.add(dateFormat.format(offenderRow.getLicenseType()));
-							
-							rowData.add(dateFormat.format(offenderRow.getPoints()));
-							
-							defaultTableModel.addRow(rowData);
-							rowData = null;
+							//System.out.println("Tickets Number: "+ offenderRow.getTrnNumber());
+
 						}
 					}
 					else
 					{
 						
 						defaultTableModel.setRowCount(0);
-						this.viewUserPage.getLblOffenderSearchStatus().setForeground(Color.decode("#3300ff"));
-						this.viewUserPage.getLblOffenderSearchStatus().setText("Offender record was not found.");
+						this.viewUserPage.getLblUserSearchStatus().setForeground(Color.decode("#3300ff"));
+						this.viewUserPage.getLblUserSearchStatus().setText("Offender record was not found.");
 						//defaultTableModel.getDataVector().removeAllElements();
 					}
 				}
 				else
 				{				
 					defaultTableModel.setRowCount(0);
-					this.viewUserPage.getLblOffenderSearchStatus().setForeground(Color.decode("#3300ff"));
-					this.viewUserPage.getLblOffenderSearchStatus().setText("Offender record was not found.");
+					this.viewUserPage.getLblUserSearchStatus().setForeground(Color.decode("#3300ff"));
+					this.viewUserPage.getLblUserSearchStatus().setText("Offender record was not found.");
 					
 					//defaultTableModel.getDataVector().removeAllElements();
 				}
@@ -160,7 +210,7 @@ public class ViewUserController implements ActionListener, ItemListener, Documen
 			catch (SQLException e4) 
 			{
 				// TODO Auto-generated catch block
-				System.out.println(e4.getErrorCode());
+				System.out.println("Sql Error: "+e4.getErrorCode());
 			}	
 		}
 	}
@@ -195,15 +245,21 @@ public class ViewUserController implements ActionListener, ItemListener, Documen
 		{
 			if(e.getStateChange() == e.SELECTED)
 			{
-				this.viewUserPage.getTxtOffenderFirstName().setEnabled(false);
-				this.viewUserPage.getTxtOffenderLastName().setEnabled(false);
-				this.viewUserPage.getTxtOffenderTrn().setEnabled(false);
+				this.viewUserPage.getTxtUserId().setEnabled(false);
+				this.viewUserPage.getTxtUserLastName().setEnabled(false);
+				this.viewUserPage.getTxtUserFirstName().setEnabled(false);
+				
+				this.viewUserPage.getChckbxTaxOfficer().setEnabled(false);
+				this.viewUserPage.getChckbxPolice().setEnabled(false);
 			}
 			else
 			{
-				this.viewUserPage.getTxtOffenderFirstName().setEnabled(true);
-				this.viewUserPage.getTxtOffenderLastName().setEnabled(true);
-				this.viewUserPage.getTxtOffenderTrn().setEnabled(true);		
+				this.viewUserPage.getTxtUserFirstName().setEnabled(true);
+				this.viewUserPage.getTxtUserLastName().setEnabled(true);
+				this.viewUserPage.getTxtUserId().setEnabled(true);	
+				
+				this.viewUserPage.getChckbxTaxOfficer().setEnabled(true);
+				this.viewUserPage.getChckbxPolice().setEnabled(true);
 			}
 		}
 		

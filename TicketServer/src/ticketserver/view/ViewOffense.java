@@ -83,7 +83,7 @@ public class ViewOffense extends ContentPage
 		this.pnlTicketSearch.add(this.chbxViewAll, "2, 4, right, default");
 		
 		this.btnRunView = new JButton("Run View");
-		this.btnRunView.setIcon(new ImageIcon(ViewOffense.class.getResource("/trafficticket/resources/viewIcon.gif")));
+		this.btnRunView.setIcon(new ImageIcon(ViewOffense.class.getResource("/ticketserver/resources/viewIcon.gif")));
 		this.pnlTicketSearch.add(this.btnRunView, "2, 6");
 		//new component
 		this.pnlResult = new JPanel();

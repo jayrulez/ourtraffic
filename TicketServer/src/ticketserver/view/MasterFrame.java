@@ -60,36 +60,69 @@ public class MasterFrame extends JFrame {
 		this.leftNavPanel = content;
 	}
 
-	public void addTab(String title, JPanel contentTab) {
-		if (!title.equals("")) {
-			if (!this.tabExist(title)) {
-				this.tabbedPane.add(title, contentTab);
+	public void addTab(String title, JScrollPane scrollPane) 
+	{
+		if (!title.equals(""))
+		{
+			if (!this.tabExist(title)) 
+			{
+				this.tabbedPane.add(title, scrollPane);
 			}
 		}
 	}
 
-	public void addTab(String title, ImageIcon icon, JPanel contentTab) {
-		if (!title.equals("")) {
-			if (!this.tabExist(title)) {
-				this.tabbedPane.addTab(title.trim(), icon, contentTab);
+	public void addTab(String title, ImageIcon icon, JScrollPane scrollPane)   
+	{
+		if (!title.equals("")) 
+		{
+			if (!this.tabExist(title)) 
+			{
+				this.tabbedPane.addTab(title.trim(), icon, scrollPane);
+				int newTabIndex = this.getTabIndex(title);
+				if(newTabIndex > -1)
+				{
+					this.tabbedPane.setSelectedIndex(newTabIndex);
+				}
 			}
 		}
 	}
 
-	public boolean tabExist(String title) {
+	public boolean tabExist(String title) 
+	{
 		int tabCount = this.tabbedPane.getTabCount();
 
-		if (tabCount > 0) {
-			for (int tabIndex = 0; tabIndex < tabCount; tabIndex++) {
+		if (tabCount > 0) 
+		{
+			for (int tabIndex = 0; tabIndex < tabCount; tabIndex++) 
+			{
 				title = title.trim();
-				if (title.compareToIgnoreCase(this.tabbedPane
-						.getTitleAt(tabIndex)) == 0) {
+				if (title.compareToIgnoreCase(this.tabbedPane.getTitleAt(tabIndex)) == 0) 
+				{
 					this.tabbedPane.setSelectedIndex(tabIndex);
 					return true;
 				}
 			}
 		}
 		return false;
+	}
+
+	public int getTabIndex(String title) 
+	{
+		int tabCount = this.tabbedPane.getTabCount();
+
+		if (tabCount > 0) 
+		{
+			for (int tabIndex = 0; tabIndex < tabCount; tabIndex++) 
+			{
+				title = title.trim();
+				if (title.compareToIgnoreCase(this.tabbedPane.getTitleAt(tabIndex)) == 0) 
+				{
+					return tabIndex;
+					
+				}
+			}
+		}
+		return -1;
 	}
 
 	public void initialize() {

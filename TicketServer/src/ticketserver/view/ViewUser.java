@@ -1,6 +1,7 @@
 package ticketserver.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.ImageIcon;
@@ -11,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import com.jgoodies.forms.factories.FormFactory;
@@ -19,9 +21,12 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 import javax.swing.BoxLayout;
 import javax.swing.SwingConstants;
+
+import ticketserver.controller.ViewUserController;
+
 import java.awt.FlowLayout;
 
-public class ViewUser extends JPanel
+public class ViewUser extends ContentPage
 {
 
 	private static final long serialVersionUID = 1L;
@@ -36,18 +41,20 @@ public class ViewUser extends JPanel
 	private JPanel pnlSearchUserStatus;
 	private JLabel lblUserSearchStatus;
 	private JLabel lblUserFirstName;
-	private JLabel lblNewLabel;
+	private JLabel lblLastName;
 	private JTextField txtUserFirstName;
 	private JTextField txtUserLastName;
 	private JPanel pnlUserTypeCriteria;
 	private JPanel pnlSearchButton;
 	private JPanel pnlCriteriaContainer;
-	private JCheckBox chckbxNewCheckBox;
+	private JCheckBox chckbxPolice;
 	private JCheckBox chckbxTaxOfficer;
+	public Object getTxtUserId;
 	
 	public ViewUser() 
 	{
 		this.initialize();
+	
 	}
 	private void initialize(){
 		
@@ -78,8 +85,8 @@ public class ViewUser extends JPanel
 		this.pnlTicketSearch.add(this.txtUserFirstName, "4, 2, fill, center");
 		this.txtUserFirstName.setColumns(10);
 		//new component
-		this.lblNewLabel = new JLabel("Last Name:");
-		this.pnlTicketSearch.add(this.lblNewLabel, "6, 2, right, center");
+		this.lblLastName = new JLabel("Last Name:");
+		this.pnlTicketSearch.add(this.lblLastName, "6, 2, right, center");
 		//new component
 		this.txtUserLastName = new JTextField();
 		this.pnlTicketSearch.add(this.txtUserLastName, "8, 2, fill, center");
@@ -108,8 +115,8 @@ public class ViewUser extends JPanel
 		this.chbxViewAll = new JCheckBox("View All");
 		this.pnlUserTypeCriteria.add(this.chbxViewAll);
 		//new component
-		this.chckbxNewCheckBox = new JCheckBox("Police");
-		this.pnlUserTypeCriteria.add(this.chckbxNewCheckBox);
+		this.chckbxPolice = new JCheckBox("Police");
+		this.pnlUserTypeCriteria.add(this.chckbxPolice);
 		//new component
 		this.chckbxTaxOfficer = new JCheckBox("Tax Officer");
 		this.pnlUserTypeCriteria.add(this.chckbxTaxOfficer);
@@ -144,46 +151,64 @@ public class ViewUser extends JPanel
 			new Object[][] {
 			},
 			new String[] {
-				"User Id", "User Type", "First Name", "Middle Initial", "Last Name", "Address 1", "Address 2", "Parish"
+				"User Id","User Type", "User Type", "First Name", "Middle Initial", "Last Name", "Address 1", "Address 2", "Parish"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class
+				String.class,Object.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false, false, false, false
+				false, false,false, false, false, false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
 		});
+		this.userTable.getColumnModel().getColumn(1).setCellRenderer(new DefaultTableCellRenderer()
+		{
+			public void setValue(Object value)
+			{
+				ImageIcon cellImage = (ImageIcon)value;
+				this.setHorizontalAlignment(CENTER);
+				setIcon(cellImage);
+			}
+		});
+		
+		
+		this.userTable.setRowHeight(32);
 		this.userTable.getColumnModel().getColumn(0).setPreferredWidth(94);
+		
+		DefaultTableCellRenderer IdRenderer = new DefaultTableCellRenderer();
+		IdRenderer.setHorizontalAlignment( JLabel.CENTER );
+		IdRenderer.setFont(new Font("Times New Roman",Font.BOLD,12));
+		
+		this.userTable.getColumnModel().getColumn(0).setCellRenderer(IdRenderer);
 		this.userTable.getColumnModel().getColumn(2).setPreferredWidth(169);
 		this.userTable.getColumnModel().getColumn(3).setPreferredWidth(91);
 		this.userTable.getColumnModel().getColumn(4).setPreferredWidth(110);
 		this.userTable.getColumnModel().getColumn(6).setPreferredWidth(93);
+		this.initialiseListener();
 	}
-	
 	public JPanel getPnlTicketSearch() {
 		return pnlTicketSearch;
 	}
 	public void setPnlTicketSearch(JPanel pnlTicketSearch) {
 		this.pnlTicketSearch = pnlTicketSearch;
 	}
-	public JLabel getLblOffenderTrn() {
+	public JLabel getLblUserId() {
 		return lblUserId;
 	}
-	public void setLblOffenderTrn(JLabel lblOffenderTrn) {
-		this.lblUserId = lblOffenderTrn;
+	public void setLblUserId(JLabel lblUserId) {
+		this.lblUserId = lblUserId;
 	}
-	public JTextField getTxtOffenderTrn() {
+	public JTextField getTxtUserId() {
 		return txtUserId;
 	}
-	public void setTxtOffenderTrn(JTextField txtOffenderTrn) {
-		this.txtUserId = txtOffenderTrn;
+	public void setTxtUserId(JTextField txtUserId) {
+		this.txtUserId = txtUserId;
 	}
 	public JButton getBtnRunView() {
 		return btnRunView;
@@ -191,11 +216,11 @@ public class ViewUser extends JPanel
 	public void setBtnRunView(JButton btnRunView) {
 		this.btnRunView = btnRunView;
 	}
-	public JTable getOffenderTable() {
+	public JTable getUserTable() {
 		return userTable;
 	}
-	public void setOffenderTable(JTable offenderTable) {
-		this.userTable = offenderTable;
+	public void setUserTable(JTable userTable) {
+		this.userTable = userTable;
 	}
 	public JScrollPane getScrollPane() {
 		return scrollPane;
@@ -215,41 +240,88 @@ public class ViewUser extends JPanel
 	public void setPnlResult(JPanel pnlResult) {
 		this.pnlResult = pnlResult;
 	}
-	public JPanel getPnlSearchOffenderStatus() {
+	public JPanel getPnlSearchUserStatus() {
 		return pnlSearchUserStatus;
 	}
-	public void setPnlSearchOffenderStatus(JPanel pnlSearchOffenderStatus) {
-		this.pnlSearchUserStatus = pnlSearchOffenderStatus;
+	public void setPnlSearchUserStatus(JPanel pnlSearchUserStatus) {
+		this.pnlSearchUserStatus = pnlSearchUserStatus;
 	}
-	public JLabel getLblOffenderSearchStatus() {
+	public JLabel getLblUserSearchStatus() {
 		return lblUserSearchStatus;
 	}
-	public void setLblOffenderSearchStatus(JLabel lblOffenderSearchStatus) {
-		this.lblUserSearchStatus = lblOffenderSearchStatus;
+	public void setLblUserSearchStatus(JLabel lblUserSearchStatus) {
+		this.lblUserSearchStatus = lblUserSearchStatus;
 	}
-	public JLabel getLblFirstName() {
+	public JLabel getLblUserFirstName() {
 		return lblUserFirstName;
 	}
-	public void setLblFirstName(JLabel lblFirstName) {
-		this.lblUserFirstName = lblFirstName;
+	public void setLblUserFirstName(JLabel lblUserFirstName) {
+		this.lblUserFirstName = lblUserFirstName;
 	}
-	public JLabel getLblNewLabel() {
-		return lblNewLabel;
-	}
-	public void setLblNewLabel(JLabel lblNewLabel) {
-		this.lblNewLabel = lblNewLabel;
-	}
-	public JTextField getTxtOffenderFirstName() {
+	public JTextField getTxtUserFirstName() {
 		return txtUserFirstName;
 	}
-	public void setTxtOffenderFirstName(JTextField txtOffenderFirstName) {
-		this.txtUserFirstName = txtOffenderFirstName;
+	public void setTxtUserFirstName(JTextField txtUserFirstName) {
+		this.txtUserFirstName = txtUserFirstName;
 	}
-	public JTextField getTxtOffenderLastName() {
+	public JTextField getTxtUserLastName() {
 		return txtUserLastName;
 	}
-	public void setTxtOffenderLastName(JTextField txtOffenderLastName) {
-		this.txtUserLastName = txtOffenderLastName;
+	public void setTxtUserLastName(JTextField txtUserLastName) {
+		this.txtUserLastName = txtUserLastName;
+	}
+	public JPanel getPnlUserTypeCriteria() {
+		return pnlUserTypeCriteria;
+	}
+	public void setPnlUserTypeCriteria(JPanel pnlUserTypeCriteria) {
+		this.pnlUserTypeCriteria = pnlUserTypeCriteria;
+	}
+	public JPanel getPnlSearchButton() {
+		return pnlSearchButton;
+	}
+	public void setPnlSearchButton(JPanel pnlSearchButton) {
+		this.pnlSearchButton = pnlSearchButton;
+	}
+	public JPanel getPnlCriteriaContainer() {
+		return pnlCriteriaContainer;
+	}
+	public void setPnlCriteriaContainer(JPanel pnlCriteriaContainer) {
+		this.pnlCriteriaContainer = pnlCriteriaContainer;
+	}
+	public JLabel getLblLastName() {
+		return lblLastName;
+	}
+	public void setLblLastName(JLabel lblLastName) {
+		this.lblLastName = lblLastName;
+	}
+	public JCheckBox getChckbxPolice() {
+		return chckbxPolice;
+	}
+	public void setChckbxPolice(JCheckBox chckbxPolice) {
+		this.chckbxPolice = chckbxPolice;
+	}
+	public Object getGetTxtUserId() {
+		return getTxtUserId;
+	}
+	public void setGetTxtUserId(Object getTxtUserId) {
+		this.getTxtUserId = getTxtUserId;
+	}
+	public JCheckBox getChckbxTaxOfficer() {
+		return chckbxTaxOfficer;
+	}
+	public void setChckbxTaxOfficer(JCheckBox chckbxTaxOfficer) {
+		this.chckbxTaxOfficer = chckbxTaxOfficer;
+	}
+	@Override
+	public void startInit() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void initialiseListener()
+	{
+		this.btnRunView.addActionListener(new ViewUserController(this, "btnRunView"));
+		this.chbxViewAll.addItemListener(new ViewUserController(this,"chbxViewAll"));
 	}
 	
 }
