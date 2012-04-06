@@ -183,7 +183,7 @@ public class ViewUser extends ContentPage
 		
 		DefaultTableCellRenderer IdRenderer = new DefaultTableCellRenderer();
 		IdRenderer.setHorizontalAlignment( JLabel.CENTER );
-		IdRenderer.setFont(new Font("Times New Roman",Font.BOLD,12));
+		IdRenderer.setFont(new Font("Comic Sans MS",Font.BOLD,12));
 		
 		this.userTable.getColumnModel().getColumn(0).setCellRenderer(IdRenderer);
 		this.userTable.getColumnModel().getColumn(2).setPreferredWidth(169);

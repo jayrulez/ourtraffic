@@ -2,6 +2,8 @@ package ticketserver.view;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
@@ -15,17 +17,22 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Component;
+import javax.swing.Box;
+
+import ticketserver.controller.AddOffenseController;
 
 public class AddOffense extends ContentPage
 {
 	public AddOffense() {
 		initialize();
+		this.initialiseListener();
 	}
 	private void initialize() {
 		setLayout(new BorderLayout(0, 0));
 		
 		this.pnlAddOffenseFields = new JPanel();
-		add(this.pnlAddOffenseFields);
+		add(this.pnlAddOffenseFields, BorderLayout.NORTH);
 		this.pnlAddOffenseFields.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
@@ -38,8 +45,8 @@ public class AddOffense extends ContentPage
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+				RowSpec.decode("8dlu"),
+				RowSpec.decode("max(83dlu;default)"),}));
 		
 		this.lblOffenseName = new JLabel("Offense Name:");
 		this.pnlAddOffenseFields.add(this.lblOffenseName, "4, 4, right, center");
@@ -61,29 +68,37 @@ public class AddOffense extends ContentPage
 		this.scrollPane.setViewportView(this.txtOffenseDescription);
 		//new component
 		this.pnlAddOffenseControlContainer = new JPanel();
-		add(this.pnlAddOffenseControlContainer, BorderLayout.SOUTH);
+		add(this.pnlAddOffenseControlContainer, BorderLayout.CENTER);
 		this.pnlAddOffenseControlContainer.setLayout(new BoxLayout(this.pnlAddOffenseControlContainer, BoxLayout.X_AXIS));
 		
 		this.pnlAddOffenseControls = new JPanel();
 		this.pnlAddOffenseControlContainer.add(this.pnlAddOffenseControls);
 		this.pnlAddOffenseControls.setLayout(new BoxLayout(this.pnlAddOffenseControls, BoxLayout.Y_AXIS));
 		
-		this.pnllAddOffenseButtons = new JPanel();
-		this.pnlAddOffenseControls.add(this.pnllAddOffenseButtons);
-		
-		this.btnSaveOffense = new JButton("Save Offense");
-		this.pnllAddOffenseButtons.add(this.btnSaveOffense);
-		
-		this.btnResetFields = new JButton("Reset Fields");
-		this.pnllAddOffenseButtons.add(this.btnResetFields);
-		
 		this.pnlAddoffenseStatus = new JPanel();
 		this.pnlAddOffenseControls.add(this.pnlAddoffenseStatus);
+		this.pnlAddoffenseStatus.setLayout(new BoxLayout(this.pnlAddoffenseStatus, BoxLayout.Y_AXIS));
+		//new component
+		this.verticalStrut = Box.createVerticalStrut(20);
+		this.pnlAddoffenseStatus.add(this.verticalStrut);
 		
 		this.lblAddOffenseStatus = new JLabel("");
 		this.lblAddOffenseStatus.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
 		this.lblAddOffenseStatus.setHorizontalAlignment(SwingConstants.TRAILING);
 		this.pnlAddoffenseStatus.add(this.lblAddOffenseStatus);
+		
+		this.pnllAddOffenseButtons = new JPanel();
+		this.pnlAddOffenseControls.add(this.pnllAddOffenseButtons);
+		this.pnllAddOffenseButtons.setLayout(new BoxLayout(this.pnllAddOffenseButtons, BoxLayout.X_AXIS));
+		
+		this.btnSaveOffense = new JButton("Save Offense");
+		this.pnllAddOffenseButtons.add(this.btnSaveOffense);
+		//new component
+		this.horizontalStrut = Box.createHorizontalStrut(20);
+		this.pnllAddOffenseButtons.add(this.horizontalStrut);
+		
+		this.btnResetFields = new JButton("Reset Fields");
+		this.pnllAddOffenseButtons.add(this.btnResetFields);
 	}
 
 	public JPanel getPnlAddOffenseControls() {
@@ -167,10 +182,18 @@ public class AddOffense extends ContentPage
 	private JButton btnResetFields;
 	private JLabel lblAddOffenseStatus;
 	private JPanel pnlAddOffenseControlContainer;
+	private Component horizontalStrut;
+	private Component verticalStrut;
 	@Override
 	public void startInit() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void initialiseListener()
+	{
+		this.btnSaveOffense.addActionListener(new AddOffenseController(this, "btnSaveOffense"));
+		this.btnResetFields.addActionListener(new AddOffenseController(this, "btnResetFields"));
 	}
 	
 }

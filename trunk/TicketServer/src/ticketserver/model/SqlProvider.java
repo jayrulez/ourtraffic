@@ -467,7 +467,7 @@ public class SqlProvider
 		this.dbConnect();
 		
 		
-		String queryString = " select `offense`.id,`offense`.name,`offense`.description as where 1=1";
+		String queryString = " select `offense`.id,`offense`.name,`offense`.description from `offense` where 1=1";
 		
 		if(offenseCode != null)
 		{

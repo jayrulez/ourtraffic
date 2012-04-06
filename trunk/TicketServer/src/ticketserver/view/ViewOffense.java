@@ -12,9 +12,11 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 
+import ticketserver.controller.ViewOffenseController;
 import ticketserver.view.ContentPage;
 import javax.swing.JCheckBox;
 import javax.swing.ImageIcon;
@@ -40,6 +42,7 @@ public class ViewOffense extends ContentPage
 	
 	public ViewOffense() {
 		this.initialize();
+		this.initialiseListeners();
 	}
 	
 	
@@ -130,7 +133,13 @@ public class ViewOffense extends ContentPage
 				return columnEditables[column];
 			}
 		});
+		
+		DefaultTableCellRenderer IdRenderer = new DefaultTableCellRenderer();
+		IdRenderer.setHorizontalAlignment( JLabel.CENTER );
+		IdRenderer.setFont(new Font("Comic Sans MS",Font.BOLD,12));
+		
 		this.offenseTable.getColumnModel().getColumn(0).setPreferredWidth(110);
+		this.offenseTable.getColumnModel().getColumn(0).setCellRenderer(IdRenderer);
 		this.offenseTable.getColumnModel().getColumn(1).setPreferredWidth(225);
 	}
 	
@@ -253,7 +262,11 @@ public class ViewOffense extends ContentPage
 		this.pnlOffenseSearchStatus = pnlOffenseSearchStatus;
 	}
 
-
+	public void initialiseListeners()
+	{
+		this.btnRunView.addActionListener(new ViewOffenseController(this, "btnRunView"));
+		this.chbxViewAll.addItemListener(new ViewOffenseController(this, "chbxViewAll"));
+	}
 	public void startInit()
 	{
 		this.initialize();
