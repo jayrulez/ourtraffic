@@ -46,6 +46,11 @@ public class ViewUserController implements ActionListener, ItemListener, Documen
 			
 			defaultTableModel = (DefaultTableModel) this.viewUserPage.getOffenderTable().getModel();
 			
+			String userId = null;
+			String firstName = null;
+			String lastName = null;
+			Integer policeType = null;
+			Integer taxOfficerType = null;
 			
 			if(!this.viewUserPage.getChbxViewAll().isSelected())
 			{
@@ -76,7 +81,7 @@ public class ViewUserController implements ActionListener, ItemListener, Documen
 			try
 			{
 				SqlProvider sqlProvider = new SqlProvider();
-				Vector users = sqlProvider.getUsers();
+				Vector users = sqlProvider.getUsers(userId,firstName,lastName,policeType,taxOfficerType);
 					
 				if(users!=null)
 				{

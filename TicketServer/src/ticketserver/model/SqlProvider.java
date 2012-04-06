@@ -503,30 +503,36 @@ public class SqlProvider
 		this.dbConnect();
 		
 		
-		String queryString = " select `ticket`.id as ticketNumber, `ticket`.offenseDate, `ticket`.street as ticketStreet,`ticket`.city as ticketCity, `ticket`.parish as ticketParish,`ticket`.description as ticketDescription,`ticket`.fine as ticketFine,`ticket`.points as ticketPoints,`ticket`.paymentStatus, `offender`.trn as offenderTrn, `offender`.firstName as offenderFirstName,`offender`.lastName as offenderLastName,`offender`.middleInitial as offenderMiddleInitial,`offender`.DOB as offenderDob,`offender`.street as offenderStreet, `offender`.city as offenderCity,`offender`.parish as offenderParish,`offender`.licenseType as licenseType,`offender`.points as licensePoints,`offender`.expiryDate as licenseExpiryDate, `police`.badgeId,`police`.divisionId,`police`.firstName as policeFirstName,`police`.lastName as policeLastName,`police`.middleInitial as policeMiddleInitial, `offense`.id as offenseId,`offense`.name as offenseName from `ticket` inner join `offender` on `offender`.trn = `ticket`.offenderTrn inner join `police` on `police`.badgeId = `ticket`.policeId inner join `offense` on  `offense`.id = `ticket`.offenseId where 1=1";
-		
+		String queryString = " select * from ((select badgeId as userHandle,firstName,middleInitial,lastName,DOB,street,city,parish, `user`.accountType from police inner join `user` on `user`.handle = badgeId) union (select officerId as userHandle,firstName,middleInitial,lastName,DOB,street,city,parish,`user`.accountType from taxofficer inner join `user` on `user`.handle =officerId))as usersTable where (1=1";
 		if(firstName != null)
 		{
-			//queryString = queryString.concat(" and `firstName`.id = "+ticketNumber);
+			queryString = queryString.concat(" and firstName = "+firstName);
 		}
 		if(lastName != null)
 		{
-			//queryString = queryString.concat(" and `offender`.trn = "+offenderTrn);
+			queryString = queryString.concat(" and lastName = "+lastName);
 		}
 		if(userId != null)
 		{
-			//queryString = queryString.concat(" and `ticket`.paymentStatus = "+paymentStatus);
+			queryString = queryString.concat(" and userId = "+userId);
 		}
-		if(policeType != null)
+		queryString = queryString.concat(") and (1=1");
+		if(policeType != null && taxOfficerType != null)
 		{
-			//queryString = queryString.concat(" and `ticket`.paymentStatus = "+paymentStatus);
+			queryString = queryString.concat(" and accountType = "+User.POLICE+" or accountType = "+User.TAXOFFICER);
 		}
-		if(taxOfficerType != null)
+		else
 		{
-			//queryString = queryString.concat(" and `ticket`.paymentStatus = "+paymentStatus);
+			if(policeType != null)
+			{
+				queryString = queryString.concat(" and accountType = "+User.POLICE);
+			}
+			if(taxOfficerType != null)
+			{
+				queryString = queryString.concat(" and accountType = "+User.TAXOFFICER);
+			}
 		}
-		
-		queryString = queryString.concat(";");
+		queryString = queryString.concat(");");
 		
 		System.out.println("QUERY: "+queryString);
 		
@@ -537,9 +543,14 @@ public class SqlProvider
 		Vector users = new Vector();
 		while(this.resultSet.next())
 		{
-
-			users.add(new Police());
-			users.add(new TaxOfficer());
+			if(this.resultSet.getInt("accountType")==User.POLICE)
+			{
+				users.add(new Police());
+			}
+			else if(this.resultSet.getInt("accountType")==User.TAXOFFICER)
+			{
+				users.add(new TaxOfficer());
+			}
 		}
 		
 		this.dbDisconnect();
