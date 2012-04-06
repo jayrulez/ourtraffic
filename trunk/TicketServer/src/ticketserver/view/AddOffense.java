@@ -2,13 +2,11 @@ package ticketserver.view;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import javax.swing.BoxLayout;
 import com.jgoodies.forms.factories.FormFactory;
-import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
@@ -18,13 +16,13 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 
-public class AddOffense extends JPanel
+public class AddOffense extends ContentPage
 {
 	public AddOffense() {
 		initialize();
 	}
 	private void initialize() {
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		setLayout(new BorderLayout(0, 0));
 		
 		this.pnlAddOffenseFields = new JPanel();
 		add(this.pnlAddOffenseFields);
@@ -61,9 +59,13 @@ public class AddOffense extends JPanel
 		this.txtOffenseDescription.setRows(4);
 		this.txtOffenseDescription.setLineWrap(true);
 		this.scrollPane.setViewportView(this.txtOffenseDescription);
+		//new component
+		this.pnlAddOffenseControlContainer = new JPanel();
+		add(this.pnlAddOffenseControlContainer, BorderLayout.SOUTH);
+		this.pnlAddOffenseControlContainer.setLayout(new BoxLayout(this.pnlAddOffenseControlContainer, BoxLayout.X_AXIS));
 		
 		this.pnlAddOffenseControls = new JPanel();
-		add(this.pnlAddOffenseControls);
+		this.pnlAddOffenseControlContainer.add(this.pnlAddOffenseControls);
 		this.pnlAddOffenseControls.setLayout(new BoxLayout(this.pnlAddOffenseControls, BoxLayout.Y_AXIS));
 		
 		this.pnllAddOffenseButtons = new JPanel();
@@ -164,5 +166,11 @@ public class AddOffense extends JPanel
 	private JButton btnSaveOffense;
 	private JButton btnResetFields;
 	private JLabel lblAddOffenseStatus;
+	private JPanel pnlAddOffenseControlContainer;
+	@Override
+	public void startInit() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

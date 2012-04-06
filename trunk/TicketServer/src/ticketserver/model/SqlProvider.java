@@ -545,15 +545,33 @@ public class SqlProvider
 		{
 			if(this.resultSet.getInt("accountType")==User.POLICE)
 			{
-				users.add(new Police());
+				Police police = new Police();
+				
+				police.setBadgeNumber(this.resultSet.getString("userHandle"));
+				police.setFirstName(this.resultSet.getString("firstName"));
+				police.setLastName(this.resultSet.getString("lastName"));
+				police.setMiddleInitial(this.resultSet.getString("middleInitial"));
+				police.setAddress(new Address(this.resultSet.getString("street"),this.resultSet.getString("city"),this.resultSet.getString("parish")));
+				police.setDob(this.resultSet.getDate("DOB"));
+				police.setType(this.resultSet.getInt("accountType"));
+				users.add(police);
 			}
 			else if(this.resultSet.getInt("accountType")==User.TAXOFFICER)
 			{
-				users.add(new TaxOfficer());
+				TaxOfficer taxOfficer = new TaxOfficer();
+				
+				taxOfficer.setIdNumber(this.resultSet.getString("userHandle"));
+				taxOfficer.setFirstName(this.resultSet.getString("firstName"));
+				taxOfficer.setLastName(this.resultSet.getString("lastName"));
+				taxOfficer.setMiddleInitial(this.resultSet.getString("middleInitial"));
+				taxOfficer.setAddress(new Address(this.resultSet.getString("street"),this.resultSet.getString("city"),this.resultSet.getString("parish")));
+				taxOfficer.setDob(this.resultSet.getDate("DOB"));
+				taxOfficer.setType(this.resultSet.getInt("accountType"));
+				users.add(taxOfficer);
 			}
 		}
 		
 		this.dbDisconnect();
-		return null;
+		return users;
 	}
 }

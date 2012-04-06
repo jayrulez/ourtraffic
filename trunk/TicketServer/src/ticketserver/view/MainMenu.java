@@ -36,8 +36,9 @@ public class MainMenu extends JPanel {
 
 	private MainMenuController menuItemsHandler;
 
-	public MainMenu() {
-	
+	public MainMenu() 
+	{
+		this.initialize();
 	}
 
 	public void initialize() {
@@ -85,9 +86,9 @@ public class MainMenu extends JPanel {
 		this.btnAddUser.setIcon(new ImageIcon(MainMenu.class.getResource("/ticketserver/resources/addUserIcon_32x32.png")));
 		this.userMenuPanel.add(this.btnAddUser, "4, 2, left, center");
 		
-				this.btnViewUsers = new JButton("View Users");
-				this.btnViewUsers.setIcon(new ImageIcon(MainMenu.class.getResource("/ticketserver/resources/viewUserIcon_32x32.png")));
-				this.userMenuPanel.add(this.btnViewUsers, "4, 4, left, center");
+		this.btnViewUsers = new JButton("View Users");
+		this.btnViewUsers.setIcon(new ImageIcon(MainMenu.class.getResource("/ticketserver/resources/viewUserIcon_32x32.png")));
+		this.userMenuPanel.add(this.btnViewUsers, "4, 4, left, center");
 		this.add(this.offenseMenuPanel);
 		this.offenseMenuPanel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -110,7 +111,7 @@ public class MainMenu extends JPanel {
 		
 		this.btnViewOffenses = new JButton("View Offenses");
 		this.btnViewOffenses.setToolTipText("View Traffic Offenses");
-		this.btnViewOffenses.setIcon(new ImageIcon(MainMenu.class.getResource("/ticketserver/resources/viewOffensesIcon.jpg")));
+		this.btnViewOffenses.setIcon(new ImageIcon(MainMenu.class.getResource("/ticketserver/resources/viewOffensesIcon_32x32.png")));
 		
 		this.offenseMenuPanel.add(this.btnViewOffenses, "4, 4, left, center");
 		
@@ -138,7 +139,10 @@ public class MainMenu extends JPanel {
 
 		this.connectionMenuPanel.add(this.btnViewConnections,"4, 2, left, center");
 		
-		
+	}
+
+	public void initialiseLisenters() 
+	{
 		this.parentFrame = ((TicketServerFrame) this.getTopLevelAncestor());
 		System.out.println(this.parentFrame);
 		this.menuItemsHandler = new MainMenuController(this.parentFrame);
@@ -148,8 +152,5 @@ public class MainMenu extends JPanel {
 		this.btnAddOffense.addActionListener(this.menuItemsHandler);
 		this.btnViewOffenses.addActionListener(this.menuItemsHandler);
 		this.btnViewConnections.addActionListener(this.menuItemsHandler);
-		
 	}
-
-
 }
