@@ -84,6 +84,73 @@ public class AddOffense extends JPanel
 		this.pnlAddoffenseStatus.add(this.lblAddOffenseStatus);
 	}
 
+	public JPanel getPnlAddOffenseControls() {
+		return pnlAddOffenseControls;
+	}
+	public void setPnlAddOffenseControls(JPanel pnlAddOffenseControls) {
+		this.pnlAddOffenseControls = pnlAddOffenseControls;
+	}
+	public JPanel getPnlAddOffenseFields() {
+		return pnlAddOffenseFields;
+	}
+	public void setPnlAddOffenseFields(JPanel pnlAddOffenseFields) {
+		this.pnlAddOffenseFields = pnlAddOffenseFields;
+	}
+	public JPanel getPnllAddOffenseButtons() {
+		return pnllAddOffenseButtons;
+	}
+	public void setPnllAddOffenseButtons(JPanel pnllAddOffenseButtons) {
+		this.pnllAddOffenseButtons = pnllAddOffenseButtons;
+	}
+	public JPanel getPnlAddoffenseStatus() {
+		return pnlAddoffenseStatus;
+	}
+	public void setPnlAddoffenseStatus(JPanel pnlAddoffenseStatus) {
+		this.pnlAddoffenseStatus = pnlAddoffenseStatus;
+	}
+	public JLabel getLblOffenseName() {
+		return lblOffenseName;
+	}
+	public void setLblOffenseName(JLabel lblOffenseName) {
+		this.lblOffenseName = lblOffenseName;
+	}
+	public JLabel getLblDescription() {
+		return lblDescription;
+	}
+	public void setLblDescription(JLabel lblDescription) {
+		this.lblDescription = lblDescription;
+	}
+	public JTextField getTxtOffenseName() {
+		return txtOffenseName;
+	}
+	public void setTxtOffenseName(JTextField txtOffenseName) {
+		this.txtOffenseName = txtOffenseName;
+	}
+	public JTextArea getTxtOffenseDescription() {
+		return txtOffenseDescription;
+	}
+	public void setTxtOffenseDescription(JTextArea txtOffenseDescription) {
+		this.txtOffenseDescription = txtOffenseDescription;
+	}
+	public JButton getBtnSaveOffense() {
+		return btnSaveOffense;
+	}
+	public void setBtnSaveOffense(JButton btnSaveOffense) {
+		this.btnSaveOffense = btnSaveOffense;
+	}
+	public JButton getBtnResetFields() {
+		return btnResetFields;
+	}
+	public void setBtnResetFields(JButton btnResetFields) {
+		this.btnResetFields = btnResetFields;
+	}
+	public JLabel getLblAddOffenseStatus() {
+		return lblAddOffenseStatus;
+	}
+	public void setLblAddOffenseStatus(JLabel lblAddOffenseStatus) {
+		this.lblAddOffenseStatus = lblAddOffenseStatus;
+	}
+
 	private static final long serialVersionUID = 1L;
 	private JPanel pnlAddOffenseControls;
 	private JPanel pnlAddOffenseFields;

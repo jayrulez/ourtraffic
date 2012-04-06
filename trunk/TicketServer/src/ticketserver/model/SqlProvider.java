@@ -15,6 +15,7 @@ import extension.model.Division;
 import extension.model.Offender;
 import extension.model.Offense;
 import extension.model.Police;
+import extension.model.TaxOfficer;
 import extension.model.Ticket;
 import extension.model.User;
 
@@ -232,9 +233,27 @@ public class SqlProvider
 
 	}
 	
-	public void addOffense()
+	public int addOffense(String offenseName, String offenseDescription) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException
 	{
+		this.dbConnect();
 		
+		this.callableStatement = connection.prepareCall("call sp_addOffense(?,?,?)");
+		this.callableStatement.setString(1,offenseName);
+		this.callableStatement.setString(2,offenseDescription);
+		
+		this.callableStatement.registerOutParameter(3, java.sql.Types.INTEGER);	
+	
+		this.callableStatement.execute();	
+		
+		System.out.println("QUERY EXECUTED");
+		System.out.println(this.callableStatement.getInt("result"));
+		
+		int result = -10;
+		result = this.callableStatement.getInt("result");
+		
+		this.dbDisconnect();
+		
+		return result;		
 	}
 	
 	public Vector<Offense> getAllOffenses() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException
@@ -430,12 +449,11 @@ public class SqlProvider
 
 		this.resultSet = this.callableStatement.executeQuery();	
 		
-		Offender offender;
 		
 		Vector<Offender> offenders = new Vector<Offender>();
 		while(this.resultSet.next())
 		{
-			offender = new Offender(this.resultSet.getInt("offenderTrn"),this.resultSet.getString("offenderFirstName"),this.resultSet.getString("offenderLastName"),this.resultSet.getString("offenderMiddleInitial"),this.resultSet.getDate("offenderDob"),this.resultSet.getString("offenderStreet"),this.resultSet.getString("offenderCity"),this.resultSet.getString("offenderParish"),this.resultSet.getString("licenseType"),this.resultSet.getInt("licensePoints"),this.resultSet.getDate("licenseExpiryDate"));
+			offenders.add(new Offender(this.resultSet.getInt("offenderTrn"),this.resultSet.getString("offenderFirstName"),this.resultSet.getString("offenderLastName"),this.resultSet.getString("offenderMiddleInitial"),this.resultSet.getDate("offenderDob"),this.resultSet.getString("offenderStreet"),this.resultSet.getString("offenderCity"),this.resultSet.getString("offenderParish"),this.resultSet.getString("licenseType"),this.resultSet.getInt("licensePoints"),this.resultSet.getDate("licenseExpiryDate")));
 		}
 		
 		this.dbDisconnect();
@@ -468,17 +486,63 @@ public class SqlProvider
 
 		this.resultSet = this.callableStatement.executeQuery();	
 		
-		Offense offense;
-		
 		Vector<Offense> offenses = new Vector<Offense>();
 		while(this.resultSet.next())
 		{
-			offense = new Offense(this.resultSet.getInt("id"),this.resultSet.getString("name"),this.resultSet.getString("description"));
+			offenses.add(new Offense(this.resultSet.getInt("id"),this.resultSet.getString("name"),this.resultSet.getString("description")));	
 		}
 		
 		this.dbDisconnect();
 		System.out.println("Data Server Sends Data:"+offenses.size());
 		
 		return offenses;		
+	}
+
+	public Vector getUsers(String userId,String firstName, String lastName,Integer policeType,Integer taxOfficerType) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException 
+	{
+		this.dbConnect();
+		
+		
+		String queryString = " select `ticket`.id as ticketNumber, `ticket`.offenseDate, `ticket`.street as ticketStreet,`ticket`.city as ticketCity, `ticket`.parish as ticketParish,`ticket`.description as ticketDescription,`ticket`.fine as ticketFine,`ticket`.points as ticketPoints,`ticket`.paymentStatus, `offender`.trn as offenderTrn, `offender`.firstName as offenderFirstName,`offender`.lastName as offenderLastName,`offender`.middleInitial as offenderMiddleInitial,`offender`.DOB as offenderDob,`offender`.street as offenderStreet, `offender`.city as offenderCity,`offender`.parish as offenderParish,`offender`.licenseType as licenseType,`offender`.points as licensePoints,`offender`.expiryDate as licenseExpiryDate, `police`.badgeId,`police`.divisionId,`police`.firstName as policeFirstName,`police`.lastName as policeLastName,`police`.middleInitial as policeMiddleInitial, `offense`.id as offenseId,`offense`.name as offenseName from `ticket` inner join `offender` on `offender`.trn = `ticket`.offenderTrn inner join `police` on `police`.badgeId = `ticket`.policeId inner join `offense` on  `offense`.id = `ticket`.offenseId where 1=1";
+		
+		if(firstName != null)
+		{
+			//queryString = queryString.concat(" and `firstName`.id = "+ticketNumber);
+		}
+		if(lastName != null)
+		{
+			//queryString = queryString.concat(" and `offender`.trn = "+offenderTrn);
+		}
+		if(userId != null)
+		{
+			//queryString = queryString.concat(" and `ticket`.paymentStatus = "+paymentStatus);
+		}
+		if(policeType != null)
+		{
+			//queryString = queryString.concat(" and `ticket`.paymentStatus = "+paymentStatus);
+		}
+		if(taxOfficerType != null)
+		{
+			//queryString = queryString.concat(" and `ticket`.paymentStatus = "+paymentStatus);
+		}
+		
+		queryString = queryString.concat(";");
+		
+		System.out.println("QUERY: "+queryString);
+		
+		this.callableStatement = connection.prepareCall(queryString);
+
+		this.resultSet = this.callableStatement.executeQuery();	
+		
+		Vector users = new Vector();
+		while(this.resultSet.next())
+		{
+
+			users.add(new Police());
+			users.add(new TaxOfficer());
+		}
+		
+		this.dbDisconnect();
+		return null;
 	}
 }
