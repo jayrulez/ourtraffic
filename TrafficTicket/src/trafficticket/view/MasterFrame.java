@@ -11,8 +11,9 @@ import java.awt.Dimension;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 
+import trafficticket.controller.MasterFrameConnectionController;
 import trafficticket.controller.MiscController;
-import trafficticket.jcf.controller.MasterFrameConnectionController;
+
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.FormLayout;
@@ -20,11 +21,13 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
 import extension.model.User;
+import extension.view.ClosableTabbedPane;
+
 import java.awt.Color;
 
 public class MasterFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private JTabbedPane tabbedPane;
+	private ClosableTabbedPane tabbedPane;
 	private JPanel leftNavPanel;
 	private JSplitPane splitPane;
 	private JScrollPane menuScrollPane;
@@ -75,6 +78,7 @@ public class MasterFrame extends JFrame {
 		miscThread.start();
 	}
 	
+	
 	public void addTab(String title, JScrollPane scrollPane) 
 	{
 		if (!title.equals(""))
@@ -92,7 +96,7 @@ public class MasterFrame extends JFrame {
 		{
 			if (!this.tabExist(title)) 
 			{
-				this.tabbedPane.addTab(title.trim(), icon, scrollPane);
+				this.tabbedPane.addTab(title.trim()+"   ", icon, scrollPane);
 				int newTabIndex = this.getTabIndex(title);
 				if(newTabIndex > -1)
 				{
@@ -177,7 +181,7 @@ public class MasterFrame extends JFrame {
 		this.splitPane = new JSplitPane();
 		this.menuScrollPane = new JScrollPane();
 
-		this.tabbedPane = new JTabbedPane();
+		this.tabbedPane = new ClosableTabbedPane();
 
 		this.menuScrollPane.setMaximumSize(new Dimension(200, 500));
 

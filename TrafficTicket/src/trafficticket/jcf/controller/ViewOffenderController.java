@@ -121,7 +121,7 @@ public class ViewOffenderController implements ActionListener, ItemListener, Doc
 								
 								rowData.add(dateFormat.format(offenderRow.getDob()));
 								
-								rowData.add(dateFormat.format(offenderRow.getLicenseType()));
+								rowData.add(offenderRow.getLicenseType());
 								
 								rowData.add(dateFormat.format(offenderRow.getPoints()));
 								

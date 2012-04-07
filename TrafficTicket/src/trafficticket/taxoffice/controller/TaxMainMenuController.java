@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import trafficticket.jcf.view.ViewTicket;
 import trafficticket.taxoffice.view.TaxFrame;
 import trafficticket.taxoffice.view.TicketPayment;
+import trafficticket.taxoffice.view.ViewOffense;
 import trafficticket.view.ContentTab;
 
 public class TaxMainMenuController extends MouseAdapter implements ActionListener
@@ -38,6 +39,11 @@ public class TaxMainMenuController extends MouseAdapter implements ActionListene
 			System.out.println(arg0.getActionCommand());
 			this.parentFrame.addTab("Ticket Payment",new ImageIcon(TaxMainMenuController.class.getResource("/trafficticket/resources/ticketPaymentIcon_16x16.png")),new ContentTab(new TicketPayment()));
 
+		}
+		else if (actionCommand.equalsIgnoreCase("View Offenses")) 
+		{
+			System.out.println(arg0.getActionCommand());
+			this.parentFrame.addTab("View Offenses",new ImageIcon(TaxMainMenuController.class.getResource("/trafficticket/resources/viewOffensesIcon_16x16.png")),new ContentTab(new ViewOffense()));
 		}
 	}
 

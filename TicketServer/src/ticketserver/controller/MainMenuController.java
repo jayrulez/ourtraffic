@@ -63,7 +63,9 @@ public class MainMenuController extends MouseAdapter implements ActionListener
 
 			System.out.println(arg0.getActionCommand());
 			System.out.println(this.parentFrame);
-			 this.parentFrame.addTab("View Connections", new ImageIcon(MainMenuController.class.getResource("/ticketserver/resources/connectionIcon_16x16.png")), new ContentTab(new ViewConnection()));
+			ViewConnection viewConnection = new ViewConnection();
+			this.parentFrame.addTab("View Connections", new ImageIcon(MainMenuController.class.getResource("/ticketserver/resources/connectionIcon_16x16.png")), new ContentTab(viewConnection));
+			viewConnection.startInit();
 		}
 	}
 

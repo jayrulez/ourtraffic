@@ -1,8 +1,12 @@
 package ticketserver.controller;
 import java.net.*;
+import java.util.Iterator;
+import java.util.Vector;
 import java.io.*;
 
 import javax.swing.JOptionPane;
+
+import extension.model.User;
 
 import ticketserver.view.TicketServerFrame;
 
@@ -12,9 +16,13 @@ public class TicketServer implements Runnable
 	public final static int PORT = 26001;
 	private TicketServerFrame parentFrame;
 	
+	
+	
 	public TicketServer(TicketServerFrame parentFrame) 
 	{
 		this.parentFrame = parentFrame;
+	
+		
 	}
 	
 	public void initialize()
@@ -33,9 +41,11 @@ public class TicketServer implements Runnable
 				
 				//System.out.println("Client Connected");
 
-				Thread thread = new TSThreadHandler(socket);
-
-				thread.start();
+				TSThreadHandler clientHandler = new TSThreadHandler(socket);
+				clientHandler.setParentFrame(this.parentFrame);
+				
+				Thread clientHandlerThread = new Thread(clientHandler);
+				clientHandlerThread.start();
 
 				requestId++;
 			}
@@ -47,7 +57,8 @@ public class TicketServer implements Runnable
 			System.exit(-1);
 		}
 	}
-
+	
+	
 	@Override
 	public void run() 
 	{

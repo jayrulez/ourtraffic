@@ -14,6 +14,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 
+import trafficticket.jcf.controller.ViewOffenderController;
 import trafficticket.view.ContentPage;
 import javax.swing.JCheckBox;
 import javax.swing.ImageIcon;
@@ -39,6 +40,7 @@ public class ViewOffender extends ContentPage
 	private JTextField txtOffenderLastName;
 	public ViewOffender() {
 		this.initialize();
+		this.initialiseListeners();
 	}
 	private void initialize(){
 		
@@ -124,16 +126,16 @@ public class ViewOffender extends ContentPage
 			 * 
 			 */
 			private static final long serialVersionUID = 1L;
-			@SuppressWarnings("rawtypes")
+	
 			Class[] columnTypes = new Class[] {
-				Integer.class, String.class, String.class,String.class, String.class, String.class, String.class, String.class, Double.class, Integer.class
+				Integer.class, String.class, String.class,String.class, String.class, String.class, String.class,String.class ,String.class, Integer.class
 			};
-			@SuppressWarnings({ "unchecked", "rawtypes" })
+			
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 			boolean[] columnEditables = new boolean[] {
-				false, false,false,false, false, false, false, false, false, false
+				false, false,false,false, false, false,false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -234,5 +236,9 @@ public class ViewOffender extends ContentPage
 	{
 		this.initialize();
 	}
-	
+	public void initialiseListeners()
+	{
+		this.btnRunView.addActionListener(new ViewOffenderController(this, "btnRunView"));
+		this.chbxViewAll.addItemListener(new ViewOffenderController(this,"chbxViewAll"));
+	}
 }

@@ -1,21 +1,26 @@
 package ticketserver.controller;
 import java.net.*;
+import java.util.Vector;
 import java.io.*;
+
+import ticketserver.view.TicketServerFrame;
 
 import extension.model.ServiceRequest;
 import extension.model.ServiceResponse;
+import extension.model.User;
 
-class TSThreadHandler extends Thread
+class TSThreadHandler implements Runnable
 {
 	private Socket socket;
 	private ServiceRequestController requestController;
-
+	private TicketServerFrame parentFrame;
 	TSThreadHandler(Socket socket)
 	{
 		this.socket = socket;
 		this.requestController = new ServiceRequestController();
 	}
-
+	
+	
 	public void run()
 	{
 		try
@@ -24,7 +29,7 @@ class TSThreadHandler extends Thread
 			ObjectInputStream objectInputStream = new ObjectInputStream(this.socket.getInputStream());
 			
 			ServiceRequest serviceRequest = null;
-			ServiceResponse serviceResponse = null;
+			ServiceResponse serviceResponse = null; 
 			
 			while(true)
 			{
@@ -36,6 +41,13 @@ class TSThreadHandler extends Thread
 					//if a request is received
 					if(serviceRequest != null)
 					{
+						if(serviceRequest.getAction() == ServiceRequest.PING)
+						{
+
+							this.parentFrame.addUser(serviceRequest.getCurrentUser());
+							System.out.println("Current User : "+this.parentFrame.getCurrentClients());
+							
+						}
 						this.requestController.setServiceRequest(serviceRequest);
 						
 						//process service request and produce a service response
@@ -59,6 +71,7 @@ class TSThreadHandler extends Thread
 				}
 				catch(IOException ex)
 				{
+					
 					System.out.println("exception:"+ex);
 					break;
 				}
@@ -68,5 +81,15 @@ class TSThreadHandler extends Thread
 		{
 			System.out.println("Error " + e);
 		}
+	}
+
+
+	public TicketServerFrame getParentFrame() {
+		return parentFrame;
+	}
+
+
+	public void setParentFrame(TicketServerFrame parentFrame) {
+		this.parentFrame = parentFrame;
 	}
 }
