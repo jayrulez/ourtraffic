@@ -19,8 +19,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import trafficticket.controller.ConnectionController;
-import trafficticket.jcf.view.ViewOffender;
-import trafficticket.jcf.view.ViewOffense;
+import trafficticket.taxoffice.view.ViewOffense;
 import extension.model.Offender;
 import extension.model.Offense;
 import extension.model.ServiceRequest;

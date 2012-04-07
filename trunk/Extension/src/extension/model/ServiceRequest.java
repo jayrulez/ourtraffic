@@ -25,12 +25,14 @@ public class ServiceRequest implements Serializable
 	public static final int PAY_TICKET = 13;
 	public static final int GET_OFFENSES = 14;
 	
+	private User currentUser;
 	private Integer action;
 	private Vector data;
 	private String description;
 	
 	public ServiceRequest() 
 	{
+		this.setCurrentUser(null);
 		this.action = 0;
 		this.data = new Vector();
 		this.description = "";
@@ -80,5 +82,11 @@ public class ServiceRequest implements Serializable
 	public void setDescription(String description) 
 	{
 		this.description = description;
+	}
+	public User getCurrentUser() {
+		return currentUser;
+	}
+	public void setCurrentUser(User currentUser) {
+		this.currentUser = currentUser;
 	}
 }

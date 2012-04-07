@@ -11,14 +11,19 @@ import java.awt.Dimension;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 
+import ticketserver.controller.MasterFrameConnectionController;
+import ticketserver.controller.MiscController;
+
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
+import extension.view.ClosableTabbedPane;
+
 public class MasterFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private JTabbedPane tabbedPane;
+	private ClosableTabbedPane tabbedPane;
 	private JPanel leftNavPanel;
 	private JSplitPane splitPane;
 	private JScrollPane menuScrollPane;
@@ -27,11 +32,16 @@ public class MasterFrame extends JFrame {
 	private JLabel lblSystemConectionStatus;
 	private JLabel lblSystemDate;
 	private JLabel lblSystemConnectionStatusValue;
+	private JPanel pnlOperatorStatus;
+	private JPanel pnlConnectionStatus;
+	private JPanel pnlDateStatus;
+	private JLabel lblOperator;
+	private JLabel lblOperatorValue;
 
 	public MasterFrame() {
 		this.initialize();
 	}
-
+	
 	public MasterFrame(JPanel mainMenu, JSplitPane splitPane,
 			JScrollPane menuScrollPane) {
 		this.leftNavPanel = mainMenu;
@@ -60,6 +70,20 @@ public class MasterFrame extends JFrame {
 		this.leftNavPanel = content;
 	}
 
+	public void initClock()
+	{
+		Thread miscThread = new Thread(new MiscController(this, "clock"));
+		miscThread.start();
+	}
+	
+	
+	public void testConnection()
+	{
+		Thread connectionStatusThread = new Thread(new MasterFrameConnectionController(this));
+		connectionStatusThread.start();
+	}
+
+	
 	public void addTab(String title, JScrollPane scrollPane) 
 	{
 		if (!title.equals(""))
@@ -77,7 +101,8 @@ public class MasterFrame extends JFrame {
 		{
 			if (!this.tabExist(title)) 
 			{
-				this.tabbedPane.addTab(title.trim(), icon, scrollPane);
+				this.tabbedPane.addTab(title.trim()+"   ", icon, scrollPane);
+				
 				int newTabIndex = this.getTabIndex(title);
 				if(newTabIndex > -1)
 				{
@@ -127,16 +152,13 @@ public class MasterFrame extends JFrame {
 
 	public void initialize() {
 
-		this.setIconImage(new ImageIcon(
-				MasterFrame.class
-						.getResource("/ticketserver/resources/trafficLightRed_24x24.png"))
-				.getImage());
+		this.setIconImage(new ImageIcon(MasterFrame.class.getResource("/ticketserver/resources/trafficLightRed_24x24.png")).getImage());
 		this.splitPane = new JSplitPane();
 		this.leftNavPanel = new JPanel();
 		this.splitPane = new JSplitPane();
 		this.menuScrollPane = new JScrollPane();
 
-		this.tabbedPane = new JTabbedPane();
+		this.tabbedPane = new ClosableTabbedPane();
 
 		this.menuScrollPane.setMaximumSize(new Dimension(200, 500));
 
@@ -157,47 +179,30 @@ public class MasterFrame extends JFrame {
 
 		this.pnlStatusBar = new JPanel();
 		getContentPane().add(this.pnlStatusBar, BorderLayout.SOUTH);
-		this.pnlStatusBar.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(32dlu;default)"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("left:max(77dlu;default)"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(59dlu;default)"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("left:max(69dlu;default)"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(157dlu;default)"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,},
-			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,}));
-
-		this.lblSystemConectionStatus = new JLabel("Status:");
-		this.pnlStatusBar.add(this.lblSystemConectionStatus, "2, 2, right, default");
+		this.pnlStatusBar.setLayout(new BorderLayout(0, 0));
+		//new component
+		this.pnlConnectionStatus = new JPanel();
+		this.pnlStatusBar.add(this.pnlConnectionStatus, BorderLayout.WEST);
+		
+				this.lblSystemConectionStatus = new JLabel("Status:");
+				this.pnlConnectionStatus.add(this.lblSystemConectionStatus);
 		
 		this.lblSystemConnectionStatusValue = new JLabel("");
-		this.pnlStatusBar.add(this.lblSystemConnectionStatusValue, "4, 2, left, center");
-
-		this.lblSystemDate = new JLabel("Date");
-		this.pnlStatusBar.add(this.lblSystemDate, "10, 2, right, default");
+		this.pnlConnectionStatus.add(this.lblSystemConnectionStatusValue);
+		//new component
+		this.pnlOperatorStatus = new JPanel();
+		this.pnlStatusBar.add(this.pnlOperatorStatus, BorderLayout.CENTER);
+		//new component
+		this.lblOperator = new JLabel("Operator:");
+		this.pnlOperatorStatus.add(this.lblOperator);
+		//new component
+		this.lblOperatorValue = new JLabel("");
+		this.pnlOperatorStatus.add(this.lblOperatorValue);
+		//new component
+		this.pnlDateStatus = new JPanel();
+		this.pnlStatusBar.add(this.pnlDateStatus, BorderLayout.EAST);
+		
+				this.lblSystemDate = new JLabel("Date");
+				this.pnlDateStatus.add(this.lblSystemDate);
 	}
 }

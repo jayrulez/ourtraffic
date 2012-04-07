@@ -107,7 +107,7 @@ public class JCFMainMenu extends JPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(19dlu;default)"),}));
 		
-				this.btnViewOffender = new JButton("View Offender");
+				this.btnViewOffender = new JButton("View Offenders");
 				this.btnViewOffender.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 					}

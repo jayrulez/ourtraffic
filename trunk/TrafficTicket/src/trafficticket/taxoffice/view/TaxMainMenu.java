@@ -100,7 +100,7 @@ public class TaxMainMenu extends JPanel
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		this.btnOffenseType = new JButton("Offense Types");
+		this.btnOffenseType = new JButton("View Offenses");
 		this.btnOffenseType.setToolTipText("View Types of Offenses");
 		this.btnOffenseType.setIcon(new ImageIcon(TaxMainMenu.class.getResource("/trafficticket/resources/viewOffensesIcon.jpg")));
 		this.offenseMenuPanel.add(this.btnOffenseType, "4, 4");
