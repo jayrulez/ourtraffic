@@ -1,5 +1,6 @@
 package ticketserver.view;
 
+import java.awt.BorderLayout;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -10,6 +11,8 @@ public class TicketServerFrame extends MasterFrame implements Runnable {
 	private static final long serialVersionUID = 1L;
 	private MenuBar mainMenuBar;
 	private MainMenu mainNavMenu;
+	private ToolBar mainToolBar;
+	
 	private Vector<User> currentClients;
 
 	public TicketServerFrame() {
@@ -24,6 +27,9 @@ public class TicketServerFrame extends MasterFrame implements Runnable {
 		this.setJMenuBar(this.mainMenuBar);
 		this.mainMenuBar.initialize();
 
+		this.mainToolBar = new ToolBar();
+		this.add(mainToolBar,BorderLayout.NORTH);
+		
 		this.mainNavMenu = new MainMenu();
 		this.addLeftNavPanelContent(this.mainNavMenu);
 		this.mainNavMenu.initialiseLisenters();
@@ -92,4 +98,10 @@ public class TicketServerFrame extends MasterFrame implements Runnable {
 	public void setCurrentClients(Vector<User> currentClients) {
 		this.currentClients = currentClients;
 	}
+	
+	public ToolBar getMainToolBar()
+	{
+		return this.mainToolBar;
+	}
+	
 }

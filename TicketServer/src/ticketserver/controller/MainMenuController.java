@@ -42,7 +42,11 @@ public class MainMenuController extends MouseAdapter implements ActionListener
 
 			System.out.println(arg0.getActionCommand());
 			System.out.println(this.parentFrame);
-			 this.parentFrame.addTab("View Users", new ImageIcon(MainMenuController.class.getResource("/ticketserver/resources/viewUserIcon_16x16.png")), new ContentTab(new ViewUser()));
+			
+			
+			ViewUser viewUser = new ViewUser();
+			 this.parentFrame.addTab("View Users", new ImageIcon(MainMenuController.class.getResource("/ticketserver/resources/viewUserIcon_16x16.png")), new ContentTab(viewUser));
+			 viewUser.initialiseListener();
 		}
 		else if(actionCommand.equalsIgnoreCase("Add Offense")) 
 		{
