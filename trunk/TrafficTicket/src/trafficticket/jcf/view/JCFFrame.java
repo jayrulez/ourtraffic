@@ -1,6 +1,11 @@
 package trafficticket.jcf.view;
 
 
+import javax.swing.ImageIcon;
+
+import extension.view.ImagePanel;
+import trafficticket.view.ContentPage;
+import trafficticket.view.ContentTab;
 import trafficticket.view.MasterFrame;
 
 public class JCFFrame extends MasterFrame implements Runnable {
@@ -34,5 +39,9 @@ public class JCFFrame extends MasterFrame implements Runnable {
 	{
 		this.testConnection();	
 		this.initClock();
+		
+		Start startPage = new Start();
+		this.addTab("Start",new ImageIcon(ImagePanel.class.getResource("/trafficticket/resources/startIcon.png")) , new ContentTab(startPage));
+		startPage.startInit();		
 	}
 }

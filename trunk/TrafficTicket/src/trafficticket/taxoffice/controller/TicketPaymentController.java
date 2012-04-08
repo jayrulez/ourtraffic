@@ -57,6 +57,8 @@ public class TicketPaymentController implements ActionListener, DocumentListener
 			{
 				connectionController.submitRequest();
 				
+				this.resetIssueTicket();
+				
 				if(connectionController.isDialogSuccess())	
 				{
 					this.ticketPaymentPage.getLblTicketSearchStatus().setText("");
@@ -66,6 +68,12 @@ public class TicketPaymentController implements ActionListener, DocumentListener
 						Ticket foundTicket = (Ticket) connectionController.getSuccessServiceResponse().getData().firstElement();
 						if(foundTicket != null)	
 						{
+							this.ticketPaymentPage.getPnlOffenderSummary().setVisible(true);
+							this.ticketPaymentPage.getPnlOffensePlaceSummary().setVisible(true);
+							this.ticketPaymentPage.getPnlPoliceSummary().setVisible(true);
+							this.ticketPaymentPage.getPnlTicketDetails().setVisible(true);
+							this.ticketPaymentPage.getPnlButtonPanel().setVisible(true);
+							
 							//ticket summary
 							this.ticketPaymentPage.getTxtTicketNumber().setText(String.valueOf(foundTicket.getTicketNumber()));
 							this.ticketPaymentPage.getTxtOffenseCode().setText(String.valueOf(foundTicket.getOffense().getOffenseCode()));
@@ -121,6 +129,7 @@ public class TicketPaymentController implements ActionListener, DocumentListener
 						this.ticketPaymentPage.getLblTicketSearchStatus().setForeground(Color.RED);
 						this.ticketPaymentPage.getLblTicketSearchStatus().setText("Ticket was not found. Try searching again.");
 					}
+					
 				}
 			} 
 			catch (NumberFormatException e1) 
@@ -193,6 +202,7 @@ public class TicketPaymentController implements ActionListener, DocumentListener
 							break;
 							case 1:
 								JOptionPane.showMessageDialog(this.ticketPaymentPage, "The ticket was paid successfully.","Tax Ticket: payment success",JOptionPane.PLAIN_MESSAGE,new ImageIcon(TicketPaymentController.class.getResource("/trafficticket/resources/paidIcon_32x32.png")));
+								this.resetIssueTicket();
 							break;
 							case -1:
 							break;
@@ -239,12 +249,42 @@ public class TicketPaymentController implements ActionListener, DocumentListener
 				JOptionPane.showMessageDialog(this.ticketPaymentPage, "An unexpected error occured. The Ticket could not be paid.[0x1a","Tax Ticket: payment failed",JOptionPane.ERROR_MESSAGE);
 			}
 		}
-	
+		else  if(e.getSource()==this.ticketPaymentPage.getBtnReset())
+		{
+			this.resetIssueTicket();
+		}
 	}
 	
 	public void resetIssueTicket()
 	{
+		this.ticketPaymentPage.getPnlOffenderSummary().setVisible(false);
+		this.ticketPaymentPage.getPnlOffensePlaceSummary().setVisible(false);
+		this.ticketPaymentPage.getPnlPoliceSummary().setVisible(false);
+		this.ticketPaymentPage.getPnlTicketDetails().setVisible(false);
+		this.ticketPaymentPage.getPnlButtonPanel().setVisible(false);
 		
+		this.ticketPaymentPage.getTxtBadgeNumber().setText("");
+		this.ticketPaymentPage.getTxtDivision().setText("");
+		this.ticketPaymentPage.getTxtFine().setText("");
+		this.ticketPaymentPage.getTxtOffenderFirstName().setText("");
+		this.ticketPaymentPage.getTxtOffenderLastName().setText("");
+		this.ticketPaymentPage.getTxtOffenderMiddleInitial().setText("");
+		this.ticketPaymentPage.getTxtOffenderLicensePoints().setText("");
+		this.ticketPaymentPage.getTxtOffenderTrn().setText("");
+		this.ticketPaymentPage.getTxtOffenseCode().setText("");
+		this.ticketPaymentPage.getTxtOffenseDate().setText("");
+		this.ticketPaymentPage.getTxtOffenseName().setText("");
+		
+		this.ticketPaymentPage.getTxtPoliceFirstName().setText("");
+		this.ticketPaymentPage.getTxtPoliceLastName().setText("");
+		this.ticketPaymentPage.getTxtSearchTicketNumber().setText("");
+		
+		this.ticketPaymentPage.getTxtTicketAddress1().setText("");
+		this.ticketPaymentPage.getTxtTicketAddress2().setText("");
+		this.ticketPaymentPage.getTxtTicketDescription().setText("");
+		this.ticketPaymentPage.getTxtTicketNumber().setText("");
+		this.ticketPaymentPage.getTxtTicketParish().setText("");
+		this.ticketPaymentPage.getTxtTicketPoints().setText("");
 	}
 	
 

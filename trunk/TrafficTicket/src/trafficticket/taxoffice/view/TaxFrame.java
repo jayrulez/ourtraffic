@@ -1,6 +1,11 @@
 package trafficticket.taxoffice.view;
 
 
+import javax.swing.ImageIcon;
+
+import extension.view.ImagePanel;
+import trafficticket.jcf.view.Start;
+import trafficticket.view.ContentTab;
 import trafficticket.view.MasterFrame;
 
 public class TaxFrame extends MasterFrame implements Runnable {
@@ -37,6 +42,10 @@ public class TaxFrame extends MasterFrame implements Runnable {
 	{
 		this.testConnection();	
 		this.initClock();
+		
+		Start startPage = new Start();
+		this.addTab("Start",new ImageIcon(ImagePanel.class.getResource("/trafficticket/resources/startIcon.png")) , new ContentTab(startPage));
+		startPage.startInit();		
 	}
 
 }

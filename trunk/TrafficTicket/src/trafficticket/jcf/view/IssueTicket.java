@@ -126,7 +126,8 @@ public class IssueTicket extends ContentPage {
 	private JTextArea txtExistingAddress1;
 	private JTextArea txtExistingAddress2;
 
-	public IssueTicket() {
+	public IssueTicket() 
+	{
 		this.initialize();
 	}
 

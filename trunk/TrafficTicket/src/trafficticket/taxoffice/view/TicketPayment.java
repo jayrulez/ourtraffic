@@ -392,6 +392,12 @@ public class TicketPayment extends ContentPage
 		//new component
 		this.btnReset = new JButton("Reset ");
 		this.pnlButtonPanel.add(this.btnReset);
+		
+		this.pnlOffenderSummary.setVisible(false);
+		this.pnlOffensePlaceSummary.setVisible(false);
+		this.pnlPoliceSummary.setVisible(false);
+		this.pnlTicketDetails.setVisible(false);
+		this.pnlButtonPanel.setVisible(false);
 	}
 	
 	public JTextField getTxtOffenseName() 
@@ -814,6 +820,7 @@ public class TicketPayment extends ContentPage
 	{
 		this.btnSearchTicket.addActionListener(new TicketPaymentController(this, "btnSearchTicket"));
 		this.btnPayTicket.addActionListener(new TicketPaymentController(this, "btnPayTicket"));
+		this.btnReset.addActionListener(new TicketPaymentController(this, "btnReset"));
 	}
 	
 	@Override

@@ -92,16 +92,12 @@ public class MasterFrame extends JFrame {
 
 	public void addTab(String title, ImageIcon icon, JScrollPane scrollPane)   
 	{
-		if (!title.equals("")) 
+		if (!title.trim().equals("")) 
 		{
-			if (!this.tabExist(title)) 
+			if (!this.tabExist(title.trim())) 
 			{
 				this.tabbedPane.addTab(title.trim()+"   ", icon, scrollPane);
-				int newTabIndex = this.getTabIndex(title);
-				if(newTabIndex > -1)
-				{
-					this.tabbedPane.setSelectedIndex(newTabIndex);
-				}
+				this.tabExist(title.trim());
 			}
 		}
 	}
@@ -115,7 +111,7 @@ public class MasterFrame extends JFrame {
 			for (int tabIndex = 0; tabIndex < tabCount; tabIndex++) 
 			{
 				title = title.trim();
-				if (title.compareToIgnoreCase(this.tabbedPane.getTitleAt(tabIndex)) == 0) 
+				if (title.compareToIgnoreCase(this.tabbedPane.getTabTitleAt(tabIndex)) == 0) 
 				{
 					this.tabbedPane.setSelectedIndex(tabIndex);
 					return true;
@@ -143,6 +139,7 @@ public class MasterFrame extends JFrame {
 		}
 		return -1;
 	}
+
 
 	
 	public JPanel getPnlStatusBar() 

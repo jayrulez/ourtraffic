@@ -94,20 +94,14 @@ public class MasterFrame extends JFrame {
 			}
 		}
 	}
-
 	public void addTab(String title, ImageIcon icon, JScrollPane scrollPane)   
 	{
-		if (!title.equals("")) 
+		if (!title.trim().equals("")) 
 		{
-			if (!this.tabExist(title)) 
+			if (!this.tabExist(title.trim())) 
 			{
-				this.tabbedPane.addTab(title.trim()+"   ", icon, scrollPane);
-				
-				int newTabIndex = this.getTabIndex(title);
-				if(newTabIndex > -1)
-				{
-					this.tabbedPane.setSelectedIndex(newTabIndex);
-				}
+				this.tabbedPane.addTab(title.trim(), icon, scrollPane);
+				this.tabExist(title.trim());
 			}
 		}
 	}
@@ -121,7 +115,7 @@ public class MasterFrame extends JFrame {
 			for (int tabIndex = 0; tabIndex < tabCount; tabIndex++) 
 			{
 				title = title.trim();
-				if (title.compareToIgnoreCase(this.tabbedPane.getTitleAt(tabIndex)) == 0) 
+				if (title.compareToIgnoreCase(this.tabbedPane.getTabTitleAt(tabIndex)) == 0) 
 				{
 					this.tabbedPane.setSelectedIndex(tabIndex);
 					return true;
@@ -150,7 +144,8 @@ public class MasterFrame extends JFrame {
 		return -1;
 	}
 
-	public void initialize() {
+	public void initialize() 
+	{
 
 		this.setIconImage(new ImageIcon(MasterFrame.class.getResource("/ticketserver/resources/trafficLightRed_24x24.png")).getImage());
 		this.splitPane = new JSplitPane();
@@ -202,7 +197,7 @@ public class MasterFrame extends JFrame {
 		this.pnlDateStatus = new JPanel();
 		this.pnlStatusBar.add(this.pnlDateStatus, BorderLayout.EAST);
 		
-				this.lblSystemDate = new JLabel("Date");
-				this.pnlDateStatus.add(this.lblSystemDate);
+		this.lblSystemDate = new JLabel("Date");
+		this.pnlDateStatus.add(this.lblSystemDate);
 	}
 }

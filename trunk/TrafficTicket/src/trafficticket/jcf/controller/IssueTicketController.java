@@ -222,7 +222,7 @@ public class IssueTicketController implements ActionListener, ItemListener, Docu
 						if(!this.issueTicketPage.getExistingOffenderPanel().isVisible())
 						{
 							JOptionPane.showMessageDialog(this.issueTicketPage, "Ticket was issued to: " + this.issueTicketPage.getTxtFirstName().getText().trim() + " " + this.issueTicketPage.getTxtLastName().getText().trim(),"Issue Ticket: success",JOptionPane.DEFAULT_OPTION,new ImageIcon(IssueTicketController.class.getResource("/trafficticket/resources/successIcon_32x32.png")));
-					
+							this.resetIssueTicket();
 						}
 						else
 						{
@@ -279,7 +279,42 @@ public class IssueTicketController implements ActionListener, ItemListener, Docu
 	
 	public void resetIssueTicket()
 	{
+		this.issueTicketPage.getTxtAddress1().setText("");
+		this.issueTicketPage.getTxtAddress2().setText("");
+		this.issueTicketPage.getCmbxOffenderParish().setSelectedIndex(0);
+		this.issueTicketPage.getTxtFirstName().setText("");
+		this.issueTicketPage.getTxtLastName().setText("");
+		this.issueTicketPage.getTxtMiddleInitial().setText("");
+		this.issueTicketPage.getTxtPoints().setText("");
+		this.issueTicketPage.getTxtSearchOffenderTrn().setText("");
+		this.issueTicketPage.getCmbxLicenseType().setSelectedIndex(0);
+		this.issueTicketPage.getExpiryDateChooser().setDate(null);
+		this.issueTicketPage.getOffenderDobChooser().setDate(null);
 		
+		if(this.issueTicketPage.getExistingOffenderPanel().isVisible())
+		{
+			this.issueTicketPage.getExistingOffenderPanel().setVisible(false);
+		}
+		this.issueTicketPage.getTxtExistingAddress1().setText("");
+		this.issueTicketPage.getTxtExistingAddress2().setText("");
+		this.issueTicketPage.getLblExistingDobValue().setText("");
+		this.issueTicketPage.getLblExistingExpiryDateValue().setText("");
+		this.issueTicketPage.getLblExistingFirstNameValue().setText("");
+		this.issueTicketPage.getLblExistingLastNameValue().setText("");
+		this.issueTicketPage.getLblExistingMiddleInitialValue().setText("");
+		this.issueTicketPage.getLblExistingLicenseTypeValue().setText("");
+		this.issueTicketPage.getLblExistingOffenderTrnValue().setText("");
+		this.issueTicketPage.getLblExistingPointsValue().setText("");
+		this.issueTicketPage.getLblExistingParishValue().setText("");
+		
+		this.issueTicketPage.getTxtTicketPoints().setText("");
+		this.issueTicketPage.getTxtTicketFine().setText("");
+		this.issueTicketPage.getTxtTicketDescription().setText("");
+		this.issueTicketPage.getTxtTicketAddress1().setText("");
+		this.issueTicketPage.getTxtTicketAddress2().setText("");
+		this.issueTicketPage.getOffenseDateChooser().setDate(null);
+		this.issueTicketPage.getCmbxOffense().setSelectedIndex(0);
+		this.issueTicketPage.getCmbxTicketParish().setSelectedIndex(0);	
 	}
 	
 	@Override

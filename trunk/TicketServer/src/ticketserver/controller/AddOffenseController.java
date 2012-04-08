@@ -41,6 +41,7 @@ public class AddOffenseController implements ActionListener
 				else if(result > 0)
 				{
 					JOptionPane.showMessageDialog(this.addOffensePage, "<html>The Offense was added.<br/><table><tr><td><strong>Offense ID:</strong></td><td>"+result+"</td></tr> <tr><td><strong>Name:</strong></td><td>"+this.addOffensePage.getTxtOffenseName().getText().trim()+"</td></tr> <tr><td><strong>Description:</strong></td><td>"+this.addOffensePage.getTxtOffenseDescription().getText().trim()+"</td></tr></table></html>","Add Offense: success",JOptionPane.DEFAULT_OPTION,new ImageIcon(AddOffenseController.class.getResource("/ticketserver/resources/addOffenseIcon.png")));
+					this.resetFields();
 				}
 				else if(result == -1)
 				{
@@ -75,8 +76,13 @@ public class AddOffenseController implements ActionListener
 		}
 		else if(this.eventSource.equalsIgnoreCase("btnResetFields"))
 		{
-
+			this.resetFields();
 		}
+	}
+	public void resetFields()
+	{
+		this.addOffensePage.getTxtOffenseDescription().setText("");
+		this.addOffensePage.getTxtOffenseName().setText("");
 	}
 	
 }

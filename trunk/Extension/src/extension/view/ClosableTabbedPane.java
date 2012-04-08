@@ -24,11 +24,11 @@ public class ClosableTabbedPane extends JTabbedPane
 	}
 	
 	public void addTab(String title, Component component) {
-		super.addTab(title+"  ", component);
+		super.addTab(title, component);
 	}
 	@Override
 	public void addTab(String title, Icon icon, Component component) {
-		super.addTab(title+"  ",icon, component);
+		super.addTab(title+"     ",icon, component);
 	}
 	public String getTabTitleAt(int index) {
 		return super.getTitleAt(index).trim();

@@ -14,6 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import com.toedter.calendar.JDateChooser;
+
+import extension.utility.PrintUtilities;
+
 import javax.swing.JTextField;
 
 import ticketserver.controller.AddUserController;
@@ -209,12 +212,6 @@ public class AddUser extends ContentPage
 		//new component
 		this.btnResetFields = new JButton("Reset Fields");
 		this.pnlControlButton.add(this.btnResetFields, "6, 2, left, center");
-		
-		this.cmbxUserTye.addActionListener(new AddUserController(this,"cmbxUserType"));
-		
-		this.btnSaveUser.addActionListener(new AddUserController(this,"btnSaveUser"));
-		
-		this.btnResetFields.addActionListener(new AddUserController(this,"btnResetFields"));
 	}
 	
 	public JPanel getPnlControlButton() 
@@ -325,6 +322,19 @@ public class AddUser extends ContentPage
 	public void startInit() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void initialiseListensers()
+	{
+		TicketServerFrame parentFrame =(TicketServerFrame)this.getTopLevelAncestor();
+		if(parentFrame!=null)
+		{
+			parentFrame.getMainToolBar().setPrinterUtility(new PrintUtilities(this));
+			System.out.println("Here:"+parentFrame.getMainToolBar().getPrinterUtility());
+		}
+		this.cmbxUserTye.addActionListener(new AddUserController(this,"cmbxUserType"));
+		this.btnSaveUser.addActionListener(new AddUserController(this,"btnSaveUser"));
+		this.btnResetFields.addActionListener(new AddUserController(this,"btnResetFields"));
 	}
 	
 }

@@ -8,6 +8,9 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
+
+import extension.utility.PrintUtilities;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -42,7 +45,6 @@ public class ViewOffense extends ContentPage
 	
 	public ViewOffense() {
 		this.initialize();
-		this.initialiseListeners();
 	}
 	
 	
@@ -264,6 +266,12 @@ public class ViewOffense extends ContentPage
 
 	public void initialiseListeners()
 	{
+		TicketServerFrame parentFrame =(TicketServerFrame)this.getTopLevelAncestor();
+		if(parentFrame!=null)
+		{
+			parentFrame.getMainToolBar().setPrinterUtility(new PrintUtilities(this));
+			System.out.println("Here:"+parentFrame.getMainToolBar().getPrinterUtility());
+		}
 		this.btnRunView.addActionListener(new ViewOffenseController(this, "btnRunView"));
 		this.chbxViewAll.addItemListener(new ViewOffenseController(this, "chbxViewAll"));
 	}
