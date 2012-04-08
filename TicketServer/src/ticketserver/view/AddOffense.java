@@ -9,6 +9,9 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import javax.swing.BoxLayout;
 import com.jgoodies.forms.factories.FormFactory;
+
+import extension.utility.PrintUtilities;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
@@ -24,9 +27,9 @@ import ticketserver.controller.AddOffenseController;
 
 public class AddOffense extends ContentPage
 {
-	public AddOffense() {
+	public AddOffense()
+	{
 		initialize();
-		this.initialiseListener();
 	}
 	private void initialize() {
 		setLayout(new BorderLayout(0, 0));
@@ -192,6 +195,12 @@ public class AddOffense extends ContentPage
 	
 	public void initialiseListener()
 	{
+		TicketServerFrame parentFrame =(TicketServerFrame)this.getTopLevelAncestor();
+		if(parentFrame!=null)
+		{
+			parentFrame.getMainToolBar().setPrinterUtility(new PrintUtilities(this));
+			System.out.println("Here:"+parentFrame.getMainToolBar().getPrinterUtility());
+		}
 		this.btnSaveOffense.addActionListener(new AddOffenseController(this, "btnSaveOffense"));
 		this.btnResetFields.addActionListener(new AddOffenseController(this, "btnResetFields"));
 	}

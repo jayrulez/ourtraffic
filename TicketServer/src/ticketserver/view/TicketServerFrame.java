@@ -4,7 +4,11 @@ import java.awt.BorderLayout;
 import java.util.Iterator;
 import java.util.Vector;
 
+import javax.swing.ImageIcon;
+import javax.swing.JScrollPane;
+
 import extension.model.User;
+import extension.view.ImagePanel;
 
 
 public class TicketServerFrame extends MasterFrame implements Runnable {
@@ -42,6 +46,10 @@ public class TicketServerFrame extends MasterFrame implements Runnable {
 			this.initGui();
 			this.testConnection();
 			this.initClock();
+			
+			Start startPage = new Start();
+			this.addTab("Start",new ImageIcon(ImagePanel.class.getResource("/ticketserver/resources/startIcon.png")) , new ContentTab(startPage));
+			startPage.startInit();
 	}
 
 	

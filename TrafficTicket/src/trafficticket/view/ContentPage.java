@@ -1,7 +1,9 @@
 package trafficticket.view;
 import javax.swing.JPanel;
 
-public abstract class ContentPage extends JPanel
+import extension.view.ImagePanel;
+
+public abstract class ContentPage extends ImagePanel
 {
 	private static final long serialVersionUID = 1L;
 	public ContentPage() 

@@ -140,23 +140,26 @@ public class AddUserController implements ActionListener
 		}
 		else if(this.eventSource.equalsIgnoreCase("btnResetFields"))
 		{
-			if(this.addUserPage.getCmbxUserTye().getSelectedIndex()==2)
-			{
-				this.addUserPage.getTxtBadgeNo().setText("");
-				this.addUserPage.getTxtDivisionId().setText("");
-			}
-			else if(this.addUserPage.getCmbxUserTye().getSelectedIndex()==3)
-			{
-				this.addUserPage.getTxtTaxOfficerId().setText("");
-			}
-			this.addUserPage.getTxtAddress1().setText("");
-			this.addUserPage.getTxtAddress2().setText("");
-			this.addUserPage.getCmbxParish().setSelectedIndex(0);
-			this.addUserPage.getTxtFirstName().setText("");
-			this.addUserPage.getTxtLastName().setText("");
-			this.addUserPage.getTxtMiddleInitial().setText("");
-			this.addUserPage.getDateDob().setDate(null);
+			this.resetFields();
 		}
 	}
-	
+	public void resetFields()
+	{
+		if(this.addUserPage.getCmbxUserTye().getSelectedIndex()==2)
+		{
+			this.addUserPage.getTxtBadgeNo().setText("");
+			this.addUserPage.getTxtDivisionId().setText("");
+		}
+		else if(this.addUserPage.getCmbxUserTye().getSelectedIndex()==3)
+		{
+			this.addUserPage.getTxtTaxOfficerId().setText("");
+		}
+		this.addUserPage.getTxtAddress1().setText("");
+		this.addUserPage.getTxtAddress2().setText("");
+		this.addUserPage.getTxtFirstName().setText("");
+		this.addUserPage.getTxtLastName().setText("");
+		this.addUserPage.getTxtMiddleInitial().setText("");
+		this.addUserPage.getCmbxParish().setSelectedIndex(0);
+		this.addUserPage.getDateDob().setDate(null);
+	}
 }

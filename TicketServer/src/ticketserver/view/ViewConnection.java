@@ -22,6 +22,9 @@ import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
+
+import extension.utility.PrintUtilities;
+
 import javax.swing.BoxLayout;
 import javax.swing.SwingConstants;
 
@@ -319,6 +322,12 @@ public class ViewConnection extends ContentPage
 	
 	public void initialiseListener()
 	{
+		TicketServerFrame parentFrame =(TicketServerFrame)this.getTopLevelAncestor();
+		if(parentFrame!=null)
+		{
+			parentFrame.getMainToolBar().setPrinterUtility(new PrintUtilities(this));
+			System.out.println("Here:"+parentFrame.getMainToolBar().getPrinterUtility());
+		}
 		this.btnRunView.addActionListener(this.viewConnectionController);
 		this.chbxViewAll.addItemListener(this.viewConnectionController);
 	}
