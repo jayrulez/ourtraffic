@@ -1,7 +1,6 @@
 package trafficticket.jcf.view;
 
 import java.awt.Color;
-import java.util.Date;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -14,23 +13,22 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
-import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
+
+import extension.utility.PrintUtilities;
 
 import javax.swing.SwingConstants;
 import javax.swing.BoxLayout;
-import javax.swing.JToggleButton;
 import javax.swing.JButton;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import trafficticket.jcf.controller.IssueTicketConnectionController;
 import trafficticket.jcf.controller.IssueTicketController;
-import trafficticket.view.ContentPage;
 import javax.swing.ScrollPaneConstants;
 import java.awt.FlowLayout;
 
-public class IssueTicket extends ContentPage {
+public class IssueTicket extends JPanel {
 
 	/**
 	 * 
@@ -194,7 +192,7 @@ public class IssueTicket extends ContentPage {
 		this.licenseTypes = new String[]{"Select a type","General","Private"};
 		cmbxLicenseType = new JComboBox(this.licenseTypes);
 		
-		lblOffenderTrn = new JLabel("Offender TRN:");
+		setLblOffenderTrn(new JLabel("Offender TRN:"));
 		this.lblTrn = new JLabel("TRN:");
 		this.offenderPanel.add(this.lblTrn, "2, 2, right, default");
 
@@ -614,13 +612,16 @@ public class IssueTicket extends ContentPage {
 		this.buttonPanel.add(this.btnResetIssueTicket, "4, 2, fill, default");
 		
 		this.add(this.buttonPanel);
-		
-		this.initializeListeners();
-		this.initializeWorkers();
 	}
 
 	public void initializeListeners()
 	{
+		JCFFrame parentFrame =(JCFFrame)this.getTopLevelAncestor();
+		if(parentFrame!=null)
+		{
+			parentFrame.getMainToolBar().setPrinterUtility(new PrintUtilities(this));
+		}
+		
 		this.chbxNewOffender.addItemListener(new IssueTicketController(this, "chbxNewOffender"));
 		this.btnSearchOffender.addActionListener(new IssueTicketController(this, "btnSearchOffender"));
 		this.btnIssueTicket.addActionListener(new IssueTicketController(this, "btnIssueTicket"));
@@ -636,9 +637,6 @@ public class IssueTicket extends ContentPage {
 		
 	}
 	
-	public void startInit() {
-		this.initialize();
-	}
 	
 	public JPanel getOffenderPanel() {
 		return offenderPanel;
@@ -764,5 +762,13 @@ public class IssueTicket extends ContentPage {
 	}
 	public JDateChooser getOffenderDobChooser() {
 		return offenderDobChooser;
+	}
+
+	public JLabel getLblOffenderTrn() {
+		return lblOffenderTrn;
+	}
+
+	public void setLblOffenderTrn(JLabel lblOffenderTrn) {
+		this.lblOffenderTrn = lblOffenderTrn;
 	}
 }

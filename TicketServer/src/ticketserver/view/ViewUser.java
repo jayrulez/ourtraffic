@@ -1,7 +1,6 @@
 package ticketserver.view;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.ImageIcon;
@@ -23,13 +22,11 @@ import com.jgoodies.forms.layout.RowSpec;
 import extension.utility.PrintUtilities;
 
 import javax.swing.BoxLayout;
-import javax.swing.SwingConstants;
-
 import ticketserver.controller.ViewUserController;
 
 import java.awt.FlowLayout;
 
-public class ViewUser extends ContentPage
+public class ViewUser extends JPanel
 {
 
 	private static final long serialVersionUID = 1L;
@@ -134,7 +131,6 @@ public class ViewUser extends ContentPage
 		this.btnRunView.setIcon(new ImageIcon(ViewUser.class.getResource("/ticketserver/resources/viewIcon.gif")));
 		//new component
 		this.pnlSearchUserStatus = new JPanel();
-		FlowLayout fl_pnlSearchUserStatus = (FlowLayout) this.pnlSearchUserStatus.getLayout();
 		this.pnlCriteriaContainer.add(this.pnlSearchUserStatus);
 		//new component
 		this.lblUserSearchStatus = new JLabel("");
@@ -157,6 +153,10 @@ public class ViewUser extends ContentPage
 				"User Id","User Type", "User Type", "First Name", "Middle Initial", "Last Name", "Address 1", "Address 2", "Parish"
 			}
 		) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			Class[] columnTypes = new Class[] {
 				String.class,Object.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class
 			};
@@ -172,6 +172,11 @@ public class ViewUser extends ContentPage
 		});
 		this.userTable.getColumnModel().getColumn(1).setCellRenderer(new DefaultTableCellRenderer()
 		{
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			public void setValue(Object value)
 			{
 				ImageIcon cellImage = (ImageIcon)value;
@@ -314,12 +319,7 @@ public class ViewUser extends ContentPage
 	public void setChckbxTaxOfficer(JCheckBox chckbxTaxOfficer) {
 		this.chckbxTaxOfficer = chckbxTaxOfficer;
 	}
-	@Override
-	public void startInit() {
-		// TODO Auto-generated method stub
-		
-	}
-	
+
 	public void initialiseListener()
 	{
 		TicketServerFrame parentFrame =(TicketServerFrame)this.getTopLevelAncestor();

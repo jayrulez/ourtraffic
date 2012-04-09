@@ -7,6 +7,9 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
+
+import extension.utility.PrintUtilities;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -15,13 +18,12 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 
 import trafficticket.jcf.controller.ViewOffenderController;
-import trafficticket.view.ContentPage;
 import javax.swing.JCheckBox;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 
 
-public class ViewOffender extends ContentPage
+public class ViewOffender extends JPanel
 {
 	private static final long serialVersionUID = 1L;
 	private JPanel pnlTicketSearch;
@@ -38,11 +40,12 @@ public class ViewOffender extends ContentPage
 	private JLabel lblNewLabel;
 	private JTextField txtOffenderFirstName;
 	private JTextField txtOffenderLastName;
-	public ViewOffender() {
+	public ViewOffender() 
+	{
 		this.initialize();
-		this.initialiseListeners();
 	}
-	private void initialize(){
+	private void initialize()
+	{
 		
 		setLayout(new BorderLayout());
 		
@@ -226,10 +229,12 @@ public class ViewOffender extends ContentPage
 	public void setTxtOffenderFirstName(JTextField txtOffenderFirstName) {
 		this.txtOffenderFirstName = txtOffenderFirstName;
 	}
-	public JTextField getTxtOffenderLastName() {
+	public JTextField getTxtOffenderLastName() 
+	{
 		return txtOffenderLastName;
 	}
-	public void setTxtOffenderLastName(JTextField txtOffenderLastName) {
+	public void setTxtOffenderLastName(JTextField txtOffenderLastName) 
+	{
 		this.txtOffenderLastName = txtOffenderLastName;
 	}
 	public void startInit()
@@ -238,6 +243,12 @@ public class ViewOffender extends ContentPage
 	}
 	public void initialiseListeners()
 	{
+		JCFFrame parentFrame =(JCFFrame)this.getTopLevelAncestor();
+		if(parentFrame!=null)
+		{
+			parentFrame.getMainToolBar().setPrinterUtility(new PrintUtilities(this));
+			System.out.println("Here:"+parentFrame.getMainToolBar().getPrinterUtility());
+		}
 		this.btnRunView.addActionListener(new ViewOffenderController(this, "btnRunView"));
 		this.chbxViewAll.addItemListener(new ViewOffenderController(this,"chbxViewAll"));
 	}

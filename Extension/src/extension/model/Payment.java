@@ -6,6 +6,10 @@ import java.util.Date;
 
 public class Payment implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Date paymentDate;
 	private Float amount;
 	

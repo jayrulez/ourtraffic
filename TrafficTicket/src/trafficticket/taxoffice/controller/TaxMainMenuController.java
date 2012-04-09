@@ -8,7 +8,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-import trafficticket.jcf.view.ViewTicket;
+import trafficticket.taxoffice.view.ViewTicket;
 import trafficticket.taxoffice.view.TaxFrame;
 import trafficticket.taxoffice.view.TicketPayment;
 import trafficticket.taxoffice.view.ViewOffense;
@@ -30,20 +30,22 @@ public class TaxMainMenuController extends MouseAdapter implements ActionListene
 
 		if (actionCommand.equalsIgnoreCase("View Tickets")) 
 		{
-			System.out.println(arg0.getActionCommand());
-			this.parentFrame.addTab("View Tickets",new ImageIcon(TaxMainMenuController.class.getResource("/trafficticket/resources/viewTicketIcon_16x16.png")),new ContentTab(new ViewTicket()));
+			ViewTicket viewTicket = new ViewTicket();
+			this.parentFrame.addTab("View Tickets",new ImageIcon(TaxMainMenuController.class.getResource("/trafficticket/resources/viewTicketIcon_16x16.png")),new ContentTab(viewTicket));
+			viewTicket.initialiseListener();
 
 		}
 		else if (actionCommand.equalsIgnoreCase("Ticket Payment")) 
 		{
-			System.out.println(arg0.getActionCommand());
-			this.parentFrame.addTab("Ticket Payment",new ImageIcon(TaxMainMenuController.class.getResource("/trafficticket/resources/ticketPaymentIcon_16x16.png")),new ContentTab(new TicketPayment()));
-
+			TicketPayment ticketPayment = new TicketPayment();
+			this.parentFrame.addTab("Ticket Payment",new ImageIcon(TaxMainMenuController.class.getResource("/trafficticket/resources/ticketPaymentIcon_16x16.png")),new ContentTab(ticketPayment));
+			ticketPayment.initialiseListeners();
 		}
 		else if (actionCommand.equalsIgnoreCase("View Offenses")) 
 		{
-			System.out.println(arg0.getActionCommand());
-			this.parentFrame.addTab("View Offenses",new ImageIcon(TaxMainMenuController.class.getResource("/trafficticket/resources/viewOffensesIcon_16x16.png")),new ContentTab(new ViewOffense()));
+			ViewOffense viewOffense = new ViewOffense();
+			this.parentFrame.addTab("View Offenses",new ImageIcon(TaxMainMenuController.class.getResource("/trafficticket/resources/viewOffensesIcon_16x16.png")),new ContentTab(viewOffense));
+			viewOffense.initialiseListeners();
 		}
 	}
 

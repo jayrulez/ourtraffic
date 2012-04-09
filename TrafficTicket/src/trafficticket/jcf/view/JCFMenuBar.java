@@ -4,8 +4,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import trafficticket.jcf.controller.JCFMainMenuController;
-
 public class JCFMenuBar extends JMenuBar
 {
 	private static final long serialVersionUID = 1L;
@@ -32,8 +30,6 @@ public class JCFMenuBar extends JMenuBar
 	private JMenuItem viewOffenseItem;
 	
 
-	private JCFMainMenuController menuItemsHandler;
-	
 	public JCFMenuBar()
 	{	
 		
@@ -83,6 +79,14 @@ public class JCFMenuBar extends JMenuBar
 		
 		//this.issueTicketForm = new IssueTicketForm();
 		//issueTicketForm.render();
+	}
+
+	public JCFFrame getParentFrame() {
+		return parentFrame;
+	}
+
+	public void setParentFrame(JCFFrame parentFrame) {
+		this.parentFrame = parentFrame;
 	}
 	
 }

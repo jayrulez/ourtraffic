@@ -2,7 +2,6 @@ package trafficticket.jcf.controller;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.util.Vector;
 
 import javax.xml.parsers.ParserConfigurationException;

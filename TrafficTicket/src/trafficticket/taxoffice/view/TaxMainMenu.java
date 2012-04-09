@@ -32,8 +32,6 @@ public class TaxMainMenu extends JPanel
 
 	private TaxFrame parentFrame;
 
-	private TaxMainMenuController menuItemsHandler;
-
 	public TaxMainMenu() 
 	{
 		this.initialize();
@@ -109,7 +107,7 @@ public class TaxMainMenu extends JPanel
 	public void initialiseLisenters() 
 	{
 		this.parentFrame = ((TaxFrame)this.getTopLevelAncestor());
-		this.menuItemsHandler = new TaxMainMenuController(this.parentFrame);
+		new TaxMainMenuController(this.parentFrame);
 		
 		this.btnTicketPayment.addActionListener(new TaxMainMenuController(parentFrame));
 		this.btnViewTickets.addActionListener(new TaxMainMenuController(parentFrame));

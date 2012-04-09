@@ -1,5 +1,4 @@
 package trafficticket.view;
-import javax.swing.JPanel;
 
 import extension.view.ImagePanel;
 

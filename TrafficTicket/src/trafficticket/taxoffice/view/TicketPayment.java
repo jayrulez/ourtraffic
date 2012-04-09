@@ -1,7 +1,6 @@
 package trafficticket.taxoffice.view;
 
 import trafficticket.taxoffice.controller.TicketPaymentController;
-import trafficticket.view.ContentPage;
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;
 import com.jgoodies.forms.layout.FormLayout;
@@ -9,11 +8,13 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import java.awt.FlowLayout;
 import com.jgoodies.forms.factories.FormFactory;
+
+import extension.utility.PrintUtilities;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JTextArea;
@@ -21,7 +22,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.Color;
 
-public class TicketPayment extends ContentPage
+public class TicketPayment extends JPanel
 {
 	private static final long serialVersionUID = 1L;
 	private JPanel pnlSearchTicket;
@@ -79,9 +80,10 @@ public class TicketPayment extends ContentPage
 	private JTextField txtPoliceLastName;
 	private JTextField txtOffenseName;
 	
-	public TicketPayment() {
+	public TicketPayment() 
+	{
 		this.initialize();
-		this.initialiseListeners();
+
 	}
 	
 	private void initialize()
@@ -119,7 +121,6 @@ public class TicketPayment extends ContentPage
 		//new component
 		this.pnlSearchTicketStatus = new JPanel();
 		this.pnlSearchTicketStatus.setBorder(null);
-		FlowLayout flowLayout = (FlowLayout) this.pnlSearchTicketStatus.getLayout();
 		add(this.pnlSearchTicketStatus);
 		//new component
 		this.lblTicketSearchStatus = new JLabel("");
@@ -818,16 +819,15 @@ public class TicketPayment extends ContentPage
 	
 	public void initialiseListeners()
 	{
+		TaxFrame parentFrame =(TaxFrame)this.getTopLevelAncestor();
+		if(parentFrame!=null)
+		{
+			parentFrame.getMainToolBar().setPrinterUtility(new PrintUtilities(this));
+		}
 		this.btnSearchTicket.addActionListener(new TicketPaymentController(this, "btnSearchTicket"));
 		this.btnPayTicket.addActionListener(new TicketPaymentController(this, "btnPayTicket"));
 		this.btnReset.addActionListener(new TicketPaymentController(this, "btnReset"));
 	}
 	
-	@Override
-	public void startInit() 
-	{
-		// TODO Auto-generated method stub
-		
-	}
 	
 }

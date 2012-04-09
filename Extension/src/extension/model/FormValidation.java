@@ -5,6 +5,7 @@ import javax.swing.JTextField;
 public class FormValidation
 {
 	private Integer errorStatus;
+	@SuppressWarnings("unused")
 	private Integer targetSize;
 	
 	public FormValidation() 

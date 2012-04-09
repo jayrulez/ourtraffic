@@ -7,7 +7,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -20,7 +19,6 @@ import org.xml.sax.SAXException;
 
 import trafficticket.controller.ConnectionController;
 import trafficticket.taxoffice.view.ViewOffense;
-import extension.model.Offender;
 import extension.model.Offense;
 import extension.model.ServiceRequest;
 
@@ -96,7 +94,7 @@ public class ViewOffenseController implements ActionListener, ItemListener, Docu
 							
 							defaultTableModel.setRowCount(0);
 							
-							SimpleDateFormat dateFormat = new SimpleDateFormat("d'-'MMM'-'yyyy");
+							//SimpleDateFormat dateFormat = new SimpleDateFormat("d'-'MMM'-'yyyy");
 							
 							while(itr.hasNext())
 							{

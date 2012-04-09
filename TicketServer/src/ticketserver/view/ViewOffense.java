@@ -20,13 +20,12 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 
 import ticketserver.controller.ViewOffenseController;
-import ticketserver.view.ContentPage;
 import javax.swing.JCheckBox;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 
 
-public class ViewOffense extends ContentPage
+public class ViewOffense extends JPanel
 {
 
 	private static final long serialVersionUID = 1L;

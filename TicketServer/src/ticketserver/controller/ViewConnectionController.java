@@ -1,12 +1,10 @@
 package ticketserver.controller;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -61,6 +59,7 @@ public class ViewConnectionController implements ActionListener, ItemListener, D
 	
 	}
 
+	@SuppressWarnings("static-access")
 	@Override
 	public void itemStateChanged(ItemEvent e) 
 	{
@@ -111,7 +110,7 @@ public class ViewConnectionController implements ActionListener, ItemListener, D
 				
 					defaultTableModel.setRowCount(0);
 					
-					SimpleDateFormat dateFormat = new SimpleDateFormat("d'-'MMM'-'yyyy");
+					//SimpleDateFormat dateFormat = new SimpleDateFormat("d'-'MMM'-'yyyy");
 						
 					while(itr.hasNext())
 					{

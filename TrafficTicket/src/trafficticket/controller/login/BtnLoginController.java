@@ -4,18 +4,14 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.Vector;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import extension.model.Offense;
 import extension.model.ServiceRequest;
 import extension.model.User;
 
@@ -133,12 +129,12 @@ public class BtnLoginController extends MouseAdapter implements ActionListener {
 		} 
 		catch (NumberFormatException | SAXException | IOException| ParserConfigurationException e) 
 		{
-			this.loginPage.getLblLoginStatus().setText("Error: Could not contact host.");
+			this.loginPage.getLblLoginStatus().setText("Error: Could not contact host. [0x1]");
 			this.loginPage.getLblLoginStatus().setForeground(Color.RED);
 		}
 		catch(ClassNotFoundException| ClassCastException e)
 		{
-			this.loginPage.getLblLoginStatus().setText("An unexpected error occured.");
+			this.loginPage.getLblLoginStatus().setText("An unexpected error occured.[0x2]");
 			this.loginPage.getLblLoginStatus().setForeground(Color.RED);
 		}
 

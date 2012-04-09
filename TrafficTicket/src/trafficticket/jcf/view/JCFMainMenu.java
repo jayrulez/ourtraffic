@@ -19,7 +19,6 @@ import trafficticket.jcf.controller.JCFMainMenuController;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.FlowLayout;
 
 public class JCFMainMenu extends JPanel {
 	private static final long serialVersionUID = 1L;

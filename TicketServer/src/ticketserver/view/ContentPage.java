@@ -1,6 +1,4 @@
 package ticketserver.view;
-import javax.swing.JPanel;
-
 import extension.view.ImagePanel;
 
 public abstract class ContentPage extends ImagePanel

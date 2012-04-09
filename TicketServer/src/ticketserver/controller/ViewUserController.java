@@ -5,9 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.IOException;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -15,16 +13,12 @@ import javax.swing.ImageIcon;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
-import javax.xml.parsers.ParserConfigurationException;
-
 import ticketserver.model.SqlProvider;
 import ticketserver.view.ViewUser;
 
 
 
-import extension.model.Offender;
 import extension.model.Police;
-import extension.model.ServiceRequest;
 import extension.model.TaxOfficer;
 import extension.model.User;
 
@@ -118,7 +112,7 @@ public class ViewUserController implements ActionListener, ItemListener, Documen
 						
 						defaultTableModel.setRowCount(0);
 						
-						SimpleDateFormat dateFormat = new SimpleDateFormat("d'-'MMM'-'yyyy");
+						//SimpleDateFormat dateFormat = new SimpleDateFormat("d'-'MMM'-'yyyy");
 						
 						Police police;
 						TaxOfficer taxOfficer;

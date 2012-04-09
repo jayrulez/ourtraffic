@@ -1,13 +1,11 @@
 package ticketserver.controller;
 import java.net.*;
-import java.util.Vector;
 import java.io.*;
 
 import ticketserver.view.TicketServerFrame;
 
 import extension.model.ServiceRequest;
 import extension.model.ServiceResponse;
-import extension.model.User;
 
 class TSThreadHandler implements Runnable
 {

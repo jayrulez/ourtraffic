@@ -30,13 +30,13 @@ public class ConnectionController
 	public ConnectionController() 
 	{
 		this.dialogueSuccess = false;
-		this.dialogueTerminated = false;
+		this.setDialogueTerminated(false);
 	}
 	
 	public ConnectionController(ServiceRequest serviceRequest) 
 	{
 		this.dialogueSuccess = false;
-		this.dialogueTerminated = false;
+		this.setDialogueTerminated(false);
 		this.serviceRequest = serviceRequest;
 	}
 	
@@ -89,7 +89,7 @@ public class ConnectionController
 		{
 			//server agreed to terminate the  connection so let's terminate
 			case ServiceResponse.TERMINATE_CONNECTION:
-				this.dialogueTerminated = true;
+				this.setDialogueTerminated(true);
 				System.out.println("Client received TERMINATE from server");
 				
 				//close connection
@@ -148,5 +148,13 @@ public class ConnectionController
 	public ServiceResponse getSuccessServiceResponse() 
 	{
 		return successServiceResponse;
+	}
+
+	public boolean isDialogueTerminated() {
+		return dialogueTerminated;
+	}
+
+	public void setDialogueTerminated(boolean dialogueTerminated) {
+		this.dialogueTerminated = dialogueTerminated;
 	}
 }

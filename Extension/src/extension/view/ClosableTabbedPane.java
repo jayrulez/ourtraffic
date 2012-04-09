@@ -16,6 +16,10 @@ import javax.swing.*;
 
 public class ClosableTabbedPane extends JTabbedPane
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private TabCloseUI closeUI = new TabCloseUI(this);
 	
 	public void paint(Graphics g){
@@ -40,6 +44,7 @@ public class ClosableTabbedPane extends JTabbedPane
 		private int selectedTab;
 		private final int  width = 8, height = 8;
 		private Rectangle rectangle = new Rectangle(0,0,width, height);
+		@SuppressWarnings("unused")
 		private TabCloseUI(){}
 		public TabCloseUI(ClosableTabbedPane pane) {
 			

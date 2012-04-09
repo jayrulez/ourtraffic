@@ -26,7 +26,7 @@ public class Configuration
 	{
 		try
 		{
-			file = new File("C:\\Users\\Sync\\Dropbox\\year4sem2\\advanced programming using java\\traffic project\\application\\config.xml");
+			file = new File("./config.xml");
 			this.dbf = DocumentBuilderFactory.newInstance();
 			this.db = dbf.newDocumentBuilder();
 			this.doc = db.parse(file);
