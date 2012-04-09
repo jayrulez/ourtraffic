@@ -31,23 +31,40 @@ public class JCFMainMenuController extends MouseAdapter implements
 		if (actionCommand.compareTo("Issue a Ticket") == 0) 
 		{
 			System.out.println(arg0.getActionCommand());
-			this.parentFrame.addTab("Issue Ticket",new ImageIcon(JCFMainMenuController.class.getResource("/trafficticket/resources/issueTicketIcon_16x16.png")),new ContentTab(new IssueTicket()));
+			IssueTicket issueTicket = new IssueTicket();
+			
+			this.parentFrame.addTab("Issue Ticket",new ImageIcon(JCFMainMenuController.class.getResource("/trafficticket/resources/issueTicketIcon_16x16.png")),new ContentTab(issueTicket));
+			
+			issueTicket.initializeListeners();
+			issueTicket.initializeWorkers();
 		}
 		else if (actionCommand.compareTo("View Tickets") == 0) 
 		{
 			System.out.println(arg0.getActionCommand());
-			this.parentFrame.addTab("View Tickets",new ImageIcon(JCFMainMenuController.class.getResource("/trafficticket/resources/viewTicketIcon_16x16.png")),new ContentTab(new ViewTicket()));
-
+			ViewTicket viewTicket = new ViewTicket();
+			
+			this.parentFrame.addTab("View Tickets",new ImageIcon(JCFMainMenuController.class.getResource("/trafficticket/resources/viewTicketIcon_16x16.png")),new ContentTab(viewTicket));
+			
+			viewTicket.initialiseListener();
 		} 
 		else if (actionCommand.compareTo("View Offenders") == 0) 
 		{
 			System.out.println(arg0.getActionCommand());
+			
+			ViewOffender viewOffenders = new ViewOffender();
+			
 			this.parentFrame.addTab("View Offenders",new ImageIcon(JCFMainMenuController.class.getResource("/trafficticket/resources/viewOffenderIcon_16x16.png")),new ContentTab(new ViewOffender()));
+			
+			viewOffenders.initialiseListeners();
 		} 
 		else if (actionCommand.compareTo("View Offenses") == 0) 
 		{
 			System.out.println(arg0.getActionCommand());
-			this.parentFrame.addTab("View Offenses",new ImageIcon(JCFMainMenuController.class.getResource("/trafficticket/resources/viewOffensesIcon_16x16.png")),new ContentTab(new ViewOffense()));
+			ViewOffense viewOffense = new ViewOffense();
+			
+			this.parentFrame.addTab("View Offenses",new ImageIcon(JCFMainMenuController.class.getResource("/trafficticket/resources/viewOffensesIcon_16x16.png")),new ContentTab(viewOffense));
+			
+			viewOffense.initialiseListeners();
 		}
 	}
 

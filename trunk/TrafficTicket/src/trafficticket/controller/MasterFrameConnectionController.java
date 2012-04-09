@@ -3,7 +3,6 @@ package trafficticket.controller;
 import java.awt.Color;
 import java.io.IOException;
 
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -11,7 +10,6 @@ import org.xml.sax.SAXException;
 
 import extension.model.ServiceRequest;
 
-import trafficticket.jcf.view.JCFFrame;
 import trafficticket.view.MasterFrame;
 
 public class MasterFrameConnectionController implements Runnable

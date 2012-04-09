@@ -5,10 +5,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
-import javax.swing.JScrollPane;
-
 import extension.model.User;
-import extension.view.ImagePanel;
 
 
 public class TicketServerFrame extends MasterFrame implements Runnable {
@@ -48,7 +45,7 @@ public class TicketServerFrame extends MasterFrame implements Runnable {
 			this.initClock();
 			
 			Start startPage = new Start();
-			this.addTab("Start",new ImageIcon(ImagePanel.class.getResource("/ticketserver/resources/startIcon.png")) , new ContentTab(startPage));
+			this.addTab("Start",new ImageIcon(TicketServerFrame.class.getResource("/ticketserver/resources/startIcon.png")) , new ContentTab(startPage));
 			startPage.startInit();
 	}
 
@@ -86,6 +83,7 @@ public class TicketServerFrame extends MasterFrame implements Runnable {
 	public boolean userExists(User newUser)
 	{
 		Iterator itr = this.currentClients.iterator();
+		@SuppressWarnings("unused")
 		int index =-1;
 		while(itr.hasNext())
 		{

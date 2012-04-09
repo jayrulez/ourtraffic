@@ -8,6 +8,9 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
+
+import extension.utility.PrintUtilities;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -17,13 +20,12 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 
 import trafficticket.jcf.controller.ViewOffenseController;
-import trafficticket.view.ContentPage;
 import javax.swing.JCheckBox;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 
 
-public class ViewOffense extends ContentPage
+public class ViewOffense extends JPanel
 {
 
 	private static final long serialVersionUID = 1L;
@@ -42,7 +44,6 @@ public class ViewOffense extends ContentPage
 	
 	public ViewOffense() {
 		this.initialize();
-		this.initialiseListeners();
 	}
 	
 	
@@ -264,11 +265,17 @@ public class ViewOffense extends ContentPage
 
 	public void initialiseListeners()
 	{
+		JCFFrame parentFrame =(JCFFrame)this.getTopLevelAncestor();
+		if(parentFrame!=null)
+		{
+			parentFrame.getMainToolBar().setPrinterUtility(new PrintUtilities(this));
+			System.out.println("Here:"+parentFrame.getMainToolBar().getPrinterUtility());
+		}
 		this.btnRunView.addActionListener(new ViewOffenseController(this, "btnRunView"));
 		this.chbxViewAll.addItemListener(new ViewOffenseController(this, "chbxViewAll"));
 	}
 	public void startInit()
 	{
-		this.initialize();
+		
 	}
 }

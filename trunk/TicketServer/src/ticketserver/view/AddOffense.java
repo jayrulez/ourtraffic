@@ -2,8 +2,6 @@ package ticketserver.view;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
@@ -25,7 +23,7 @@ import javax.swing.Box;
 
 import ticketserver.controller.AddOffenseController;
 
-public class AddOffense extends ContentPage
+public class AddOffense extends JPanel
 {
 	public AddOffense()
 	{
@@ -187,12 +185,7 @@ public class AddOffense extends ContentPage
 	private JPanel pnlAddOffenseControlContainer;
 	private Component horizontalStrut;
 	private Component verticalStrut;
-	@Override
-	public void startInit() {
-		// TODO Auto-generated method stub
-		
-	}
-	
+
 	public void initialiseListener()
 	{
 		TicketServerFrame parentFrame =(TicketServerFrame)this.getTopLevelAncestor();

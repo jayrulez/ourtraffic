@@ -22,6 +22,10 @@ public class TrafficTicketLoginFrame extends JFrame implements Runnable {
 	private JLabel lblConnectionStatus;
 	private JLabel lblConnectionStatusValue;
 
+	public JLabel getLblConnectionStatusValue() {
+		return lblConnectionStatusValue;
+	}
+
 	public TrafficTicketLoginFrame() 
 	{
 		this.initialize();
@@ -73,6 +77,14 @@ public class TrafficTicketLoginFrame extends JFrame implements Runnable {
 	{
 		this.loginForm.initiateListners();
 		this.setVisible(true);
+	}
+
+	public JLabel getLblConnectionStatus() {
+		return lblConnectionStatus;
+	}
+
+	public void setLblConnectionStatus(JLabel lblConnectionStatus) {
+		this.lblConnectionStatus = lblConnectionStatus;
 	}
 
 }

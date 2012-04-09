@@ -1,12 +1,8 @@
 package ticketserver.controller;
 import java.net.*;
-import java.util.Iterator;
-import java.util.Vector;
 import java.io.*;
 
 import javax.swing.JOptionPane;
-
-import extension.model.User;
 
 import ticketserver.view.TicketServerFrame;
 
@@ -27,7 +23,6 @@ public class TicketServer implements Runnable
 	
 	public void initialize()
 	{
-		int requestId = 1;
 
 		try
 		{
@@ -47,7 +42,6 @@ public class TicketServer implements Runnable
 				Thread clientHandlerThread = new Thread(clientHandler);
 				clientHandlerThread.start();
 
-				requestId++;
 			}
 		}
 		catch(IOException e)

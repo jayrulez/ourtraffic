@@ -7,6 +7,9 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
+
+import extension.utility.PrintUtilities;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -15,15 +18,12 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 
 import trafficticket.jcf.controller.ViewTicketController;
-import trafficticket.taxoffice.controller.ViewTicketTableController;
-import trafficticket.view.ContentPage;
 import javax.swing.JCheckBox;
 import javax.swing.ImageIcon;
-import javax.swing.BoxLayout;
 import java.awt.Font;
 
 
-public class ViewTicket extends ContentPage
+public class ViewTicket extends JPanel
 {
 
 	private static final long serialVersionUID = 1L;
@@ -43,9 +43,10 @@ public class ViewTicket extends ContentPage
 	private JPanel pnlSearchStatus;
 	private JLabel lblSearchTicketStatus;
 	private JPanel pnlResult;
-	public ViewTicket() {
+	
+	public ViewTicket() 
+	{
 		this.initialize();
-		this.initialiseListener();
 	}
 
 	private void initialize() {
@@ -131,6 +132,10 @@ public class ViewTicket extends ContentPage
 				"Ticket Number", "Payment Status", "Offender TRN", "Offender Name", "Offense Date", "Fine (JMD)", "Points"
 			}
 		) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = new boolean[] {
 				false, false, false, false, false, false, false
 			};
@@ -272,6 +277,13 @@ public class ViewTicket extends ContentPage
 	
 	public void initialiseListener()
 	{
+		JCFFrame parentFrame =(JCFFrame)this.getTopLevelAncestor();
+		if(parentFrame!=null)
+		{
+			parentFrame.getMainToolBar().setPrinterUtility(new PrintUtilities(this));
+			System.out.println("Here:"+parentFrame.getMainToolBar().getPrinterUtility());
+		}
+		
 		this.btnRunView.addActionListener(new ViewTicketController(this,"btnRunView"));
 		this.chbxViewAll.addItemListener(new ViewTicketController(this, "chbxViewAll"));
 	}

@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -28,6 +27,7 @@ public class ViewOffenseController implements ActionListener, ItemListener, Docu
 		this.viewOffensePage = viewOffensePage;
 		this.eventSource = eventSource;
 	}
+	@SuppressWarnings("unused")
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
@@ -162,6 +162,7 @@ public class ViewOffenseController implements ActionListener, ItemListener, Docu
 	
 	}
 
+	@SuppressWarnings("static-access")
 	@Override
 	public void itemStateChanged(ItemEvent e) 
 	{

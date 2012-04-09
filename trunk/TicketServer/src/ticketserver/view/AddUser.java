@@ -23,9 +23,8 @@ import ticketserver.controller.AddUserController;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.Color;
-import java.awt.Dimension;
 
-public class AddUser extends ContentPage
+public class AddUser extends JPanel
 {
 	public AddUser() 
 	{
@@ -318,12 +317,7 @@ public class AddUser extends ContentPage
 	private JPanel pnlTaxOfficerId;
 	private JLabel lblDivisionId;
 	private JTextField txtDivisionId;
-	@Override
-	public void startInit() {
-		// TODO Auto-generated method stub
-		
-	}
-	
+
 	public void initialiseListensers()
 	{
 		TicketServerFrame parentFrame =(TicketServerFrame)this.getTopLevelAncestor();

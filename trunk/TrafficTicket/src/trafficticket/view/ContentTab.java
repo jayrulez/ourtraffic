@@ -5,7 +5,6 @@ import javax.swing.JScrollPane;
 
 public class ContentTab extends JScrollPane {
 	private static final long serialVersionUID = 1L;
-	private JScrollPane contentScrollPane;
 	private JPanel contentPanel;
 
 	public ContentTab() {

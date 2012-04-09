@@ -5,19 +5,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTabbedPane;
-
 import java.awt.Dimension;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 
 import ticketserver.controller.MasterFrameConnectionController;
 import ticketserver.controller.MiscController;
-
-import com.jgoodies.forms.factories.FormFactory;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
 
 import extension.view.ClosableTabbedPane;
 
