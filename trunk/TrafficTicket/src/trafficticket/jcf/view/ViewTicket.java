@@ -7,11 +7,11 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
+import components.IntegerTextField;
 
 import extension.utility.PrintUtilities;
 
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -30,9 +30,9 @@ public class ViewTicket extends JPanel
 	private JPanel pnlTicketSearch;
 	private JLabel lblOffenderTrn;
 	private JLabel lblPaymentStatus;
-	private JTextField txtOffenderTrn;
+	private IntegerTextField txtOffenderTrn;
 	private JLabel lblTicketNumber;
-	private JTextField txtTicketNumber;
+	private IntegerTextField txtTicketNumber;
 	private JButton btnRunView;
 	private JTable tblTicketResults;
 	private JScrollPane ticketResultsScrollPane;
@@ -75,14 +75,14 @@ public class ViewTicket extends JPanel
 		this.lblOffenderTrn = new JLabel("Offender TRN:");
 		this.pnlTicketSearch.add(this.lblOffenderTrn, "2, 2, right, default");
 		
-		this.txtOffenderTrn = new JTextField();
+		this.txtOffenderTrn = new IntegerTextField();
 		this.pnlTicketSearch.add(this.txtOffenderTrn, "4, 2, fill, default");
 		this.txtOffenderTrn.setColumns(10);
 		
 		this.lblTicketNumber = new JLabel("Ticket Number:");
 		this.pnlTicketSearch.add(this.lblTicketNumber, "6, 2, right, default");
 		
-		this.txtTicketNumber = new JTextField();
+		this.txtTicketNumber = new IntegerTextField();
 		this.pnlTicketSearch.add(this.txtTicketNumber, "8, 2, fill, default");
 		this.txtTicketNumber.setColumns(10);
 		
@@ -179,11 +179,11 @@ public class ViewTicket extends JPanel
 		this.lblPaymentStatus = lblPaymentStatus;
 	}
 
-	public JTextField getTxtOffenderTrn() {
+	public IntegerTextField getTxtOffenderTrn() {
 		return txtOffenderTrn;
 	}
 
-	public void setTxtOffenderTrn(JTextField txtOffenderTrn) {
+	public void setTxtOffenderTrn(IntegerTextField txtOffenderTrn) {
 		this.txtOffenderTrn = txtOffenderTrn;
 	}
 
@@ -195,11 +195,11 @@ public class ViewTicket extends JPanel
 		this.lblTicketNumber = lblTicketNumber;
 	}
 
-	public JTextField getTxtTicketNumber() {
+	public IntegerTextField getTxtTicketNumber() {
 		return txtTicketNumber;
 	}
 
-	public void setTxtTicketNumber(JTextField txtTicketNumber) {
+	public void setTxtTicketNumber(IntegerTextField txtTicketNumber) {
 		this.txtTicketNumber = txtTicketNumber;
 	}
 
@@ -286,5 +286,14 @@ public class ViewTicket extends JPanel
 		
 		this.btnRunView.addActionListener(new ViewTicketController(this,"btnRunView"));
 		this.chbxViewAll.addItemListener(new ViewTicketController(this, "chbxViewAll"));
+	}
+	
+	public boolean isViewTicketFormValid()
+	{
+		if(this.getTxtOffenderTrn().getText().isEmpty() && this.getTxtTicketNumber().getText().isEmpty() && !this.chbxViewAll.isSelected() && !this.getChckbxPaid().isSelected() && !this.getChckbxUnpaid().isSelected())
+		{
+			return false;
+		}
+		return true;
 	}
 }

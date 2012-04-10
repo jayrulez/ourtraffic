@@ -30,6 +30,8 @@ public class MasterFrame extends JFrame {
 	private JSplitPane splitPane;
 	private JScrollPane menuScrollPane;
 
+	private JScrollPane currentContentTab;
+	
 	private JPanel pnlStatusBar;
 	private JLabel lblSystemConectionStatus;
 	private JLabel lblSystemDate;
@@ -51,6 +53,7 @@ public class MasterFrame extends JFrame {
 		this.leftNavPanel = mainMenu;
 		this.splitPane = splitPane;
 		this.menuScrollPane = menuScrollPane;
+		this.currentContentTab = null;
 	}
 
 	public void addLeftNavPanelContent(JPanel content) 
@@ -119,6 +122,16 @@ public class MasterFrame extends JFrame {
 		return false;
 	}
 
+	public JScrollPane getCurrentTab()
+	{
+		int tabCount = this.tabbedPane.getTabCount();
+		if (tabCount > 0) 
+		{
+			this.currentContentTab = (JScrollPane)tabbedPane.getSelectedComponent();
+		}
+		return this.currentContentTab;
+	}
+	
 	public int getTabIndex(String title) 
 	{
 		int tabCount = this.tabbedPane.getTabCount();
@@ -243,5 +256,13 @@ public class MasterFrame extends JFrame {
 	}
 	public JLabel getLblUserInfo() {
 		return lblUserInfo;
+	}
+
+	public JScrollPane getCurrentContentTab() {
+		return currentContentTab;
+	}
+
+	public void setCurrentContentTab(JScrollPane currentContentTab) {
+		this.currentContentTab = currentContentTab;
 	}
 }

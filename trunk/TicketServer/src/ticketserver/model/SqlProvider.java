@@ -396,6 +396,7 @@ public class SqlProvider
 		Vector<Ticket> tickets = new Vector<Ticket>();
 		while(this.resultSet.next())
 		{
+			System.out.println("Result set row:"+resultSet.getRow());
 			ticket = new Ticket(this.resultSet.getInt("ticketNumber"),this.resultSet.getDate("offenseDate"),new Address(this.resultSet.getString("ticketStreet"),this.resultSet.getString("ticketCity"),this.resultSet.getString("ticketParish")),this.resultSet.getString("ticketDescription"),this.resultSet.getFloat("ticketFine"),this.resultSet.getInt("ticketPoints"),this.resultSet.getInt("paymentStatus"));
 			offender = new Offender(this.resultSet.getInt("offenderTrn"),this.resultSet.getString("offenderFirstName"),this.resultSet.getString("offenderLastName"),this.resultSet.getString("offenderMiddleInitial"),this.resultSet.getDate("offenderDob"),this.resultSet.getString("offenderStreet"),this.resultSet.getString("offenderCity"),this.resultSet.getString("offenderParish"),this.resultSet.getString("licenseType"),this.resultSet.getInt("licensePoints"),this.resultSet.getDate("licenseExpiryDate"));
 			

@@ -14,7 +14,11 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 import com.toedter.calendar.JDateChooser;
+
+import components.DecimalTextField;
 import components.IntegerTextField;
+import components.RegularTextArea;
+import components.RegularTextField;
 
 import extension.utility.PrintUtilities;
 
@@ -26,8 +30,11 @@ import javax.swing.border.TitledBorder;
 
 import trafficticket.jcf.controller.IssueTicketConnectionController;
 import trafficticket.jcf.controller.IssueTicketController;
+import trafficticket.view.MasterFrame;
+
 import javax.swing.ScrollPaneConstants;
 import java.awt.FlowLayout;
+import java.awt.Font;
 
 public class IssueTicket extends JPanel {
 
@@ -41,7 +48,7 @@ public class IssueTicket extends JPanel {
 	private JLabel lblOffenderParish;
 	private JLabel lblLastName;
 	private JLabel lblFirstName;
-	private JTextArea txtAddress1;
+	private RegularTextArea txtAddress1;
 	private JScrollPane address1Pane;
 	private JComboBox cmbxOffenderParish;
 	private JLabel lblOffenderAddress1;
@@ -49,15 +56,15 @@ public class IssueTicket extends JPanel {
 	private JLabel lblOffenderTrn;
 	private JComboBox cmbxLicenseType;
 	private JLabel lblTrn;
-	private JTextField txtMiddleInitial;
-	private JTextArea txtAddress2;
+	private RegularTextField txtMiddleInitial;
+	private RegularTextArea txtAddress2;
 	private JScrollPane address2Pane;
 	private JLabel lblAddress2;
 	private JLabel lblDob;
-	private JTextField txtPoints;
+	private IntegerTextField txtPoints;
 	private JLabel lblPoints;
-	private JTextField txtLastName;
-	private JTextField txtFirstName;
+	private RegularTextField txtLastName;
+	private RegularTextField txtFirstName;
 
 	private JPanel offenderPanel;
 	private JPanel ticketPanel;
@@ -66,19 +73,19 @@ public class IssueTicket extends JPanel {
 	private JPanel buttonPanel;
 	private JLabel lblTicketOffense;
 	private JLabel lblDateOfOffense;
-	private JTextArea txtTicketAddress1;
+	private RegularTextArea txtTicketAddress1;
 	private JScrollPane ticketAddress1Pane;
 	private JLabel lblOffenseAddress;
 	private JLabel lblTicketAddress2;
 	private JLabel lblTicketParish;
 	private JLabel lblTicketFine;
 	private JLabel lblTicketPoints;
-	private JTextField txtTicketFine;
-	private JTextArea txtTicketAddress2;
+	private DecimalTextField txtTicketFine;
+	private RegularTextArea txtTicketAddress2;
 	private JScrollPane ticketAddress2Pane;
-	private JTextField txtTicketPoints;
+	private IntegerTextField txtTicketPoints;
 	private JComboBox cmbxTicketParish;
-	private JTextField txtOffenderTrn;
+	private IntegerTextField txtOffenderTrn;
 	private JLabel lblSearchOffenderTrn;
 	private JCheckBox chbxNewOffender;
 	private JButton btnSearchOffender;
@@ -136,13 +143,16 @@ public class IssueTicket extends JPanel {
 	private JLabel lblDobValidationMsg;
 	private JLabel offenseValidationMsg;
 	private JLabel lblOffenseDateValidationMsg;
-	private JLabel lblOffenseAddressValidationMsg;
+	private JLabel lblOffenseAddress1ValidationMsg;
 	private JLabel lblOffenseParishValidationMsg;
 	private JLabel lblFineValidationMsg;
 	private JLabel lblOffensePointsValidationMsg;
 	private JLabel lblMiddleNameValidationMsg;
 	private JLabel lblOffenderAddress2ValidationMsg;
 	private JLabel lblOffenseAddress2ValidationMsg;
+	private JPanel pnlValidationDiscription;
+	private JLabel lblDataRequiredInfo;
+	private JLabel lblRequireSymbol;
 
 	public IssueTicket() 
 	{
@@ -222,7 +232,7 @@ public class IssueTicket extends JPanel {
 		this.lblTrn = new JLabel("TRN:");
 		this.offenderPanel.add(this.lblTrn, "2, 2, right, default");
 
-		this.txtOffenderTrn = new JTextField();
+		this.txtOffenderTrn = new IntegerTextField();
 		this.offenderPanel.add(this.txtOffenderTrn, "4, 2, left, default");
 		this.txtOffenderTrn.setColumns(15);
 		//new component
@@ -233,7 +243,7 @@ public class IssueTicket extends JPanel {
 		lblFirstName = new JLabel("First Name:");
 		this.offenderPanel.add(lblFirstName, "2, 4, right, center");
 
-		this.txtFirstName = new JTextField();
+		this.txtFirstName = new RegularTextField();
 		this.txtFirstName.setToolTipText("Enter Offender's First Name");
 		this.offenderPanel.add(this.txtFirstName, "4, 4, fill, default");
 		this.txtFirstName.setColumns(18);
@@ -245,7 +255,7 @@ public class IssueTicket extends JPanel {
 		lblMiddleInitial = new JLabel("Middle Initial:");
 		this.offenderPanel.add(lblMiddleInitial, "8, 4, right, center");
 
-		this.txtMiddleInitial = new JTextField();
+		this.txtMiddleInitial = new RegularTextField();
 		this.txtMiddleInitial.setToolTipText("Enter Offender's Middle Initial");
 		this.txtMiddleInitial.setHorizontalAlignment(SwingConstants.LEFT);
 		this.offenderPanel.add(this.txtMiddleInitial, "10, 4, fill, default");
@@ -258,7 +268,7 @@ public class IssueTicket extends JPanel {
 		lblLastName = new JLabel("Last Name:");
 		this.offenderPanel.add(lblLastName, "2, 6, right, center");
 
-		this.txtLastName = new JTextField();
+		this.txtLastName = new RegularTextField();
 		this.offenderPanel.add(this.txtLastName, "4, 6, fill, default");
 		this.txtLastName.setColumns(18);
 		//new component
@@ -279,7 +289,7 @@ public class IssueTicket extends JPanel {
 		this.offenderPanel.add(this.lblDobValidationMsg, "6, 8");
 		lblOffenderAddress1 = new JLabel("Address 1:");
 		this.offenderPanel.add(lblOffenderAddress1, "2, 10, right, center");
-		txtAddress1 = new JTextArea(4,3);
+		txtAddress1 = new RegularTextArea(4,3);
 		this.txtAddress1.setLineWrap(true);
 		this.txtAddress1.setToolTipText("Enter Offender's Street Address");
 		this.address1Pane = new JScrollPane(this.txtAddress1);
@@ -294,7 +304,7 @@ public class IssueTicket extends JPanel {
 		this.lblAddress2 = new JLabel("Address 2:");
 		this.offenderPanel.add(this.lblAddress2, "8, 10, right, default");
 
-		this.txtAddress2 = new JTextArea(4,3);
+		this.txtAddress2 = new RegularTextArea(4,3);
 		this.txtAddress2.setLineWrap(true);
 		this.txtAddress2.setToolTipText("Enter Offender's Town/District");
 		
@@ -332,7 +342,7 @@ public class IssueTicket extends JPanel {
 		this.lblPoints = new JLabel("Points:");
 		this.offenderPanel.add(this.lblPoints, "2, 16, right, default");
 
-		this.txtPoints = new JTextField();
+		this.txtPoints = new IntegerTextField();
 		this.txtPoints.setToolTipText("Enter Offender's License Points");
 		this.offenderPanel.add(this.txtPoints, "4, 16, fill, default");
 		this.txtPoints.setColumns(10);
@@ -554,6 +564,21 @@ public class IssueTicket extends JPanel {
 				.add(this.lblExistingExpiryDateValue, "4, 18");
 
 		this.offenderPanel.setVisible(false);
+		//new component
+		this.pnlValidationDiscription = new JPanel();
+		FlowLayout flowLayout_1 = (FlowLayout) this.pnlValidationDiscription.getLayout();
+		flowLayout_1.setAlignment(FlowLayout.LEFT);
+		add(this.pnlValidationDiscription);
+		//new component
+		this.lblRequireSymbol = new JLabel("*");
+		this.lblRequireSymbol.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		this.lblRequireSymbol.setForeground(Color.RED);
+		this.pnlValidationDiscription.add(this.lblRequireSymbol);
+		//new component
+		this.lblDataRequiredInfo = new JLabel("- Data or Selection is required");
+		this.lblDataRequiredInfo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		this.lblDataRequiredInfo.setHorizontalAlignment(SwingConstants.CENTER);
+		this.pnlValidationDiscription.add(this.lblDataRequiredInfo);
 		this.add(this.offenderPanel);
 		//new component
 		this.lblLicenseExpiryDateValidationMsg = new JLabel("*");
@@ -634,7 +659,7 @@ public class IssueTicket extends JPanel {
 		this.lblOffenseAddress = new JLabel("Address 1:");
 		this.ticketPanel.add(this.lblOffenseAddress, "2, 6, right, default");
 
-		this.txtTicketAddress1 = new JTextArea(4,3);
+		this.txtTicketAddress1 = new RegularTextArea(4,3);
 		this.txtTicketAddress1.setLineWrap(true);
 		
 		this.ticketAddress1Pane = new JScrollPane(this.txtTicketAddress1);
@@ -642,16 +667,16 @@ public class IssueTicket extends JPanel {
 		
 		this.ticketPanel.add(this.ticketAddress1Pane, "4, 6, fill, center");
 		//new component
-		this.lblOffenseAddressValidationMsg = new JLabel("*");
-		this.lblOffenseAddressValidationMsg.setForeground(Color.RED);
-		this.lblOffenseAddressValidationMsg.setToolTipText("Data Required");
-		this.ticketPanel.add(this.lblOffenseAddressValidationMsg, "6, 6");
+		this.lblOffenseAddress1ValidationMsg = new JLabel("*");
+		this.lblOffenseAddress1ValidationMsg.setForeground(Color.RED);
+		this.lblOffenseAddress1ValidationMsg.setToolTipText("Data Required");
+		this.ticketPanel.add(this.lblOffenseAddress1ValidationMsg, "6, 6");
 		
 
 		this.lblTicketAddress2 = new JLabel("Address 2:");
 		this.ticketPanel.add(this.lblTicketAddress2, "8, 6, right, default");
 
-		this.txtTicketAddress2 = new JTextArea(4,3);
+		this.txtTicketAddress2 = new RegularTextArea(4,3);
 		this.txtTicketAddress2.setLineWrap(true);
 		this.ticketAddress2Pane = new JScrollPane(this.txtTicketAddress2);
 		this.ticketAddress2Pane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -677,7 +702,7 @@ public class IssueTicket extends JPanel {
 		this.lblTicketFine = new JLabel("Fine:");
 		this.ticketPanel.add(this.lblTicketFine, "2, 10, right, center");
 
-		this.txtTicketFine = new JTextField();
+		this.txtTicketFine = new DecimalTextField();
 		this.ticketPanel.add(this.txtTicketFine, "4, 10, left, center");
 		this.txtTicketFine.setColumns(10);
 		//new component
@@ -689,7 +714,7 @@ public class IssueTicket extends JPanel {
 		this.lblTicketPoints = new JLabel("Points:");
 		this.ticketPanel.add(this.lblTicketPoints, "2, 12, right, center");
 
-		this.txtTicketPoints = new JTextField();
+		this.txtTicketPoints = new IntegerTextField();
 		this.ticketPanel.add(this.txtTicketPoints, "4, 12, left, center");
 		this.txtTicketPoints.setColumns(10);
 		//new component
@@ -751,8 +776,201 @@ public class IssueTicket extends JPanel {
 	{
 		this.txtSearchOffenderTrn.setValidationMessage(this.lblSearchOffenderTrnValidationMsg);
 		this.txtSearchOffenderTrn.initialiseListensers();
+		
+		this.txtOffenderTrn.setValidationMessage(this.lblOffenderTrnValidationMsg);
+		this.txtOffenderTrn.setAllowEmpty(false);
+		this.txtOffenderTrn.initialiseListensers();
+		
+		this.txtFirstName.setValidationMessage(this.lblFineValidationMsg);
+		this.txtFirstName.setAllowEmpty(false);
+		this.txtFirstName.initialiseListensers();
+		
+		this.txtMiddleInitial.setValidationMessage(this.lblMiddleNameValidationMsg);
+		this.txtMiddleInitial.setAllowEmpty(false);
+		this.txtMiddleInitial.initialiseListensers();
+		
+		this.txtLastName.setValidationMessage(this.lblLastNameValidationMsg);
+		this.txtLastName.setAllowEmpty(false);
+		this.txtLastName.initialiseListensers();
+		
+		this.txtTicketFine.setValidationMessage(this.lblFineValidationMsg);
+		this.txtTicketFine.setAllowEmpty(false);
+		this.txtTicketFine.initialiseListensers();
+		
+		this.txtTicketPoints.setValidationMessage(this.lblOffenderPointsValidationMsg);
+		this.txtTicketPoints.setAllowEmpty(false);
+		this.txtTicketPoints.initialiseListensers();
+		
+		this.txtTicketAddress1.setValidationMessage(this.lblOffenseAddress1ValidationMsg);
+		this.txtTicketAddress1.setAllowEmpty(false);
+		this.txtTicketAddress1.initialiseListensers();
+		
+		this.txtTicketAddress2.setValidationMessage(this.lblOffenseAddress2ValidationMsg);
+		this.txtTicketAddress2.setAllowEmpty(false);
+		this.txtTicketAddress2.initialiseListensers();
+		
+		this.txtAddress1.setValidationMessage(this.lblOffenderAddress1ValidationMsg);
+		this.txtAddress1.setAllowEmpty(false);
+		this.txtAddress1.initialiseListensers();
+		
+		this.txtAddress2.setValidationMessage(this.lblOffenderAddress2ValidationMsg);
+		this.txtAddress2.setAllowEmpty(false);
+		this.txtAddress2.initialiseListensers();
+
 	}
 	
+	public boolean isIssueTicketFormValid()
+	{
+		MasterFrame parentFrame = (MasterFrame) this.getTopLevelAncestor(); 
+		JScrollPane currentContentTab = null;
+		if(parentFrame!=null)
+		{
+			currentContentTab = parentFrame.getCurrentTab();
+		}
+		
+		if(this.chbxNewOffender.isSelected())
+		{
+			if(this.txtOffenderTrn.isValidateSuccess())
+			{
+				if(this.txtFirstName.isValidateSuccess())
+				{
+					if(this.txtMiddleInitial.isValidateSuccess())
+					{
+						if(this.txtLastName.isValidateSuccess())
+						{
+							if(this.txtAddress1.isValidateSuccess())
+							{
+								if(this.txtAddress2.isValidateSuccess())
+								{
+									if(this.cmbxOffenderParish.getSelectedIndex()>0)
+									{
+
+										if(this.offenderDobChooser.getDate()!=null)
+										{
+											if(this.cmbxLicenseType.getSelectedIndex()>0)
+											{
+												if(this.txtPoints.isValidateSuccess())
+												{
+													if(this.expiryDateChooser.getDate()!=null)
+													{
+														
+													}
+													else
+													{
+														this.expiryDateChooser.requestFocus();
+														return false;
+													}
+												}
+												else
+												{
+													this.txtPoints.requestFocus();
+													return false;
+												}
+											}
+											else
+											{
+												this.cmbxLicenseType.requestFocus();
+												return false;
+											}
+										}
+										else
+										{
+											this.offenderDobChooser.requestFocus();
+											return false;
+										}
+									}
+									else
+									{
+										this.cmbxOffenderParish.getSelectedIndex();
+										return false;
+									}
+								}
+								else
+								{
+									this.txtAddress2.requestFocus();
+									return false;
+								}
+							}
+							else
+							{
+								this.txtAddress1.requestFocus();
+								return false;
+							}
+						}
+						else
+						{
+							this.txtLastName.requestFocus();
+							return false;
+						}
+					}
+					else
+					{
+						this.txtMiddleInitial.requestFocus();
+						return false;
+					}
+				}
+				else
+				{
+					this.txtFirstName.requestFocus();
+					return false;
+				}
+			}
+			else
+			{
+				this.txtOffenderTrn.setParentScrollPane(currentContentTab);
+				this.txtOffenderTrn.requestFocus();
+				return false;
+			}
+			
+			if(!this.txtTicketAddress1.isValidateSuccess()||!this.txtTicketAddress2.isValidateSuccess()||!this.txtTicketFine.isValidateSuccess()||!this.txtTicketPoints.isValidateSuccess()||this.cmbxTicketParish.getSelectedIndex()<=0 || this.offenseDateChooser.getDate()==null||this.cmbxOffense.getSelectedIndex()<=0)
+			{
+				return false;
+			}	
+			
+		}
+		else
+		{
+			if(!this.txtTicketAddress1.isValidateSuccess()||!this.txtTicketAddress2.isValidateSuccess()||!this.txtTicketFine.isValidateSuccess()||!this.txtTicketPoints.isValidateSuccess()||this.cmbxTicketParish.getSelectedIndex()<=0 || this.offenseDateChooser.getDate()==null||this.cmbxOffense.getSelectedIndex()<=0)
+			{
+				return false;
+			}	
+		}
+		return true;
+	}
+	
+	public boolean isSearchFormValid()
+	{
+		if(this.txtSearchOffenderTrn.getText().trim().isEmpty())
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	public JPanel getSearchOffenderPanel() {
+		return searchOffenderPanel;
+	}
+
+	public void setSearchOffenderPanel(JPanel searchOffenderPanel) {
+		this.searchOffenderPanel = searchOffenderPanel;
+	}
+
+	public JPanel getSearchOffenderStatusPanel() {
+		return searchOffenderStatusPanel;
+	}
+
+	public void setSearchOffenderStatusPanel(JPanel searchOffenderStatusPanel) {
+		this.searchOffenderStatusPanel = searchOffenderStatusPanel;
+	}
+
+	public JPanel getPnlValidationDiscription() {
+		return pnlValidationDiscription;
+	}
+
+	public void setPnlValidationDiscription(JPanel pnlValidationDiscription) {
+		this.pnlValidationDiscription = pnlValidationDiscription;
+	}
+
 	public void initializeListeners()
 	{
 		JCFFrame parentFrame =(JCFFrame)this.getTopLevelAncestor();
