@@ -14,6 +14,7 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 import com.toedter.calendar.JDateChooser;
+import components.IntegerTextField;
 
 import extension.utility.PrintUtilities;
 
@@ -81,7 +82,7 @@ public class IssueTicket extends JPanel {
 	private JLabel lblSearchOffenderTrn;
 	private JCheckBox chbxNewOffender;
 	private JButton btnSearchOffender;
-	private JTextField txtSearchOffenderTrn;
+	private IntegerTextField txtSearchOffenderTrn;
 	private JLabel lblExistingOffenderTrn;
 	private JLabel lblExistingFirstName;
 	private JLabel lblExistingLastName;
@@ -123,6 +124,25 @@ public class IssueTicket extends JPanel {
 	private JScrollPane existingAddress2ScrollPane;
 	private JTextArea txtExistingAddress1;
 	private JTextArea txtExistingAddress2;
+	private JLabel lblSearchOffenderTrnValidationMsg;
+	private JLabel lblOffenderTrnValidationMsg;
+	private JLabel lblFirstNameValidationMsg;
+	private JLabel lblLastNameValidationMsg;
+	private JLabel lblOffenderAddress1ValidationMsg;
+	private JLabel lblOffenderParishValidationMsg;
+	private JLabel lblLicenseTypeValidationMsg;
+	private JLabel lblOffenderPointsValidationMsg;
+	private JLabel lblLicenseExpiryDateValidationMsg;
+	private JLabel lblDobValidationMsg;
+	private JLabel offenseValidationMsg;
+	private JLabel lblOffenseDateValidationMsg;
+	private JLabel lblOffenseAddressValidationMsg;
+	private JLabel lblOffenseParishValidationMsg;
+	private JLabel lblFineValidationMsg;
+	private JLabel lblOffensePointsValidationMsg;
+	private JLabel lblMiddleNameValidationMsg;
+	private JLabel lblOffenderAddress2ValidationMsg;
+	private JLabel lblOffenseAddress2ValidationMsg;
 
 	public IssueTicket() 
 	{
@@ -150,10 +170,16 @@ public class IssueTicket extends JPanel {
 				ColumnSpec.decode("89px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("107px:grow"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("70px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("left:129px"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
 				ColumnSpec.decode("32px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
@@ -199,6 +225,11 @@ public class IssueTicket extends JPanel {
 		this.txtOffenderTrn = new JTextField();
 		this.offenderPanel.add(this.txtOffenderTrn, "4, 2, left, default");
 		this.txtOffenderTrn.setColumns(15);
+		//new component
+		this.lblOffenderTrnValidationMsg = new JLabel("*");
+		this.lblOffenderTrnValidationMsg.setForeground(Color.RED);
+		this.lblOffenderTrnValidationMsg.setToolTipText("Data Required");
+		this.offenderPanel.add(this.lblOffenderTrnValidationMsg, "6, 2");
 		lblFirstName = new JLabel("First Name:");
 		this.offenderPanel.add(lblFirstName, "2, 4, right, center");
 
@@ -206,26 +237,46 @@ public class IssueTicket extends JPanel {
 		this.txtFirstName.setToolTipText("Enter Offender's First Name");
 		this.offenderPanel.add(this.txtFirstName, "4, 4, fill, default");
 		this.txtFirstName.setColumns(18);
+		//new component
+		this.lblFirstNameValidationMsg = new JLabel("*");
+		this.lblFirstNameValidationMsg.setToolTipText("Data Required");
+		this.lblFirstNameValidationMsg.setForeground(Color.RED);
+		this.offenderPanel.add(this.lblFirstNameValidationMsg, "6, 4");
 		lblMiddleInitial = new JLabel("Middle Initial:");
-		this.offenderPanel.add(lblMiddleInitial, "6, 4, right, center");
+		this.offenderPanel.add(lblMiddleInitial, "8, 4, right, center");
 
 		this.txtMiddleInitial = new JTextField();
 		this.txtMiddleInitial.setToolTipText("Enter Offender's Middle Initial");
 		this.txtMiddleInitial.setHorizontalAlignment(SwingConstants.LEFT);
-		this.offenderPanel.add(this.txtMiddleInitial, "8, 4, fill, default");
+		this.offenderPanel.add(this.txtMiddleInitial, "10, 4, fill, default");
 		this.txtMiddleInitial.setColumns(8);
+		//new component
+		this.lblMiddleNameValidationMsg = new JLabel("*");
+		this.lblMiddleNameValidationMsg.setToolTipText("Data Required");
+		this.lblMiddleNameValidationMsg.setForeground(Color.RED);
+		this.offenderPanel.add(this.lblMiddleNameValidationMsg, "14, 4");
 		lblLastName = new JLabel("Last Name:");
 		this.offenderPanel.add(lblLastName, "2, 6, right, center");
 
 		this.txtLastName = new JTextField();
 		this.offenderPanel.add(this.txtLastName, "4, 6, fill, default");
 		this.txtLastName.setColumns(18);
+		//new component
+		this.lblLastNameValidationMsg = new JLabel("*");
+		this.lblLastNameValidationMsg.setForeground(Color.RED);
+		this.lblLastNameValidationMsg.setToolTipText("Data Required");
+		this.offenderPanel.add(this.lblLastNameValidationMsg, "6, 6");
 
 		this.lblDob = new JLabel("Date of Birth:");
 		this.offenderPanel.add(this.lblDob, "2, 8, right, default");
 		this.offenderDobChooser = new JDateChooser();
 		this.offenderPanel.add(this.offenderDobChooser,
 				"4, 8, left, center");
+		//new component
+		this.lblDobValidationMsg = new JLabel("*");
+		this.lblDobValidationMsg.setForeground(Color.RED);
+		this.lblDobValidationMsg.setToolTipText("Selection Required");
+		this.offenderPanel.add(this.lblDobValidationMsg, "6, 8");
 		lblOffenderAddress1 = new JLabel("Address 1:");
 		this.offenderPanel.add(lblOffenderAddress1, "2, 10, right, center");
 		txtAddress1 = new JTextArea(4,3);
@@ -234,9 +285,14 @@ public class IssueTicket extends JPanel {
 		this.address1Pane = new JScrollPane(this.txtAddress1);
 		this.address1Pane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		this.offenderPanel.add(this.address1Pane,"4, 10, fill, center");
+		//new component
+		this.lblOffenderAddress1ValidationMsg = new JLabel("*");
+		this.lblOffenderAddress1ValidationMsg.setForeground(Color.RED);
+		this.lblOffenderAddress1ValidationMsg.setToolTipText("Data Required");
+		this.offenderPanel.add(this.lblOffenderAddress1ValidationMsg, "6, 10");
 
 		this.lblAddress2 = new JLabel("Address 2:");
-		this.offenderPanel.add(this.lblAddress2, "6, 10, right, default");
+		this.offenderPanel.add(this.lblAddress2, "8, 10, right, default");
 
 		this.txtAddress2 = new JTextArea(4,3);
 		this.txtAddress2.setLineWrap(true);
@@ -245,18 +301,33 @@ public class IssueTicket extends JPanel {
 		this.address2Pane = new JScrollPane(this.txtAddress2);
 		this.address2Pane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		
-		this.offenderPanel.add(this.address2Pane, "8, 10, fill, center");
+		this.offenderPanel.add(this.address2Pane, "10, 10, fill, center");
+		//new component
+		this.lblOffenderAddress2ValidationMsg = new JLabel("*");
+		this.lblOffenderAddress2ValidationMsg.setForeground(Color.RED);
+		this.lblOffenderAddress2ValidationMsg.setToolTipText("Data Required");
+		this.offenderPanel.add(this.lblOffenderAddress2ValidationMsg, "12, 10");
 
 		lblOffenderParish = new JLabel("Parish:");
 		this.offenderPanel.add(lblOffenderParish, "2, 12, right, center");
 		cmbxOffenderParish = new JComboBox(this.parishes);
 		this.offenderPanel.add(cmbxOffenderParish, "4, 12, left, top");
+		//new component
+		this.lblOffenderParishValidationMsg = new JLabel("*");
+		this.lblOffenderParishValidationMsg.setForeground(Color.RED);
+		this.lblOffenderParishValidationMsg.setToolTipText("Selection Required");
+		this.offenderPanel.add(this.lblOffenderParishValidationMsg, "6, 12");
 
 		lblLicenseType = new JLabel("Type of License:");
 		this.offenderPanel.add(lblLicenseType, "2, 14, right, center");
 
 		this.cmbxLicenseType.setToolTipText("Select Offender's License Type");
 		this.offenderPanel.add(this.cmbxLicenseType, "4, 14, fill, default");
+		//new component
+		this.lblLicenseTypeValidationMsg = new JLabel("*");
+		this.lblLicenseTypeValidationMsg.setForeground(Color.RED);
+		this.lblLicenseTypeValidationMsg.setToolTipText("Data Required");
+		this.offenderPanel.add(this.lblLicenseTypeValidationMsg, "6, 14");
 
 		this.lblPoints = new JLabel("Points:");
 		this.offenderPanel.add(this.lblPoints, "2, 16, right, default");
@@ -268,6 +339,11 @@ public class IssueTicket extends JPanel {
 		lblExpiryDate = new JLabel("Expiry Date:");
 
 		this.expiryDateChooser = new JDateChooser();
+		//new component
+		this.lblOffenderPointsValidationMsg = new JLabel("*");
+		this.lblOffenderPointsValidationMsg.setForeground(Color.RED);
+		this.lblOffenderPointsValidationMsg.setToolTipText("Data Required");
+		this.offenderPanel.add(this.lblOffenderPointsValidationMsg, "6, 16");
 
 		this.offenderPanel.add(lblExpiryDate, "2, 18, right, center");
 		this.offenderPanel.add(this.expiryDateChooser, "4, 18, fill, default");
@@ -276,9 +352,12 @@ public class IssueTicket extends JPanel {
 
 		this.add(this.searchOffenderPanel);
 		this.searchOffenderPanel.setLayout(new FormLayout(new ColumnSpec[] {
-				ColumnSpec.decode("18px"), ColumnSpec.decode("89px"),
+				ColumnSpec.decode("18px"),
+				ColumnSpec.decode("89px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("107px:grow"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("142px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
@@ -296,22 +375,28 @@ public class IssueTicket extends JPanel {
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("28px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				ColumnSpec.decode("52px"), }, new RowSpec[] {
-				FormFactory.LINE_GAP_ROWSPEC, RowSpec.decode("20px"),
-				FormFactory.LINE_GAP_ROWSPEC, RowSpec.decode("30px"),
-				FormFactory.RELATED_GAP_ROWSPEC, }));
+				ColumnSpec.decode("52px"),},
+			new RowSpec[] {
+				FormFactory.LINE_GAP_ROWSPEC,
+				RowSpec.decode("20px"),
+				FormFactory.LINE_GAP_ROWSPEC,
+				RowSpec.decode("30px"),
+				FormFactory.RELATED_GAP_ROWSPEC,}));
 
 		this.lblSearchOffenderTrn = new JLabel("Offender TRN:");
 		this.searchOffenderPanel.add(this.lblSearchOffenderTrn,
 				"2, 2, right, default");
 
-		this.txtSearchOffenderTrn = new JTextField();
+		this.txtSearchOffenderTrn = new IntegerTextField();
 		this.searchOffenderPanel.add(this.txtSearchOffenderTrn,
 				"4, 2, left, default");
 		this.txtSearchOffenderTrn.setColumns(15);
+		//new component
+		this.lblSearchOffenderTrnValidationMsg = new JLabel("");
+		this.searchOffenderPanel.add(this.lblSearchOffenderTrnValidationMsg, "6, 2");
 
 		this.chbxNewOffender= new JCheckBox("New Offender");
-		this.searchOffenderPanel.add(this.chbxNewOffender, "6, 2");
+		this.searchOffenderPanel.add(this.chbxNewOffender, "8, 2");
 
 		this.btnSearchOffender = new JButton("Search");
 		this.searchOffenderPanel.add(this.btnSearchOffender, "2, 4");
@@ -323,6 +408,7 @@ public class IssueTicket extends JPanel {
 		//new component
 		this.lblSearchOffenderStatus = new JLabel("");
 		this.searchOffenderStatusPanel.add(this.lblSearchOffenderStatus);
+		
 
 		this.add(this.existingOffenderPanel);
 		this.existingOffenderPanel.setLayout(new FormLayout(new ColumnSpec[] {
@@ -330,6 +416,8 @@ public class IssueTicket extends JPanel {
 				ColumnSpec.decode("89px"),
 				ColumnSpec.decode("5dlu"),
 				ColumnSpec.decode("107px:grow"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("84px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
@@ -386,10 +474,10 @@ public class IssueTicket extends JPanel {
 				"4, 4, left, default");
 		//new component
 		this.lblExistingMiddleInitial = new JLabel("Middle Initial:");
-		this.existingOffenderPanel.add(this.lblExistingMiddleInitial, "6, 4, right, center");
+		this.existingOffenderPanel.add(this.lblExistingMiddleInitial, "8, 4, right, center");
 		//new component
 		this.lblExistingMiddleInitialValue = new JLabel("");
-		this.existingOffenderPanel.add(this.lblExistingMiddleInitialValue, "8, 4, left, center");
+		this.existingOffenderPanel.add(this.lblExistingMiddleInitialValue, "10, 4, left, center");
 
 		this.lblExistingLastName = new JLabel("Last Name:");
 		this.existingOffenderPanel.add(this.lblExistingLastName,
@@ -423,11 +511,11 @@ public class IssueTicket extends JPanel {
 
 		this.lblExistingAddress2 = new JLabel("Address 2:");
 		this.existingOffenderPanel.add(this.lblExistingAddress2,
-				"6, 10, right, default");
+				"8, 10, right, default");
 		//new component
 		this.existingAddress2ScrollPane = new JScrollPane();
 		this.existingAddress2ScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		this.existingOffenderPanel.add(this.existingAddress2ScrollPane, "8, 10, fill, fill");
+		this.existingOffenderPanel.add(this.existingAddress2ScrollPane, "10, 10, fill, fill");
 		//new component
 		this.txtExistingAddress2 = new JTextArea();
 		this.txtExistingAddress2.setEditable(false);
@@ -467,16 +555,24 @@ public class IssueTicket extends JPanel {
 
 		this.offenderPanel.setVisible(false);
 		this.add(this.offenderPanel);
+		//new component
+		this.lblLicenseExpiryDateValidationMsg = new JLabel("*");
+		this.lblLicenseExpiryDateValidationMsg.setForeground(Color.RED);
+		this.offenderPanel.add(this.lblLicenseExpiryDateValidationMsg, "6, 18");
 		this.add(this.ticketPanel);
 		this.ticketPanel.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("18px"),
 				ColumnSpec.decode("89px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("107px:grow"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				ColumnSpec.decode("84px"),
+				ColumnSpec.decode("71px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("left:129px:grow"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				ColumnSpec.decode("32px"),
@@ -516,13 +612,24 @@ public class IssueTicket extends JPanel {
 		this.cmbxOffense = new JComboBox();
 		this.ticketPanel.add(this.cmbxOffense, "4, 2, fill, center");
 		//new component
+		this.offenseValidationMsg = new JLabel("*");
+		this.offenseValidationMsg.setForeground(Color.RED);
+		this.offenseValidationMsg.setBackground(Color.WHITE);
+		this.offenseValidationMsg.setToolTipText("Selection Required");
+		this.ticketPanel.add(this.offenseValidationMsg, "6, 2");
+		//new component
 		this.lblOffenseStatus = new JLabel("");
-		this.ticketPanel.add(this.lblOffenseStatus, "6, 2");
+		this.ticketPanel.add(this.lblOffenseStatus, "8, 2");
 
 		this.lblDateOfOffense = new JLabel("Date of Offense");
 		this.ticketPanel.add(this.lblDateOfOffense, "2, 4, right, center");
 		this.offenseDateChooser = new JDateChooser();
 		this.ticketPanel.add(this.offenseDateChooser, "4, 4, left, center");
+		//new component
+		this.lblOffenseDateValidationMsg = new JLabel("*");
+		this.lblOffenseDateValidationMsg.setToolTipText("Data Required");
+		this.lblOffenseDateValidationMsg.setForeground(Color.RED);
+		this.ticketPanel.add(this.lblOffenseDateValidationMsg, "6, 4");
 
 		this.lblOffenseAddress = new JLabel("Address 1:");
 		this.ticketPanel.add(this.lblOffenseAddress, "2, 6, right, default");
@@ -534,23 +641,38 @@ public class IssueTicket extends JPanel {
 		this.ticketAddress1Pane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		
 		this.ticketPanel.add(this.ticketAddress1Pane, "4, 6, fill, center");
+		//new component
+		this.lblOffenseAddressValidationMsg = new JLabel("*");
+		this.lblOffenseAddressValidationMsg.setForeground(Color.RED);
+		this.lblOffenseAddressValidationMsg.setToolTipText("Data Required");
+		this.ticketPanel.add(this.lblOffenseAddressValidationMsg, "6, 6");
 		
 
 		this.lblTicketAddress2 = new JLabel("Address 2:");
-		this.ticketPanel.add(this.lblTicketAddress2, "6, 6, right, default");
+		this.ticketPanel.add(this.lblTicketAddress2, "8, 6, right, default");
 
 		this.txtTicketAddress2 = new JTextArea(4,3);
 		this.txtTicketAddress2.setLineWrap(true);
 		this.ticketAddress2Pane = new JScrollPane(this.txtTicketAddress2);
 		this.ticketAddress2Pane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		
-		this.ticketPanel.add(this.ticketAddress2Pane, "8, 6, fill, center");
+		this.ticketPanel.add(this.ticketAddress2Pane, "10, 6, fill, center");
+		//new component
+		this.lblOffenseAddress2ValidationMsg = new JLabel("*");
+		this.lblOffenseAddress2ValidationMsg.setToolTipText("Data Required");
+		this.lblOffenseAddress2ValidationMsg.setForeground(Color.RED);
+		this.ticketPanel.add(this.lblOffenseAddress2ValidationMsg, "12, 6");
 
 		this.lblTicketParish = new JLabel("Parish:");
 		this.ticketPanel.add(this.lblTicketParish, "2, 8, right, default");
 
 		this.cmbxTicketParish = new JComboBox(this.parishes);
 		this.ticketPanel.add(this.cmbxTicketParish, "4, 8, fill, default");
+		//new component
+		this.lblOffenseParishValidationMsg = new JLabel("*");
+		this.lblOffenseParishValidationMsg.setToolTipText("Data Required");
+		this.lblOffenseParishValidationMsg.setForeground(Color.RED);
+		this.ticketPanel.add(this.lblOffenseParishValidationMsg, "6, 8");
 
 		this.lblTicketFine = new JLabel("Fine:");
 		this.ticketPanel.add(this.lblTicketFine, "2, 10, right, center");
@@ -558,6 +680,11 @@ public class IssueTicket extends JPanel {
 		this.txtTicketFine = new JTextField();
 		this.ticketPanel.add(this.txtTicketFine, "4, 10, left, center");
 		this.txtTicketFine.setColumns(10);
+		//new component
+		this.lblFineValidationMsg = new JLabel("*");
+		this.lblFineValidationMsg.setToolTipText("Data Required");
+		this.lblFineValidationMsg.setForeground(Color.RED);
+		this.ticketPanel.add(this.lblFineValidationMsg, "6, 10");
 
 		this.lblTicketPoints = new JLabel("Points:");
 		this.ticketPanel.add(this.lblTicketPoints, "2, 12, right, center");
@@ -565,6 +692,10 @@ public class IssueTicket extends JPanel {
 		this.txtTicketPoints = new JTextField();
 		this.ticketPanel.add(this.txtTicketPoints, "4, 12, left, center");
 		this.txtTicketPoints.setColumns(10);
+		//new component
+		this.lblOffensePointsValidationMsg = new JLabel("*");
+		this.lblOffensePointsValidationMsg.setForeground(Color.RED);
+		this.ticketPanel.add(this.lblOffensePointsValidationMsg, "6, 12");
 		//new component
 		this.lblTicketDescription = new JLabel("Description");
 		this.ticketPanel.add(this.lblTicketDescription, "2, 14, right, center");
@@ -612,8 +743,16 @@ public class IssueTicket extends JPanel {
 		this.buttonPanel.add(this.btnResetIssueTicket, "4, 2, fill, default");
 		
 		this.add(this.buttonPanel);
+		
+		this.initialiseValidators();
 	}
 
+	public void initialiseValidators()
+	{
+		this.txtSearchOffenderTrn.setValidationMessage(this.lblSearchOffenderTrnValidationMsg);
+		this.txtSearchOffenderTrn.initialiseListensers();
+	}
+	
 	public void initializeListeners()
 	{
 		JCFFrame parentFrame =(JCFFrame)this.getTopLevelAncestor();
