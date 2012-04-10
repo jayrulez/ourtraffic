@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.xml.parsers.ParserConfigurationException;
@@ -41,231 +42,261 @@ public class IssueTicketController implements ActionListener, ItemListener, Docu
 	{
 		if(this.eventSource.equalsIgnoreCase("btnSearchOffender"))
 		{
-			Offender targetOffender = new Offender();
-			
-			targetOffender.setTrnNumber(Integer.parseInt(this.issueTicketPage.getTxtSearchOffenderTrn().getText().trim()));
-			
-			ServiceRequest serviceRequest = new ServiceRequest(ServiceRequest.GET_OFFENDER);
-			serviceRequest.getData().add(targetOffender);
-		
-			ConnectionController connectionController = new ConnectionController(serviceRequest);
-			
-			try 
+			if(this.issueTicketPage.isSearchFormValid())
 			{
-				connectionController.submitRequest();
-				if(connectionController.isDialogSuccess())
+				
+				this.issueTicketPage.getSearchOffenderStatusPanel().setVisible(false);
+				this.issueTicketPage.getSearchOffenderStatusPanel().setBorder(null);
+				
+				this.issueTicketPage.getLblSearchOffenderStatus().setText("");
+				this.issueTicketPage.getLblSearchOffenderStatus().setForeground(Color.RED);
+				
+				Offender targetOffender = new Offender();
+				
+				targetOffender.setTrnNumber(Integer.parseInt(this.issueTicketPage.getTxtSearchOffenderTrn().getText().trim()));
+				
+				ServiceRequest serviceRequest = new ServiceRequest(ServiceRequest.GET_OFFENDER);
+				serviceRequest.getData().add(targetOffender);
+			
+				ConnectionController connectionController = new ConnectionController(serviceRequest);
+				
+				try 
 				{
-					if(connectionController.getSuccessServiceResponse().getData().isEmpty())
+					connectionController.submitRequest();
+					if(connectionController.isDialogSuccess())
 					{
-						this.issueTicketPage.getLblSearchOffenderStatus().setVisible(true);
-						this.issueTicketPage.getLblSearchOffenderStatus().setForeground(Color.RED);
-						this.issueTicketPage.getLblSearchOffenderStatus().setText("Offender \"" + this.issueTicketPage.getTxtSearchOffenderTrn().getText().trim() + "\" does not Exist");
+						if(connectionController.getSuccessServiceResponse().getData().isEmpty())
+						{
+							this.issueTicketPage.getSearchOffenderStatusPanel().setVisible(true);
+							this.issueTicketPage.getLblSearchOffenderStatus().setVisible(true);
+							this.issueTicketPage.getLblSearchOffenderStatus().setForeground(Color.RED);
+							this.issueTicketPage.getLblSearchOffenderStatus().setText("Offender \"" + this.issueTicketPage.getTxtSearchOffenderTrn().getText().trim() + "\" does not Exist");
+						}
+						else
+						{
+							this.issueTicketPage.getLblSearchOffenderStatus().setText("");
+							this.issueTicketPage.getLblSearchOffenderStatus().setVisible(false);
+							this.issueTicketPage.getSearchOffenderStatusPanel().setVisible(false);
+							try
+							{
+								Offender foundOffender = (Offender) connectionController.getSuccessServiceResponse().getData().firstElement();
+								
+								if(foundOffender != null)
+								{
+									this.issueTicketPage.getLblExistingOffenderTrnValue().setText(String.valueOf(foundOffender.getTrnNumber()));
+									this.issueTicketPage.getLblExistingFirstNameValue().setText(foundOffender.getFirstName());
+									this.issueTicketPage.getLblExistingLastNameValue().setText(foundOffender.getLastName());
+									this.issueTicketPage.getLblExistingMiddleInitialValue().setText(foundOffender.getMiddleInitial());
+									
+									SimpleDateFormat dobFormat = new SimpleDateFormat("d'-'MMM'-'yyyy");
+									
+									this.issueTicketPage.getLblExistingDobValue().setText(dobFormat.format(foundOffender.getDob()));
+									this.issueTicketPage.getTxtExistingAddress1().setText(foundOffender.getAddress().getAddress1());
+									this.issueTicketPage.getTxtExistingAddress2().setText(foundOffender.getAddress().getAddress2());
+									this.issueTicketPage.getLblExistingParishValue().setText(foundOffender.getAddress().getParish());
+									
+									this.issueTicketPage.getLblExistingLicenseTypeValue().setText(foundOffender.getLicenseType());
+									this.issueTicketPage.getLblExistingPointsValue().setText(String.valueOf(foundOffender.getPoints()));
+									
+									SimpleDateFormat expiryDateFormat = new SimpleDateFormat("d'-'MMM'-'yyyy");
+									this.issueTicketPage.getLblExistingExpiryDateValue().setText(expiryDateFormat.format(foundOffender.getExpiryDate()));
+									
+									this.issueTicketPage.getExistingOffenderPanel().setVisible(true);
+								}
+								else
+								{
+									this.issueTicketPage.getSearchOffenderStatusPanel().setVisible(true);
+									this.issueTicketPage.getLblSearchOffenderStatus().setVisible(true);
+									this.issueTicketPage.getLblSearchOffenderStatus().setForeground(Color.RED);
+									this.issueTicketPage.getLblSearchOffenderStatus().setText("Offender \"" + this.issueTicketPage.getTxtSearchOffenderTrn().getText().trim() + "\" does not Exist");
+								}
+							}
+							catch(ClassCastException ex)
+							{
+								this.issueTicketPage.getSearchOffenderStatusPanel().setVisible(true);
+								this.issueTicketPage.getLblSearchOffenderStatus().setVisible(true);
+								this.issueTicketPage.getLblSearchOffenderStatus().setForeground(Color.RED);
+								this.issueTicketPage.getLblSearchOffenderStatus().setText("Unexpected error occured while rendering the offender data.");
+							}
+						}
+					}
+				} 
+				catch (SAXException ex) 
+				{
+					JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Could not connect to sever. Please Check your configuration setting.","JCF Traffic: Configuration Error",JOptionPane.ERROR_MESSAGE);
+				} 
+				catch (IOException ex) 
+				{
+					if(ex.getMessage().equalsIgnoreCase("config file"))
+					{
+						JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Error: Configuration file could not be read.","JCF Traffic: Configuration",JOptionPane.ERROR_MESSAGE);
 					}
 					else
 					{
-						this.issueTicketPage.getLblSearchOffenderStatus().setText("");
-						this.issueTicketPage.getLblSearchOffenderStatus().setVisible(false);
-						try
-						{
-							Offender foundOffender = (Offender) connectionController.getSuccessServiceResponse().getData().firstElement();
-							
-							if(foundOffender != null)
-							{
-								this.issueTicketPage.getLblExistingOffenderTrnValue().setText(String.valueOf(foundOffender.getTrnNumber()));
-								this.issueTicketPage.getLblExistingFirstNameValue().setText(foundOffender.getFirstName());
-								this.issueTicketPage.getLblExistingLastNameValue().setText(foundOffender.getLastName());
-								this.issueTicketPage.getLblExistingMiddleInitialValue().setText(foundOffender.getMiddleInitial());
-								
-								SimpleDateFormat dobFormat = new SimpleDateFormat("d'-'MMM'-'yyyy");
-								
-								this.issueTicketPage.getLblExistingDobValue().setText(dobFormat.format(foundOffender.getDob()));
-								this.issueTicketPage.getTxtExistingAddress1().setText(foundOffender.getAddress().getAddress1());
-								this.issueTicketPage.getTxtExistingAddress2().setText(foundOffender.getAddress().getAddress2());
-								this.issueTicketPage.getLblExistingParishValue().setText(foundOffender.getAddress().getParish());
-								
-								this.issueTicketPage.getLblExistingLicenseTypeValue().setText(foundOffender.getLicenseType());
-								this.issueTicketPage.getLblExistingPointsValue().setText(String.valueOf(foundOffender.getPoints()));
-								
-								SimpleDateFormat expiryDateFormat = new SimpleDateFormat("d'-'MMM'-'yyyy");
-								this.issueTicketPage.getLblExistingExpiryDateValue().setText(expiryDateFormat.format(foundOffender.getExpiryDate()));
-								
-								this.issueTicketPage.getExistingOffenderPanel().setVisible(true);
-							}
-							else
-							{
-								this.issueTicketPage.getLblSearchOffenderStatus().setVisible(true);
-								this.issueTicketPage.getLblSearchOffenderStatus().setForeground(Color.RED);
-								this.issueTicketPage.getLblSearchOffenderStatus().setText("Offender \"" + this.issueTicketPage.getTxtSearchOffenderTrn().getText().trim() + "\" does not Exist");
-							}
-						}
-						catch(ClassCastException ex)
-						{
-							this.issueTicketPage.getLblSearchOffenderStatus().setVisible(true);
-							this.issueTicketPage.getLblSearchOffenderStatus().setForeground(Color.RED);
-							this.issueTicketPage.getLblSearchOffenderStatus().setText("Unexpected error occured while rendering the offender data.");
-						}
+						JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Error: Could not contact Server.","JCF Traffic: Server Connection",JOptionPane.ERROR_MESSAGE);
 					}
-				}
-			} 
-			catch (SAXException ex) 
-			{
-				JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Could not connect to sever. Please Check your configuration setting.","JCF Traffic: Configuration Error",JOptionPane.ERROR_MESSAGE);
-			} 
-			catch (IOException ex) 
-			{
-				if(ex.getMessage().equalsIgnoreCase("config file"))
+				} 
+				catch (ParserConfigurationException ex) 
 				{
-					JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Error: Configuration file could not be read.","JCF Traffic: Configuration",JOptionPane.ERROR_MESSAGE);
+	
+					JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Could not connect to sever. Please Check your configuration setting.","JCF Traffic: Configuration",JOptionPane.ERROR_MESSAGE);
 				}
-				else
+				catch(NumberFormatException ex)
 				{
-					JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Error: Could not contact Server.","JCF Traffic: Server Connection",JOptionPane.ERROR_MESSAGE);
-				}
-			} 
-			catch (ParserConfigurationException ex) 
-			{
-
-				JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Could not connect to sever. Please Check your configuration setting.","JCF Traffic: Configuration",JOptionPane.ERROR_MESSAGE);
-			}
-			catch(NumberFormatException ex)
-			{
-				JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Could not connect to sever. Incorrect configuation connection setting.","JCF Traffic: Configuration",JOptionPane.ERROR_MESSAGE);
-			} 
-			catch (ClassNotFoundException ex) 
-			{
-				JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Error: Some needed resources are unavailable.","JCF Traffic",JOptionPane.ERROR_MESSAGE);
-			}
-			
-			
-		}
-		else  if(this.eventSource.equalsIgnoreCase("btnIssueTicket"))
-		{
-			ServiceRequest serviceRequest = null;
-			Ticket ticket = null;
-			Offense offense = null;		
-			Police police = null;
-			
-			JCFFrame parentFrame = (JCFFrame)this.issueTicketPage.getTopLevelAncestor();
-			
-			//public Offender(Integer trnNumber, String firstName, String lastName, String middleInitial, Date dob, String address1, String address2, String parish,String licenseType,Integer points, Date expiryDate) 
-			if(this.issueTicketPage.getChbxNewOffender().isSelected())
-			{
-				Offender offender = new Offender(Integer.parseInt(this.issueTicketPage.getTxtOffenderTrn().getText().trim()),this.issueTicketPage.getTxtFirstName().getText().trim(),this.issueTicketPage.getTxtLastName().getText().trim(),this.issueTicketPage.getTxtMiddleInitial().getText().trim(),this.issueTicketPage.getOffenderDobChooser().getDate(),this.issueTicketPage.getTxtAddress1().getText().trim(),this.issueTicketPage.getTxtAddress2().getText().trim(),(String)this.issueTicketPage.getCmbxOffenderParish().getSelectedItem(),(String)this.issueTicketPage.getCmbxLicenseType().getSelectedItem(),Integer.parseInt(this.issueTicketPage.getTxtPoints().getText().trim()),this.issueTicketPage.getExpiryDateChooser().getDate());
-				ticket = new Ticket();
-				offense = new Offense();
-				police = new Police();
-				
-				if(parentFrame != null)
+					JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Could not connect to sever. Incorrect configuation connection setting.","JCF Traffic: Configuration",JOptionPane.ERROR_MESSAGE);
+				} 
+				catch (ClassNotFoundException ex) 
 				{
-					police.setBadgeNumber(parentFrame.getCurrentUser().getHandle());
+					JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Error: Some needed resources are unavailable.","JCF Traffic",JOptionPane.ERROR_MESSAGE);
 				}
-				ticket.setPolice(police);
-				offense.setOffenseCode(Integer.parseInt(Offense.extractCode(this.issueTicketPage.getCmbxOffense().getSelectedItem().toString())));
-				
-				ticket.setDescription(this.issueTicketPage.getTxtTicketAddress1().getText().trim());
-				ticket.setFine(Float.parseFloat(this.issueTicketPage.getTxtTicketFine().getText().trim()));
-				
-				ticket.setOffender(offender);
-				ticket.setOffense(offense);
-				
-				ticket.setOffenseDate(this.issueTicketPage.getOffenseDateChooser().getDate());
-				ticket.setOffensePlace(new Address(this.issueTicketPage.getTxtTicketAddress1().getText().trim(),this.issueTicketPage.getTxtTicketAddress2().getText().trim(),(String)this.issueTicketPage.getCmbxTicketParish().getSelectedItem()));
-				ticket.setPoints(Integer.parseInt(this.issueTicketPage.getTxtTicketPoints().getText().trim()));
-				
-				serviceRequest = new ServiceRequest(ServiceRequest.ISSUE_TICKET_NEW_OFFENDER);
-				
-				serviceRequest.getData().add(ticket);
 			}
 			else
 			{
-				Offender offender = new Offender();
-				offender.setTrnNumber(Integer.parseInt(this.issueTicketPage.getLblExistingOffenderTrnValue().getText().trim()));
+				this.issueTicketPage.getSearchOffenderPanel().setFocusable(true);
 				
-				ticket = new Ticket();
-				offense = new Offense();
-				police = new Police();
+				this.issueTicketPage.getSearchOffenderStatusPanel().setVisible(false);
+				this.issueTicketPage.getSearchOffenderStatusPanel().setBorder(new LineBorder(Color.RED));
+				this.issueTicketPage.getSearchOffenderStatusPanel().setVisible(true);
 				
-				if(parentFrame != null)
-				{
-					System.out.println("Police User:" + parentFrame.getCurrentUser().getFirstName());
-					police.setBadgeNumber(parentFrame.getCurrentUser().getHandle());
-				}
-				ticket.setPolice(police);
-				offense.setOffenseCode(Integer.parseInt(Offense.extractCode(this.issueTicketPage.getCmbxOffense().getSelectedItem().toString())));
-				
-				ticket.setDescription(this.issueTicketPage.getTxtTicketAddress1().getText().trim());
-				ticket.setFine(Float.parseFloat(this.issueTicketPage.getTxtTicketFine().getText().trim()));
-				
-				ticket.setOffender(offender);
-				ticket.setOffense(offense);
-				
-				ticket.setOffenseDate(this.issueTicketPage.getOffenseDateChooser().getDate());
-				ticket.setOffensePlace(new Address(this.issueTicketPage.getTxtTicketAddress1().getText().trim(),this.issueTicketPage.getTxtTicketAddress2().getText().trim(),(String)this.issueTicketPage.getCmbxTicketParish().getSelectedItem()));
-				ticket.setPoints(Integer.parseInt(this.issueTicketPage.getTxtTicketPoints().getText().trim()));
-				
-				serviceRequest = new ServiceRequest(ServiceRequest.ISSUE_TICKET_EXISTING_OFFENDER);
-				serviceRequest.getData().add(ticket);
+				this.issueTicketPage.getLblSearchOffenderStatus().setText("Please choose a search criteria");
+				this.issueTicketPage.getLblSearchOffenderStatus().setForeground(Color.RED);
 			}
-
-			ConnectionController connectionController = new ConnectionController(serviceRequest);
-			
-			try 
+		}
+		else  if(this.eventSource.equalsIgnoreCase("btnIssueTicket"))
+		{
+			if(this.issueTicketPage.isIssueTicketFormValid())
 			{
-				connectionController.submitRequest();
-				if(connectionController.isDialogSuccess())
+				ServiceRequest serviceRequest = null;
+				Ticket ticket = null;
+				Offense offense = null;		
+				Police police = null;
+				
+				JCFFrame parentFrame = (JCFFrame)this.issueTicketPage.getTopLevelAncestor();
+				
+				//public Offender(Integer trnNumber, String firstName, String lastName, String middleInitial, Date dob, String address1, String address2, String parish,String licenseType,Integer points, Date expiryDate) 
+				if(this.issueTicketPage.getChbxNewOffender().isSelected())
 				{
-					if(connectionController.getSuccessServiceResponse().getStatus()==1)
+					Offender offender = new Offender(Integer.parseInt(this.issueTicketPage.getTxtOffenderTrn().getText().trim()),this.issueTicketPage.getTxtFirstName().getText().trim(),this.issueTicketPage.getTxtLastName().getText().trim(),this.issueTicketPage.getTxtMiddleInitial().getText().trim(),this.issueTicketPage.getOffenderDobChooser().getDate(),this.issueTicketPage.getTxtAddress1().getText().trim(),this.issueTicketPage.getTxtAddress2().getText().trim(),(String)this.issueTicketPage.getCmbxOffenderParish().getSelectedItem(),(String)this.issueTicketPage.getCmbxLicenseType().getSelectedItem(),Integer.parseInt(this.issueTicketPage.getTxtPoints().getText().trim()),this.issueTicketPage.getExpiryDateChooser().getDate());
+					ticket = new Ticket();
+					offense = new Offense();
+					police = new Police();
+					
+					if(parentFrame != null)
 					{
-						if(!this.issueTicketPage.getExistingOffenderPanel().isVisible())
-						{
-							JOptionPane.showMessageDialog(this.issueTicketPage, "Ticket was issued to: " + this.issueTicketPage.getTxtFirstName().getText().trim() + " " + this.issueTicketPage.getTxtLastName().getText().trim(),"Issue Ticket: success",JOptionPane.DEFAULT_OPTION,new ImageIcon(IssueTicketController.class.getResource("/trafficticket/resources/successIcon_32x32.png")));
-							this.resetIssueTicket();
-						}
-						else
-						{
-							JOptionPane.showMessageDialog(this.issueTicketPage, "Ticket was issued to: " + this.issueTicketPage.getLblExistingFirstNameValue().getText().trim() + " " + this.issueTicketPage.getLblExistingLastNameValue().getText().trim(),"Issue Ticket: success",JOptionPane.DEFAULT_OPTION,new ImageIcon(IssueTicketController.class.getResource("/trafficticket/resources/successIcon_32x32.png")));
-						}
+						police.setBadgeNumber(parentFrame.getCurrentUser().getHandle());
 					}
-					else
-					{
-						if(!this.issueTicketPage.getExistingOffenderPanel().isVisible())
-						{
-							JOptionPane.showMessageDialog(this.issueTicketPage,"Failed to issue ticket to "+ "\""+ this.issueTicketPage.getTxtFirstName().getText().trim() +" "+this.issueTicketPage.getTxtLastName().getText().trim() +"\". Please Try again." ,"Issue Ticket: failed",JOptionPane.ERROR_MESSAGE);
-						}
-						else
-						{
-							JOptionPane.showMessageDialog(this.issueTicketPage,"Failed to issue ticket to "+ "\""+ this.issueTicketPage.getLblExistingFirstNameValue().getText().trim() +" "+this.issueTicketPage.getLblExistingLastNameValue().getText().trim() +"\". Please Try again." ,"Issue Ticket: failed",JOptionPane.ERROR_MESSAGE);
-						}
-					}
-				}
-			} 
-			catch (SAXException ex) 
-			{
-				JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Could not connect to sever. Please Check your configuration setting.","JCF Traffic: Configuration Error",JOptionPane.ERROR_MESSAGE);
-			} 
-			catch (IOException ex) 
-			{
-				if(ex.getMessage().equalsIgnoreCase("config file"))
-				{
-					JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Error: Configuration file could not be read.","JCF Traffic: Configuration",JOptionPane.ERROR_MESSAGE);
+					ticket.setPolice(police);
+					offense.setOffenseCode(Integer.parseInt(Offense.extractCode(this.issueTicketPage.getCmbxOffense().getSelectedItem().toString())));
+					
+					ticket.setDescription(this.issueTicketPage.getTxtTicketAddress1().getText().trim());
+					ticket.setFine(Float.parseFloat(this.issueTicketPage.getTxtTicketFine().getText().trim()));
+					
+					ticket.setOffender(offender);
+					ticket.setOffense(offense);
+					
+					ticket.setOffenseDate(this.issueTicketPage.getOffenseDateChooser().getDate());
+					ticket.setOffensePlace(new Address(this.issueTicketPage.getTxtTicketAddress1().getText().trim(),this.issueTicketPage.getTxtTicketAddress2().getText().trim(),(String)this.issueTicketPage.getCmbxTicketParish().getSelectedItem()));
+					ticket.setPoints(Integer.parseInt(this.issueTicketPage.getTxtTicketPoints().getText().trim()));
+					
+					serviceRequest = new ServiceRequest(ServiceRequest.ISSUE_TICKET_NEW_OFFENDER);
+					
+					serviceRequest.getData().add(ticket);
 				}
 				else
 				{
-					JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Error: Could not contact Server.","JCF Traffic: Server Connection",JOptionPane.ERROR_MESSAGE);
+					Offender offender = new Offender();
+					offender.setTrnNumber(Integer.parseInt(this.issueTicketPage.getLblExistingOffenderTrnValue().getText().trim()));
+					
+					ticket = new Ticket();
+					offense = new Offense();
+					police = new Police();
+					
+					if(parentFrame != null)
+					{
+						System.out.println("Police User:" + parentFrame.getCurrentUser().getFirstName());
+						police.setBadgeNumber(parentFrame.getCurrentUser().getHandle());
+					}
+					ticket.setPolice(police);
+					offense.setOffenseCode(Integer.parseInt(Offense.extractCode(this.issueTicketPage.getCmbxOffense().getSelectedItem().toString())));
+					
+					ticket.setDescription(this.issueTicketPage.getTxtTicketAddress1().getText().trim());
+					ticket.setFine(Float.parseFloat(this.issueTicketPage.getTxtTicketFine().getText().trim()));
+					
+					ticket.setOffender(offender);
+					ticket.setOffense(offense);
+					
+					ticket.setOffenseDate(this.issueTicketPage.getOffenseDateChooser().getDate());
+					ticket.setOffensePlace(new Address(this.issueTicketPage.getTxtTicketAddress1().getText().trim(),this.issueTicketPage.getTxtTicketAddress2().getText().trim(),(String)this.issueTicketPage.getCmbxTicketParish().getSelectedItem()));
+					ticket.setPoints(Integer.parseInt(this.issueTicketPage.getTxtTicketPoints().getText().trim()));
+					
+					serviceRequest = new ServiceRequest(ServiceRequest.ISSUE_TICKET_EXISTING_OFFENDER);
+					serviceRequest.getData().add(ticket);
 				}
-			} 
-			catch (ParserConfigurationException ex) 
-			{
-
-				JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Could not connect to sever. Please Check your configuration setting.","JCF Traffic: Configuration",JOptionPane.ERROR_MESSAGE);
+	
+				ConnectionController connectionController = new ConnectionController(serviceRequest);
+				
+				try 
+				{
+					connectionController.submitRequest();
+					if(connectionController.isDialogSuccess())
+					{
+						if(connectionController.getSuccessServiceResponse().getStatus()==1)
+						{
+							if(!this.issueTicketPage.getExistingOffenderPanel().isVisible())
+							{
+								JOptionPane.showMessageDialog(this.issueTicketPage, "Ticket was issued to: " + this.issueTicketPage.getTxtFirstName().getText().trim() + " " + this.issueTicketPage.getTxtLastName().getText().trim(),"Issue Ticket: success",JOptionPane.DEFAULT_OPTION,new ImageIcon(IssueTicketController.class.getResource("/trafficticket/resources/successIcon_32x32.png")));
+								this.resetIssueTicket();
+							}
+							else
+							{
+								JOptionPane.showMessageDialog(this.issueTicketPage, "Ticket was issued to: " + this.issueTicketPage.getLblExistingFirstNameValue().getText().trim() + " " + this.issueTicketPage.getLblExistingLastNameValue().getText().trim(),"Issue Ticket: success",JOptionPane.DEFAULT_OPTION,new ImageIcon(IssueTicketController.class.getResource("/trafficticket/resources/successIcon_32x32.png")));
+							}
+						}
+						else
+						{
+							if(!this.issueTicketPage.getExistingOffenderPanel().isVisible())
+							{
+								JOptionPane.showMessageDialog(this.issueTicketPage,"Failed to issue ticket to "+ "\""+ this.issueTicketPage.getTxtFirstName().getText().trim() +" "+this.issueTicketPage.getTxtLastName().getText().trim() +"\". Please Try again." ,"Issue Ticket: failed",JOptionPane.ERROR_MESSAGE);
+							}
+							else
+							{
+								JOptionPane.showMessageDialog(this.issueTicketPage,"Failed to issue ticket to "+ "\""+ this.issueTicketPage.getLblExistingFirstNameValue().getText().trim() +" "+this.issueTicketPage.getLblExistingLastNameValue().getText().trim() +"\". Please Try again." ,"Issue Ticket: failed",JOptionPane.ERROR_MESSAGE);
+							}
+						}
+					}
+				} 
+				catch (SAXException ex) 
+				{
+					JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Could not connect to sever. Please Check your configuration setting.","JCF Traffic: Configuration Error",JOptionPane.ERROR_MESSAGE);
+				} 
+				catch (IOException ex) 
+				{
+					if(ex.getMessage().equalsIgnoreCase("config file"))
+					{
+						JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Error: Configuration file could not be read.","JCF Traffic: Configuration",JOptionPane.ERROR_MESSAGE);
+					}
+					else
+					{
+						JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Error: Could not contact Server.","JCF Traffic: Server Connection",JOptionPane.ERROR_MESSAGE);
+					}
+				} 
+				catch (ParserConfigurationException ex) 
+				{
+	
+					JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Could not connect to sever. Please Check your configuration setting.","JCF Traffic: Configuration",JOptionPane.ERROR_MESSAGE);
+				}
+				catch(NumberFormatException ex)
+				{
+					JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Could not connect to sever. Incorrect configuation connection setting.","JCF Traffic: Configuration",JOptionPane.ERROR_MESSAGE);
+				} 
+				catch (ClassNotFoundException ex) 
+				{
+					JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Error: Some needed resources are unavailable.","JCF Traffic",JOptionPane.ERROR_MESSAGE);
+				}
 			}
-			catch(NumberFormatException ex)
+			else
 			{
-				JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Could not connect to sever. Incorrect configuation connection setting.","JCF Traffic: Configuration",JOptionPane.ERROR_MESSAGE);
-			} 
-			catch (ClassNotFoundException ex) 
-			{
-				JOptionPane.showMessageDialog((JCFFrame)this.issueTicketPage.getTopLevelAncestor(), "Error: Some needed resources are unavailable.","JCF Traffic",JOptionPane.ERROR_MESSAGE);
+				
 			}
 		}
 		else if(this.eventSource.equalsIgnoreCase("btnResetIssueTicket"))
@@ -355,6 +386,7 @@ public class IssueTicketController implements ActionListener, ItemListener, Docu
 			
 			if(!this.issueTicketPage.getLblSearchOffenderStatus().getText().isEmpty())
 			{
+				this.issueTicketPage.getSearchOffenderStatusPanel().setVisible(false);
 				this.issueTicketPage.getLblSearchOffenderStatus().setText("");
 				this.issueTicketPage.getLblSearchOffenderStatus().setVisible(false);
 			}
@@ -369,6 +401,7 @@ public class IssueTicketController implements ActionListener, ItemListener, Docu
 			
 			if(!this.issueTicketPage.getLblSearchOffenderStatus().getText().isEmpty())
 			{
+				this.issueTicketPage.getSearchOffenderStatusPanel().setVisible(false);
 				this.issueTicketPage.getLblSearchOffenderStatus().setText("");
 				this.issueTicketPage.getLblSearchOffenderStatus().setVisible(false);
 			}

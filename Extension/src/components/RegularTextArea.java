@@ -6,78 +6,57 @@ import java.awt.event.FocusListener;
 
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+import javax.swing.JTextArea;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import javax.swing.text.PlainDocument;
 
-public class IntegerTextField extends JTextField implements  DocumentListener, FocusListener
+
+public class RegularTextArea extends JTextArea implements  DocumentListener, FocusListener
 {
-
+  /**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
+
 
 	private boolean allowEmpty = false;
 	private JLabel validationMessage;
 	private boolean emptyCheckFailed = true;
 	private boolean formatCheckFailed = true;
-	private JScrollPane parentScrollPane;
 	
-	public IntegerTextField(int defval, int size)
-	{
-	    super("" + defval, size);
-	}
-	public IntegerTextField()
+	private JScrollPane parentScrollPane;
+
+	public RegularTextArea()
 	{
 		super("");
 	}
+	
+	public RegularTextArea(int col,int row)
+	{
+		super(col,row);
+	}
+	/*
 	  protected Document createDefaultModel()
 	  {
 		  return new NumberTextDocument();
 	  }
-	
-	  public boolean isValid() 
-	  {
-		    try 
-		    {
-		    	Integer.parseInt(getText());
-		    	return true;
-		    } 
-		    catch (NumberFormatException e) 
-		    {
-		    	return false;
-		    }
-		    catch (NullPointerException e) 
-		    {
-		    	return false;
-		    }
-	  }
-	  
+	  */
 	  public void initialiseListensers()
 	  {
 			this.addFocusListener(this);
 			this.getDocument().addDocumentListener(this);
 	  }
 	  
-	  public int getValue() 
-	  {
-		    try 
-		    {
-		      return Integer.parseInt(getText());
-		    } 
-		    catch (NumberFormatException e) 
-		    {
-		      return 0;
-		    }
-	  }
-	  
+	public JLabel getValidationMessage() {
+		return validationMessage;
+	}
+	public void setValidationMessage(JLabel validationMessage) {
+		this.validationMessage = validationMessage;
+	}
+	/*  
   	class NumberTextDocument extends PlainDocument 
   	{
-		/**
-		 * 
-		 */
+
 		private static final long serialVersionUID = 1L;
 		
 		public void insertString(int offs, String str, AttributeSet a)throws BadLocationException 
@@ -97,6 +76,7 @@ public class IntegerTextField extends JTextField implements  DocumentListener, F
 			}
 		}
   	}
+*/
   	
 	@Override
 	public void focusGained(FocusEvent e) 
@@ -106,9 +86,8 @@ public class IntegerTextField extends JTextField implements  DocumentListener, F
 		{
 			if(this.parentScrollPane!=null)
 			{
-				System.out.println("Curent TAB:"+parentScrollPane);
-				this.parentScrollPane.getViewport().scrollRectToVisible(this.getBounds());
-			}
+				this.parentScrollPane.scrollRectToVisible(this.getBounds());
+			}			
 		}
 	}
 
@@ -132,7 +111,7 @@ public class IntegerTextField extends JTextField implements  DocumentListener, F
 					this.emptyCheckFailed = false;
 				}
 			}
-				
+			/*	
 			if(!this.isValid())
 			{
 				this.validationMessage.setForeground(Color.RED);
@@ -145,6 +124,7 @@ public class IntegerTextField extends JTextField implements  DocumentListener, F
 				this.validationMessage.setVisible(false);
 				this.formatCheckFailed = false;
 			}
+			*/
 		}	
 	}
 
@@ -157,9 +137,10 @@ public class IntegerTextField extends JTextField implements  DocumentListener, F
 		}
 		return false;
 	}
+	
 	public boolean isValidateSuccess()
 	{
-		if(this.emptyCheckFailed || this.formatCheckFailed)
+		if(this.emptyCheckFailed)
 		{
 			return false;
 		}
@@ -183,26 +164,25 @@ public class IntegerTextField extends JTextField implements  DocumentListener, F
 		// TODO Auto-generated method stub
 		
 	}
-	public boolean getAllowEmpty() {
+	public boolean getAllowEmpty() 
+	{
 		return allowEmpty;
 	}
-	public void setAllowEmpty(boolean allowEmpty) {
+	
+	public void setAllowEmpty(boolean allowEmpty) 
+	{
 		this.allowEmpty = allowEmpty;
+	}
+	public boolean isFormatCheckFailed() {
+		return formatCheckFailed;
+	}
+	public void setFormatCheckFailed(boolean formatCheckFailed) {
+		this.formatCheckFailed = formatCheckFailed;
 	}
 	public JScrollPane getParentScrollPane() {
 		return parentScrollPane;
 	}
 	public void setParentScrollPane(JScrollPane parentScrollPane) {
 		this.parentScrollPane = parentScrollPane;
-	}
-	
-
-	public JLabel getValidationMessage()
-	{
-		return validationMessage;
-	}
-	public void setValidationMessage(JLabel validationMessage) 
-	{
-		this.validationMessage = validationMessage;
 	}
 }

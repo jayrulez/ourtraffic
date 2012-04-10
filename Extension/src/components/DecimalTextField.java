@@ -30,12 +30,20 @@ public class DecimalTextField extends JTextField implements  DocumentListener, F
 	{
 	    super("" + defval, size);
 	}
-
+	public DecimalTextField()
+	{
+	    
+	}
 	  protected Document createDefaultModel()
 	  {
 		  return new NumberTextDocument();
 	  }
 	
+	  public void initialiseListensers()
+	  {
+			this.addFocusListener(this);
+			this.getDocument().addDocumentListener(this);
+	  }
 	  public boolean isValid() 
 	  {
 		    try 
@@ -44,6 +52,10 @@ public class DecimalTextField extends JTextField implements  DocumentListener, F
 		    	return true;
 		    } 
 		    catch (NumberFormatException e) 
+		    {
+		    	return false;
+		    }
+		    catch (NullPointerException e) 
 		    {
 		    	return false;
 		    }
@@ -72,7 +84,7 @@ public class DecimalTextField extends JTextField implements  DocumentListener, F
 	public boolean isEmpty() 
 	{
 		// TODO Auto-generated method stub
-		if(getText().isEmpty())
+		if(getText().trim().isEmpty())
 		{
 			return true;
 		}
