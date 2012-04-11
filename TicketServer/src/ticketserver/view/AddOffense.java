@@ -11,7 +11,6 @@ import com.jgoodies.forms.factories.FormFactory;
 import extension.utility.PrintUtilities;
 
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
@@ -20,8 +19,9 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Component;
 import javax.swing.Box;
-
+import components.RegularTextField;
 import ticketserver.controller.AddOffenseController;
+import java.awt.Color;
 
 public class AddOffense extends JPanel
 {
@@ -40,7 +40,9 @@ public class AddOffense extends JPanel
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("left:default"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("left:max(109dlu;default)"),},
+				ColumnSpec.decode("left:max(109dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
@@ -52,9 +54,14 @@ public class AddOffense extends JPanel
 		this.lblOffenseName = new JLabel("Offense Name:");
 		this.pnlAddOffenseFields.add(this.lblOffenseName, "4, 4, right, center");
 		
-		this.txtOffenseName = new JTextField();
+		this.txtOffenseName = new RegularTextField();
 		this.pnlAddOffenseFields.add(this.txtOffenseName, "6, 4, fill, default");
 		this.txtOffenseName.setColumns(10);
+		
+		this.lblOffenseNameValidationMsg = new JLabel("*");
+		this.lblOffenseNameValidationMsg.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		this.lblOffenseNameValidationMsg.setForeground(Color.RED);
+		this.pnlAddOffenseFields.add(this.lblOffenseNameValidationMsg, "8, 4");
 		
 		this.lblDescription = new JLabel("Description:");
 		this.pnlAddOffenseFields.add(this.lblDescription, "4, 6, right, center");
@@ -100,6 +107,8 @@ public class AddOffense extends JPanel
 		
 		this.btnResetFields = new JButton("Reset Fields");
 		this.pnllAddOffenseButtons.add(this.btnResetFields);
+		
+		this.initialiseValidators();
 	}
 
 	public JPanel getPnlAddOffenseControls() {
@@ -138,10 +147,10 @@ public class AddOffense extends JPanel
 	public void setLblDescription(JLabel lblDescription) {
 		this.lblDescription = lblDescription;
 	}
-	public JTextField getTxtOffenseName() {
+	public RegularTextField getTxtOffenseName() {
 		return txtOffenseName;
 	}
-	public void setTxtOffenseName(JTextField txtOffenseName) {
+	public void setTxtOffenseName(RegularTextField txtOffenseName) {
 		this.txtOffenseName = txtOffenseName;
 	}
 	public JTextArea getTxtOffenseDescription() {
@@ -176,7 +185,7 @@ public class AddOffense extends JPanel
 	private JPanel pnlAddoffenseStatus;
 	private JLabel lblOffenseName;
 	private JLabel lblDescription;
-	private JTextField txtOffenseName;
+	private RegularTextField txtOffenseName;
 	private JScrollPane scrollPane;
 	private JTextArea txtOffenseDescription;
 	private JButton btnSaveOffense;
@@ -185,6 +194,7 @@ public class AddOffense extends JPanel
 	private JPanel pnlAddOffenseControlContainer;
 	private Component horizontalStrut;
 	private Component verticalStrut;
+	private JLabel lblOffenseNameValidationMsg;
 
 	public void initialiseListener()
 	{
@@ -198,4 +208,19 @@ public class AddOffense extends JPanel
 		this.btnResetFields.addActionListener(new AddOffenseController(this, "btnResetFields"));
 	}
 	
+	public void initialiseValidators()
+	{	
+		this.txtOffenseName.setValidationMessage(this.lblOffenseNameValidationMsg);
+		this.txtOffenseName.setAllowEmpty(false);
+		this.txtOffenseName.initialiseListensers();
+	}
+	
+	public boolean isFormValidationSuccess()
+	{
+		if(!this.txtOffenseName.isValidateSuccess())
+		{
+			return false;
+		}
+		return true;
+	}
 }

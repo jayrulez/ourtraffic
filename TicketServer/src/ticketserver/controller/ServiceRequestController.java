@@ -211,6 +211,7 @@ public class ServiceRequestController
 				try
 				{
 					this.sqlProvider = new SqlProvider();
+					
 					if(!this.serviceRequest.getData().isEmpty())
 					{
 						Offender targetOffender = (Offender) this.serviceRequest.getData().firstElement();
@@ -414,7 +415,7 @@ public class ServiceRequestController
 				catch (SQLException e) 
 				{
 					// TODO Auto-generated catch block
-					System.out.println(e.getErrorCode());
+					System.out.println("Error " +e.getErrorCode());
 				}
 				catch(NullPointerException e)
 				{

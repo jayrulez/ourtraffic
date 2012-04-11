@@ -81,6 +81,7 @@ public class ViewOffenderController implements ActionListener, ItemListener, Doc
 			
 			try 
 			{
+				System.out.println("HELLO");
 				connectionController.submitRequest();
 				if(connectionController.isDialogSuccess())
 				{
@@ -177,9 +178,7 @@ public class ViewOffenderController implements ActionListener, ItemListener, Doc
 			{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			}
-
-				
+			}		
 		}
 	}
 	
