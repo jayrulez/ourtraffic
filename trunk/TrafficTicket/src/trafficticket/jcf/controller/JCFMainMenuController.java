@@ -53,7 +53,7 @@ public class JCFMainMenuController extends MouseAdapter implements
 			
 			ViewOffender viewOffenders = new ViewOffender();
 			
-			this.parentFrame.addTab("View Offenders",new ImageIcon(JCFMainMenuController.class.getResource("/trafficticket/resources/viewOffenderIcon_16x16.png")),new ContentTab(new ViewOffender()));
+			this.parentFrame.addTab("View Offenders",new ImageIcon(JCFMainMenuController.class.getResource("/trafficticket/resources/viewOffenderIcon_16x16.png")),new ContentTab(viewOffenders));
 			
 			viewOffenders.initialiseListeners();
 		} 

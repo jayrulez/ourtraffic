@@ -772,6 +772,38 @@ public class IssueTicket extends JPanel {
 		this.initialiseValidators();
 	}
 
+	public JLabel getLblLastNameValidationMsg() {
+		return lblLastNameValidationMsg;
+	}
+
+	public void setLblLastNameValidationMsg(JLabel lblLastNameValidationMsg) {
+		this.lblLastNameValidationMsg = lblLastNameValidationMsg;
+	}
+
+	public JLabel getLblDobValidationMsg() {
+		return lblDobValidationMsg;
+	}
+
+	public void setLblDobValidationMsg(JLabel lblDobValidationMsg) {
+		this.lblDobValidationMsg = lblDobValidationMsg;
+	}
+
+	public JLabel getOffenseValidationMsg() {
+		return offenseValidationMsg;
+	}
+
+	public void setOffenseValidationMsg(JLabel offenseValidationMsg) {
+		this.offenseValidationMsg = offenseValidationMsg;
+	}
+
+	public JLabel getLblFineValidationMsg() {
+		return lblFineValidationMsg;
+	}
+
+	public void setLblFineValidationMsg(JLabel lblFineValidationMsg) {
+		this.lblFineValidationMsg = lblFineValidationMsg;
+	}
+
 	public void initialiseValidators()
 	{
 		this.txtSearchOffenderTrn.setValidationMessage(this.lblSearchOffenderTrnValidationMsg);
@@ -781,7 +813,7 @@ public class IssueTicket extends JPanel {
 		this.txtOffenderTrn.setAllowEmpty(false);
 		this.txtOffenderTrn.initialiseListensers();
 		
-		this.txtFirstName.setValidationMessage(this.lblFineValidationMsg);
+		this.txtFirstName.setValidationMessage(this.lblFirstNameValidationMsg);
 		this.txtFirstName.setAllowEmpty(false);
 		this.txtFirstName.initialiseListensers();
 		
@@ -816,6 +848,10 @@ public class IssueTicket extends JPanel {
 		this.txtAddress2.setValidationMessage(this.lblOffenderAddress2ValidationMsg);
 		this.txtAddress2.setAllowEmpty(false);
 		this.txtAddress2.initialiseListensers();
+		
+		this.txtPoints.setValidationMessage(this.lblOffenderPointsValidationMsg);
+		this.txtPoints.setAllowEmpty(false);
+		this.txtPoints.initialiseListensers();
 
 	}
 	
@@ -844,7 +880,7 @@ public class IssueTicket extends JPanel {
 								{
 									if(this.cmbxOffenderParish.getSelectedIndex()>0)
 									{
-
+										
 										if(this.offenderDobChooser.getDate()!=null)
 										{
 											if(this.cmbxLicenseType.getSelectedIndex()>0)
@@ -857,6 +893,7 @@ public class IssueTicket extends JPanel {
 													}
 													else
 													{
+														System.out.println("INVALID");
 														this.expiryDateChooser.requestFocus();
 														return false;
 													}
@@ -985,8 +1022,145 @@ public class IssueTicket extends JPanel {
 		this.btnResetIssueTicket.addActionListener(new IssueTicketController(this, "btnResetIssueTicket"));
 		
 		this.txtSearchOffenderTrn.getDocument().addDocumentListener(new IssueTicketController(this, "txtSearchOffenderTrn"));
+		
+		this.cmbxLicenseType.addActionListener(new IssueTicketController(this, "cmbxLicenseType"));
+		this.cmbxOffenderParish.addActionListener(new IssueTicketController(this, "cmbxOffenderParish"));
+		this.cmbxOffense.addActionListener(new IssueTicketController(this, "cmbxOffense"));
+		this.cmbxTicketParish.addActionListener(new IssueTicketController(this, "cmbxTiketParish"));
+		
+		this.offenderDobChooser.addFocusListener(new IssueTicketController(this, "offenderDobChooser"));
 	}
 	
+	public JLabel getLblSearchOffenderTrnValidationMsg() {
+		return lblSearchOffenderTrnValidationMsg;
+	}
+
+	public void setLblSearchOffenderTrnValidationMsg(
+			JLabel lblSearchOffenderTrnValidationMsg) {
+		this.lblSearchOffenderTrnValidationMsg = lblSearchOffenderTrnValidationMsg;
+	}
+
+	public JLabel getLblOffenderTrnValidationMsg() {
+		return lblOffenderTrnValidationMsg;
+	}
+
+	public void setLblOffenderTrnValidationMsg(JLabel lblOffenderTrnValidationMsg) {
+		this.lblOffenderTrnValidationMsg = lblOffenderTrnValidationMsg;
+	}
+
+	public JLabel getLblFirstNameValidationMsg() {
+		return lblFirstNameValidationMsg;
+	}
+
+	public void setLblFirstNameValidationMsg(JLabel lblFirstNameValidationMsg) {
+		this.lblFirstNameValidationMsg = lblFirstNameValidationMsg;
+	}
+
+	public JLabel getLblOffenderAddress1ValidationMsg() {
+		return lblOffenderAddress1ValidationMsg;
+	}
+
+	public void setLblOffenderAddress1ValidationMsg(
+			JLabel lblOffenderAddress1ValidationMsg) {
+		this.lblOffenderAddress1ValidationMsg = lblOffenderAddress1ValidationMsg;
+	}
+
+	public JLabel getLblOffenderParishValidationMsg() {
+		return lblOffenderParishValidationMsg;
+	}
+
+	public void setLblOffenderParishValidationMsg(
+			JLabel lblOffenderParishValidationMsg) {
+		this.lblOffenderParishValidationMsg = lblOffenderParishValidationMsg;
+	}
+
+	public JLabel getLblLicenseTypeValidationMsg() {
+		return lblLicenseTypeValidationMsg;
+	}
+
+	public void setLblLicenseTypeValidationMsg(JLabel lblLicenseTypeValidationMsg) {
+		this.lblLicenseTypeValidationMsg = lblLicenseTypeValidationMsg;
+	}
+
+	public JLabel getLblOffenderPointsValidationMsg() {
+		return lblOffenderPointsValidationMsg;
+	}
+
+	public void setLblOffenderPointsValidationMsg(
+			JLabel lblOffenderPointsValidationMsg) {
+		this.lblOffenderPointsValidationMsg = lblOffenderPointsValidationMsg;
+	}
+
+	public JLabel getLblLicenseExpiryDateValidationMsg() {
+		return lblLicenseExpiryDateValidationMsg;
+	}
+
+	public void setLblLicenseExpiryDateValidationMsg(
+			JLabel lblLicenseExpiryDateValidationMsg) {
+		this.lblLicenseExpiryDateValidationMsg = lblLicenseExpiryDateValidationMsg;
+	}
+
+	public JLabel getLblOffenseDateValidationMsg() {
+		return lblOffenseDateValidationMsg;
+	}
+
+	public void setLblOffenseDateValidationMsg(JLabel lblOffenseDateValidationMsg) {
+		this.lblOffenseDateValidationMsg = lblOffenseDateValidationMsg;
+	}
+
+	public JLabel getLblOffenseAddress1ValidationMsg() {
+		return lblOffenseAddress1ValidationMsg;
+	}
+
+	public void setLblOffenseAddress1ValidationMsg(
+			JLabel lblOffenseAddress1ValidationMsg) {
+		this.lblOffenseAddress1ValidationMsg = lblOffenseAddress1ValidationMsg;
+	}
+
+	public JLabel getLblOffenseParishValidationMsg() {
+		return lblOffenseParishValidationMsg;
+	}
+
+	public void setLblOffenseParishValidationMsg(
+			JLabel lblOffenseParishValidationMsg) {
+		this.lblOffenseParishValidationMsg = lblOffenseParishValidationMsg;
+	}
+
+	public JLabel getLblOffensePointsValidationMsg() {
+		return lblOffensePointsValidationMsg;
+	}
+
+	public void setLblOffensePointsValidationMsg(
+			JLabel lblOffensePointsValidationMsg) {
+		this.lblOffensePointsValidationMsg = lblOffensePointsValidationMsg;
+	}
+
+	public JLabel getLblMiddleNameValidationMsg() {
+		return lblMiddleNameValidationMsg;
+	}
+
+	public void setLblMiddleNameValidationMsg(JLabel lblMiddleNameValidationMsg) {
+		this.lblMiddleNameValidationMsg = lblMiddleNameValidationMsg;
+	}
+
+	public JLabel getLblOffenderAddress2ValidationMsg() {
+		return lblOffenderAddress2ValidationMsg;
+	}
+
+	public void setLblOffenderAddress2ValidationMsg(
+			JLabel lblOffenderAddress2ValidationMsg) {
+		this.lblOffenderAddress2ValidationMsg = lblOffenderAddress2ValidationMsg;
+	}
+
+	public JLabel getLblOffenseAddress2ValidationMsg() {
+		return lblOffenseAddress2ValidationMsg;
+	}
+
+	public void setLblOffenseAddress2ValidationMsg(
+			JLabel lblOffenseAddress2ValidationMsg) {
+		this.lblOffenseAddress2ValidationMsg = lblOffenseAddress2ValidationMsg;
+	}
+
 	public void initializeWorkers()
 	{
 		this.cmbxOffenseWorker = new Thread(new IssueTicketConnectionController("loadOffenses", this));

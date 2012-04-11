@@ -3,11 +3,14 @@ package trafficticket.jcf.controller;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
@@ -15,6 +18,8 @@ import javax.swing.event.DocumentListener;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
+
+import com.toedter.calendar.JDateChooser;
 
 import extension.model.Address;
 import extension.model.Offender;
@@ -27,7 +32,7 @@ import trafficticket.controller.ConnectionController;
 import trafficticket.jcf.view.IssueTicket;
 import trafficticket.jcf.view.JCFFrame;
 
-public class IssueTicketController implements ActionListener, ItemListener, DocumentListener
+public class IssueTicketController implements ActionListener, ItemListener, DocumentListener, FocusListener
 {
 	private IssueTicket issueTicketPage;
 	private String eventSource;
@@ -303,6 +308,50 @@ public class IssueTicketController implements ActionListener, ItemListener, Docu
 		{
 			this.resetIssueTicket();
 		}
+		else if(e.getSource()==this.issueTicketPage.getCmbxLicenseType())
+		{
+			if(((JComboBox)e.getSource()).getSelectedIndex()>0)
+			{
+				this.issueTicketPage.getLblLicenseTypeValidationMsg().setVisible(false);
+			}
+			else
+			{
+				this.issueTicketPage.getLblLicenseTypeValidationMsg().setVisible(true);
+			}
+		}
+		else if(e.getSource()==this.issueTicketPage.getCmbxOffenderParish())
+		{
+			if(((JComboBox)e.getSource()).getSelectedIndex()>0)
+			{
+				this.issueTicketPage.getLblOffenderParishValidationMsg().setVisible(false);
+			}
+			else
+			{
+				this.issueTicketPage.getLblOffenderParishValidationMsg().setVisible(true);
+			}		
+		}
+		else if(e.getSource()==this.issueTicketPage.getCmbxOffense())
+		{
+			if(((JComboBox)e.getSource()).getSelectedIndex()>0)
+			{
+				this.issueTicketPage.getOffenseValidationMsg().setVisible(false);
+			}
+			else
+			{
+				this.issueTicketPage.getOffenseValidationMsg().setVisible(true);
+			}			
+		}
+		else if(e.getSource()==this.issueTicketPage.getCmbxTicketParish())
+		{
+			if(((JComboBox)e.getSource()).getSelectedIndex()>0)
+			{
+				this.issueTicketPage.getLblOffenseParishValidationMsg().setVisible(false);
+			}
+			else
+			{
+				this.issueTicketPage.getLblOffenseParishValidationMsg().setVisible(true);
+			}			
+		}
 	}
 	
 	public void resetIssueTicket()
@@ -371,6 +420,7 @@ public class IssueTicketController implements ActionListener, ItemListener, Docu
 				this.issueTicketPage.getTxtSearchOffenderTrn().setEditable(true);
 				this.issueTicketPage.getBtnSearchOffender().setEnabled(true);
 			}
+			
 		}
 	}
 	@Override
@@ -406,6 +456,48 @@ public class IssueTicketController implements ActionListener, ItemListener, Docu
 				this.issueTicketPage.getLblSearchOffenderStatus().setVisible(false);
 			}
 		}		
+	}
+	@Override
+	public void focusGained(FocusEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void focusLost(FocusEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource()==this.issueTicketPage.getOffenseDateChooser())
+		{
+			if(((JDateChooser)e.getSource()).getDate()==null)
+			{
+				this.issueTicketPage.getLblDobValidationMsg().setVisible(true);
+			}
+			else
+			{
+				this.issueTicketPage.getLblDobValidationMsg().setVisible(false);
+			}
+		}
+		else if(e.getSource()==this.issueTicketPage.getExpiryDateChooser())
+		{
+			if(((JDateChooser)e.getSource()).getDate()==null)
+			{
+				this.issueTicketPage.getLblLicenseExpiryDateValidationMsg().setVisible(true);
+			}
+			else
+			{
+				this.issueTicketPage.getLblLicenseExpiryDateValidationMsg().setVisible(false);
+			}
+		}
+		else if(e.getSource()==this.issueTicketPage.getOffenseDateChooser())
+		{
+			if(((JDateChooser)e.getSource()).getDate()==null)
+			{
+				this.issueTicketPage.getLblOffenseDateValidationMsg().setVisible(true);
+			}
+			else
+			{
+				this.issueTicketPage.getLblOffenseDateValidationMsg().setVisible(false);
+			}
+		}
 	}
 	
 }

@@ -251,7 +251,7 @@ CREATE PROCEDURE `sp_issueTicketNewOffender` (offenderTrn int(11), firstName var
 BEGIN
 	SET result = 0;
 	START TRANSACTION;
-	INSERT INTO `offender`(trn,firstName,lastName,middleInitial,DOB,street,city,parish,licenseType,points,expiryDate) values(offenderTrn,firstName,lastName,middleInitial,street,city,parish,dob,licenseType,licensePoints-ticketPoints,expiryDate);
+	INSERT INTO `offender`(trn,firstName,lastName,middleInitial,DOB,street,city,parish,licenseType,points,expiryDate) values(offenderTrn,firstName,lastName,middleInitial,dob,street,city,parish,licenseType,licensePoints-ticketPoints,expiryDate);
 	IF ROW_COUNT()=1 THEN
 		INSERT INTO `ticket`(id,policeId,offenderTrn,offenseId,offenseDate,street,city,parish,description,fine,points) values(default,policeId,offenderTrn,offenseId,offenseDate,ticketStreet,ticketCity,ticketParish,description,fine,ticketPoints);
 		IF ROW_COUNT()=1 THEN
@@ -318,13 +318,17 @@ CREATE PROCEDURE `sp_addOffense` (offenseName varchar(50), offenseDescription TE
 BEGIN
 	SET result = 0;
 	START TRANSACTION;
-	INSERT INTO `offense`(id,name,description) values(default, offenseName,offenseDescription);
-	IF ROW_COUNT()=1 THEN
-    SET result = last_insert_id();
-    commit;
-	ELSE
-		SET result = -1;
-	END IF;
+    if exists(select * from offense where `offense`.name=offenseName) THEN
+        set result = -2;
+    else
+        INSERT INTO `offense`(id,name,description) values(default, offenseName,offenseDescription);
+        IF ROW_COUNT()=1 THEN
+        SET result = last_insert_id();
+        commit;
+        ELSE
+            SET result = -1;
+        END IF;
+    end if;
 END$$
 DELIMITER ;
 
